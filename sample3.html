@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infin1teXploit by @TrentW</title>
+    <style>
+        /* Core layout styles */
+        body {
+            background: #1a1d31;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: #3dd3e8;
+        }
+
+        a {
+            color: #3dd3e8;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Glowing hover effect */
+        .glow-on-hover {
+            border: 1px solid #3dd3e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: box-shadow 0.3s;
+        }
+
+        .glow-on-hover:hover {
+            box-shadow: 0 0 15px #3dd3e8, inset 0 0 10px #3dd3e8;
+        }
+
+        /* Search menu */
+        .search-menu {
+            background: #10121f;
+            border: 1px solid #3dd3e8;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-menu input {
+            background: transparent;
+            border: 1px solid #3dd3e8;
+            color: white;
+            padding: 10px;
+            width: 200px;
+            border-radius: 4px;
+        }
+
+        .search-menu button {
+            background: #3dd3e8;
+            border: none;
+            color: #10121f;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-menu button:hover {
+            background: #2bb3c8;
+        }
+
+        /* Sections */
+        section {
+            margin: 40px 0;
+        }
+
+        section h2 {
+            border-bottom: 2px solid #3dd3e8;
+            padding-bottom: 10px;
+        }
+
+        /* Whoami section */
+        #whoami {
+            background: #10121f;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        /* Responsive grid for resources */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .resource-card {
+            background: #10121f;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #3dd3e8;
+        }
+
+.resource-card img.social-image {
+    width: 25px;  /* Adjust width to make it smaller */
+    height: 25px; /* Adjust height to maintain aspect ratio */
+    margin-left: 15px;  /* Space between the text and the image */
+    object-fit: contain; /* Maintain aspect ratio of the image */
+}
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1 class="glitch-container"><div class="glitch-text" id="glitch-title">Infin1teXploit ∞ @TrentW</h1>
+        <p>Exploring the infinite world of cybersecurity.</p>
+    </header>
+
+    <!-- Search Menu -->
+    <div class="search-menu">
+        <input type="text" id="search-input" placeholder="Search sections...">
+        <button onclick="navigateToSection()">Go</button>
+    </div>
+
+    <!-- Whoami Section -->
+    <section id="whoami">
+        <h2>#whoami</h2>
+        <p id ="binary-description">Hi, I'm TrentW, a cybersecurity enthusiast and developer. Welcome to my corner of the internet where I share my journey, tools, and resources for learning and exploring cybersecurity.</p>
+    </section>
+
+    <!-- Scripts Section -->
+    <section id="scripts">
+        <h2>#scripts</h2>
+        <div class="resource-grid">
+            <div class="resource-card glow-on-hover">
+                <h3>Mass Remote Restarter</h3>
+                <p>A PowerShell script to remotely restart multiple computers on the network.</p>
+                <a href="https://github.com/tw181802/Scripts/blob/main/Restart.ps1">Download</a>
+            </div>
+            <div class="resource-card glow-on-hover">
+                <h3>MITR3 Demo</h3>
+                <p>A PowerShell script to demonstrate the mitre attack techniques without harming your PC.</p>
+                <a href="https://github.com/tw181802/Scripts/blob/main/mitre.ps1">Download</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apps Section -->
+    <section id="apps">
+        <h2>#apps</h2>
+        <div class="resource-grid">
+            <div class="resource-card glow-on-hover">
+                <h3>HelpDesk Automation</h3>
+                <p>An app to resolve common helpdesk issues</p>
+                <a href="https://github.com/tw181802/Scripts/blob/main/hepdesk.ps1">Download</a>
+            </div>
+            <div class="resource-card glow-on-hover">
+                <h3>Keylogger</h3>
+                <p>A tool for logging keystrokes.</p>
+                <a href="https://github.com/tw181802/Scripts/blob/main/python/keyloggerupt.py">Download</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <h2>#resources</h2>
+        <div class="resource-grid" class="video-container">
+            <div class="resource-card glow-on-hover">
+                <h3>YouTube Videos</h3>
+                <p>Curated playlist of cybersecurity tutorials and walkthroughs.</p>
+                <a href="https://www.youtube.com/@Infin1teXploit">View Channel</a>
+		<div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;"><iframe src="https:/www.youtube.com/watch?v=ISdc30rIBVA&t=5s" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allowfullscreen></iframe></div><img src="youtube.svg" alt="YT Logo" class="social-image">
+
+            </div>
+            <div class="resource-card glow-on-hover">
+                <h3>Kindle Books</h3>
+                <p>Recommended books for learning cybersecurity concepts.</p>
+                <a href="https://www.amazon.com/Quick-Guide-Tech-Understanding-Networking-ebook/dp/B0DND7TGRB?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.r0I4x1JqGTfRNGbo-kfte4NdexX2GjYq_bsoZ0sXuRly4mVPVb6m_E5sytHAqzayHti6x9_BeUoTpZzQg7M-bobbNTQrZF_6L8qI4Ry175iuCw0sSsJFGHYaCmqccZiI.n7DHOazr0aXn6CGmmL8lm3MmHuGyLiGyj80eSroD_CE&qid=1729682750&sr=1-3">Explore</a>
+		<img src="amazon.svg" alt="amazon Logo" class="social-image">
+            </div>
+            <div class="resource-card glow-on-hover">
+                <h3>Udemy Courses</h3>
+                <p>Top-rated courses for mastering cybersecurity and IT skills.</p>
+                <a href="https://www.udemy.com/course/the-quick-guide-to-tech/k">Enroll Now</a>
+		<img src="udemy.svg" alt="Udemy Logo" class="social-image">
+            </div>
+		<div class="resource-card glow-on-hover">
+                <h3>Blogs on Medium</h3>
+                <p>Insightful Blog regarding cybersecurity and IT.</p>
+                <a href="https://medium.com/@wtrentond">Explore</a>
+		<img src="medium.svg" alt="Medium Logo" class="social-image">
+            </div>
+ 		 </div>
+		<div class="resource-card glow-on-hover">
+                <h3>Linkedin</h3>
+                <p>Follow or Connect.</p>
+                <a href="https://www.linkedin.com/in/trenton-williams-74a381254?original_referer=">Click Here</a>
+		<img src="linkedin.svg" alt="Linkedin Logo" class="social-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; ∞ Infin1teXploit by @TrentW. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Function to navigate to sections
+        function navigateToSection() {
+            const searchInput = document.getElementById('search-input').value.trim().toLowerCase();
+            const sections = {
+                'whoami': '#whoami',
+                'scripts': '#scripts',
+                'apps': '#apps',
+                'resources': '#resources'
+            };
+
+            if (sections[searchInput]) {
+                window.location.href = sections[searchInput];
+            } else {
+                alert('Section not found. Try "whoami", "scripts", "apps", or "resources".');
+            }
+        }
+
+        // Special character glitch animation
+        const symbols = ['@', '#', '$', '%', '&', '*', '?', '!', '§', '¶', '£'];
+        const targetTextTitle = "Infin1teXploit ∞ @TrentW";
+        let currentTextTitle = targetTextTitle.split('');
+        let iterationsTitle = 0;
+
+        function glitchEffectTitle() {
+            const glitchElement = document.getElementById('glitch-title');
+            
+            const intervalTitle = setInterval(() => {
+                currentTextTitle = currentTextTitle.map((char, index) => {
+                    if(index < iterationsTitle) return targetTextTitle[index];
+                    return symbols[Math.floor(Math.random() * symbols.length)];
+                });
+                
+                glitchElement.textContent = currentTextTitle.join('');
+                
+                iterationsTitle += 1/3;
+                
+                if(iterationsTitle >= targetTextTitle.length) {
+                   clear(intervalTitle);
+                 
+                }
+            }, 10);
+        }
+
+        glitchEffectTitle();
+
+        // Binary transition effect for description
+        const description = document.getElementById('binary-description');
+        const originalText = description.innerText;
+        let binaryText = '';
+
+        originalText.split('').forEach(char => {
+            binaryText += char.charCodeAt(0).toString(2).padStart(8, '0') + ' ';
+        });
+
+        let currentBinary = 0;
+        let showBinary = true;
+        
+        // Show binary briefly and then text
+        setInterval(() => {
+            if (showBinary) {
+                description.innerText = binaryText.substring(0, currentBinary);
+                currentBinary += 8;
+                if (currentBinary > binaryText.length) {
+                    showBinary = false;
+                    setTimeout(() => {
+                        description.innerText = originalText;
+                    }, 0); // brief hold before showing the text
+                }
+            }
+        }, 0);
+    </script>
+
+
+
+
+</body>
+</html>
