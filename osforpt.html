@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Systems Overview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        select, input[type="text"] {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OS Systems Overview</h1>
+
+    <!-- Filters for search -->
+    <div class="filter-container">
+        <input type="text" id="osFilter" placeholder="Filter by OS" onkeyup="filterTable()">
+        <select id="basedOnFilter" onchange="filterTable()">
+            <option value="">Filter by Based On</option>
+            <option value="ArchLinux">ArchLinux</option>
+            <option value="Ubuntu">Ubuntu</option>
+            <option value="Debian">Debian</option>
+            <option value="Fedora">Fedora</option>
+            <option value="Windows">Windows</option>
+            <option value="Android">Android</option>
+            <!-- Add more options here -->
+        </select>
+        <select id="descriptionFilter" onchange="filterTable()">
+            <option value="">Filter by Description</option>
+            <option value="penetration testing">Penetration Testing</option>
+            <option value="digital forensics">Digital Forensics</option>
+            <option value="privacy and anonymity">Privacy and Anonymity</option>
+            <option value="malware analysis">Malware Analysis</option>
+            <!-- Add more options here -->
+        </select>
+    </div>
+
+    <div class="table-container">
+        <table id="osTable">
+            <thead>
+                <tr>
+                    <th>OS</th>
+                    <th>Based On</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- OS Systems Data: First Group -->
+                <tr>
+                    <td>Alpine Linux</td>
+                    <td>BusyBox</td>
+                    <td>Minimalist hardened OS, used by default for docker containers</td>
+                    <td><a href="https://alpinelinux.org" target="_blank">Alpine Linux</a></td>
+                </tr>
+                <tr>
+                    <td>ArchStrike</td>
+                    <td>ArchLinux</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.archstrike.org" target="_blank">ArchStrike</a></td>
+                </tr>
+                <tr>
+                    <td>Athena OS</td>
+                    <td>ArchLinux / NixOS</td>
+                    <td>Penetration testing and security lab; using BlackArch repositories</td>
+                    <td><a href="https://athenaos.com" target="_blank">Athena OS</a></td>
+                </tr>
+                <tr>
+                    <td>BackBox</td>
+                    <td>Ubuntu</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.backbox.org" target="_blank">BackBox</a></td>
+                </tr>
+                <tr>
+                    <td>BlackArch Linux</td>
+                    <td>ArchLinux</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.blackarch.org" target="_blank">BlackArch Linux</a></td>
+                </tr>
+                <!-- Add other rows here, follow the same structure -->
+                <!-- Second Group -->
+                <tr>
+                    <td>ANDRAX</td>
+                    <td>Android</td>
+                    <td>More than an OS, it is a penetration testing platform for Android smartphones</td>
+                    <td><a href="https://www.andrax.com" target="_blank">ANDRAX</a></td>
+                </tr>
+                <tr>
+                    <td>Blackbuntu</td>
+                    <td>Ubuntu</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.blackbuntu.com" target="_blank">Blackbuntu</a></td>
+                </tr>
+                <!-- Add the remaining rows in similar format -->
+
+
+
+ <tr>
+                    <td>BlackArch Linux</td>
+                    <td>ArchLinux</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.blackarch.org" target="_blank">BlackArch Linux</a></td>
+                </tr>
+                <!-- Second Group -->
+                <tr>
+                    <td>ANDRAX</td>
+                    <td>Android</td>
+                    <td>More than an OS, it is a penetration testing platform for Android smartphones</td>
+                    <td><a href="https://www.andrax.com" target="_blank">ANDRAX</a></td>
+                </tr>
+                <tr>
+                    <td>Bugtraq-II Blackwidow</td>
+                    <td>Ubuntu / Debian</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.bugtraq-team.com" target="_blank">Bugtraq-II Blackwidow</a></td>
+                </tr>
+                <tr>
+                    <td>Buscador</td>
+                    <td>Ubuntu</td>
+                    <td>OSINT (OVA appliance)</td>
+                    <td><a href="https://www.kali.org" target="_blank">Buscador</a></td>
+                </tr>
+                <tr>
+                    <td>Cyborg Essentials</td>
+                    <td>Debian</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.cyborgessentials.com" target="_blank">Cyborg Essentials</a></td>
+                </tr>
+                <tr>
+                    <td>Cyborg Hawk Linux</td>
+                    <td>Ubuntu</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.cyborghawk.com" target="_blank">Cyborg Hawk Linux</a></td>
+                </tr>
+                <tr>
+                    <td>DEFT</td>
+                    <td>Ubuntu</td>
+                    <td>Digital forensics and incident response (DFIR)</td>
+                    <td><a href="https://www.deftlinux.net" target="_blank">DEFT</a></td>
+                </tr>
+                <tr>
+                    <td>DracOS</td>
+                    <td>Linux From Scratch</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.dracos.com" target="_blank">DracOS</a></td>
+                </tr>
+                <tr>
+                    <td>GnackTrack</td>
+                    <td>Ubuntu</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.gnacktrack.org" target="_blank">GnackTrack</a></td>
+                </tr>
+                <tr>
+                    <td>Live Hacking</td>
+                    <td>Ubuntu</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.livehacking.org" target="_blank">Live Hacking</a></td>
+                </tr>
+                <tr>
+                    <td>Matriux</td>
+                    <td>Debian</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.matriux.com" target="_blank">Matriux</a></td>
+                </tr>
+                <tr>
+                    <td>NodeZero</td>
+                    <td>Ubuntu</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.nodezero.com" target="_blank">NodeZero</a></td>
+                </tr>
+                <tr>
+                    <td>Santoku Linux</td>
+                    <td>Lubuntu</td>
+                    <td>Mobile malware analysis, forensics, and reverse engineering</td>
+                    <td><a href="https://www.santokulinux.com" target="_blank">Santoku Linux</a></td>
+                </tr>
+                <tr>
+                    <td>STD</td>
+                    <td>Debian</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.stdlinux.com" target="_blank">STD</a></td>
+                </tr>
+                <!-- Additional OS Systems: The Rows You Requested -->
+                <tr>
+                    <td>CAINE</td>
+                    <td>Ubuntu</td>
+                    <td>Digital forensics and incident response (DFIR)</td>
+                    <td><a href="https://www.caine-live.net" target="_blank">CAINE</a></td>
+                </tr>
+                <tr>
+                    <td>CLIP OS</td>
+                    <td>Gentoo</td>
+                    <td>Security by compartmentalization (container)</td>
+                    <td><a href="https://clip-os.org" target="_blank">CLIP OS</a></td>
+                </tr>
+                <tr>
+                    <td>CommandoVM</td>
+                    <td>Windows</td>
+                    <td>Script to configure a Windows VM and install security tools on it; penetration testing and security lab</td>
+                    <td><a href="https://github.com/mandiant/commando-vm" target="_blank">CommandoVM</a></td>
+                </tr>
+                <tr>
+                    <td>CSI Linux</td>
+                    <td>Ubuntu</td>
+                    <td>Digital forensics and incident response (DFIR)</td>
+                    <td><a href="https://www.csilinux.com" target="_blank">CSI Linux</a></td>
+                </tr>
+                <tr>
+                    <td>Demon Linux</td>
+                    <td>Debian</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.demonlinux.com" target="_blank">Demon Linux</a></td>
+                </tr>
+                <tr>
+                    <td>DragonOS</td>
+                    <td>Ubuntu</td>
+                    <td>RF / SDR penetration testing and security lab</td>
+                    <td><a href="https://www.dragonos.com" target="_blank">DragonOS</a></td>
+                </tr>
+                <tr>
+                    <td>Fedora Security Lab</td>
+                    <td>Fedora</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://labs.fedoraproject.org" target="_blank">Fedora Security Lab</a></td>
+                </tr>
+                <tr>
+                    <td>Kali Linux</td>
+                    <td>Debian</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.kali.org" target="_blank">Kali Linux</a></td>
+                </tr>
+                <tr>
+                    <td>Kali-NetHunter</td>
+                    <td>Android</td>
+                    <td>Penetration testing platform for Android devices</td>
+                    <td><a href="https://www.kali.org/nethunter" target="_blank">Kali-NetHunter</a></td>
+                </tr>
+                <tr>
+                    <td>Linux Kodachi</td>
+                    <td>Xubuntu</td>
+                    <td>Privacy and anonymity</td>
+                    <td><a href="https://www.linuxkodachi.com" target="_blank">Linux Kodachi</a></td>
+                </tr>
+                <tr>
+                    <td>NST</td>
+                    <td>Fedora</td>
+                    <td>Network security monitoring and analysis</td>
+                    <td><a href="https://www.networksecuritytoolkit.org" target="_blank">NST</a></td>
+                </tr>
+                <tr>
+                    <td>Parrot Security OS</td>
+                    <td>Debian</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.parrotsec.org" target="_blank">Parrot Security OS</a></td>
+                </tr>
+                <tr>
+                    <td>Pentoo</td>
+                    <td>Gentoo</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.pentoo.ch" target="_blank">Pentoo</a></td>
+                </tr>
+                <tr>
+                    <td>Qubes OS</td>
+                    <td>Fedora</td>
+                    <td>Security by compartmentalization (VM)</td>
+                    <td><a href="https://www.qubes-os.org" target="_blank">Qubes OS</a></td>
+                </tr>
+                <tr>
+                    <td>REMnux</td>
+                    <td>Debian</td>
+                    <td>Malware analysis and reverse-engineering</td>
+                    <td><a href="https://REMnux.org" target="_blank">REMnux</a></td>
+                </tr>
+                <tr>
+                    <td>SecBSD</td>
+                    <td>OpenBSD</td>
+                    <td>Penetration testing and security lab</td>
+                    <td><a href="https://www.secbsd.org" target="_blank">SecBSD</a></td>
+                </tr>
+                <tr>
+                    <td>Security Onion</td>
+                    <td>Ubuntu</td>
+                    <td>Network security monitoring, analysis, and threat hunting</td>
+                    <td><a href="https://securityonion.net" target="_blank">Security Onion</a></td>
+                </tr>
+                <tr>
+                    <td>SIFT</td>
+                    <td>Ubuntu</td>
+                    <td>Digital forensics and incident response (DFIR) (VMware appliance)</td>
+                    <td><a href="https://www.sans.org/cyber-security-courses/sift" target="_blank">SIFT</a></td>
+                </tr>
+                <tr>
+                    <td>SigintOS</td>
+                    <td>Ubuntu</td>
+                    <td>Signal intelligence</td>
+                    <td><a href="https://www.sigintos.com" target="_blank">SigintOS</a></td>
+                </tr>
+                <tr>
+                    <td>Subgraph OS</td>
+                    <td>Debian</td>
+                    <td>Security by compartmentalization (container)</td>
+                    <td><a href="https://subgraph.com/sgos" target="_blank">Subgraph OS</a></td>
+                </tr>
+                <tr>
+                    <td>Tails</td>
+                    <td>Debian</td>
+                    <td>Privacy and anonymity</td>
+                    <td><a href="https://tails.boum.org" target="_blank">Tails</a></td>
+                </tr>
+                <tr>
+                    <td>Tamer Platform</td>
+                    <td>Debian</td>
+                    <td>Android malware analysis, penetration testing, and reverse engineering</td>
+                    <td><a href="https://www.tamerplatform.com" target="_blank">Tamer Platform</a></td>
+                </tr>
+                <tr>
+                    <td>TENS</td>
+                    <td>Thinstation</td>
+                    <td>Privacy and anonymity</td>
+                    <td><a href="https://www.thinstation.org" target="_blank">TENS</a></td>
+                </tr>
+                <tr>
+                    <td>Tsurugi Linux</td>
+                    <td>Ubuntu</td>
+                    <td>Digital forensics and incident response (DFIR)</td>
+                    <td><a href="https://www.tsurugilinux.com" target="_blank">Tsurugi Linux</a></td>
+                </tr>
+                <tr>
+                    <td>Whonix</td>
+                    <td>Debian</td>
+                    <td>Privacy and anonymity</td>
+                    <td><a href="https://www.whonix.org" target="_blank">Whonix</a></td>
+                </tr>
+                <tr>
+                    <td>Wifislax</td>
+                    <td>Slackware</td>
+                    <td>Wireless penetration testing and security lab</td>
+                    <td><a href="https://www.wifislax.com" target="_blank">Wifislax</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterTable() {
+            var osInput = document.getElementById("osFilter").value.toLowerCase();
+            var basedOnFilter = document.getElementById("basedOnFilter").value.toLowerCase();
+            var descriptionFilter = document.getElementById("descriptionFilter").value.toLowerCase();
+            var table = document.getElementById("osTable");
+            var rows = table.getElementsByTagName("tr");
+
+            for (var i = 1; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
+                var os = cells[0].textContent.toLowerCase();
+                var basedOn = cells[1].textContent.toLowerCase();
+                var description = cells[2].textContent.toLowerCase();
+
+                if (
+                    os.includes(osInput) &&
+                    (basedOn.includes(basedOnFilter) || basedOnFilter === "") &&
+                    (description.includes(descriptionFilter) || descriptionFilter === "")
+                ) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

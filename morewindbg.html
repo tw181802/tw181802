@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WinDbg Commands Reference</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+    section { margin-bottom: 40px; }
+    h2 { border-bottom: 2px solid #333; padding-bottom: 5px; }
+    details { margin-top: 10px; }
+    summary { font-weight: bold; cursor: pointer; }
+    code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+  <h1>WinDbg Commands Reference</h1>
+
+  <section id="threads">
+    <h2>Thread Control & TEB</h2>
+    <pre>
+~* k                Call stack for all threads
+~2 f               Freeze thread TID=2
+~# f               Freeze thread causing current exception
+~3 u               Unfreeze thread TID=3
+~2e r; k; kd       Equivalent of ~2r; ~2k; ~2kd
+~*e !gle           Run !gle on all threads
+!tls -1            Dump all TLS slots for current thread
+!runaway 7         Show time usage by thread
+!teb               Dump current thread's TEB
+dt ntdll!_TEB @$teb Dump detailed TEB of current thread
+    </pre>
+  </section>
+
+  <section id="breakpoints">
+    <h2>Breakpoints</h2>
+    <details>
+      <summary>Basic Breakpoint Commands</summary>
+      <pre>
+bl                  List breakpoints
+bc *                Clear all breakpoints
+bd #                Disable breakpoint #
+be #                Enable breakpoint #
+bp Addr             Set breakpoint at address
+bu Sym              Unresolved breakpoint (on load)
+bm Pattern          Symbolic breakpoint with pattern
+ba w4 Addr          Break on memory write access
+      </pre>
+    </details>
+    <details>
+      <summary>Breakpoint Examples</summary>
+      <pre>
+bp mod!source.c:12                    Breakpoint at source line
+bm myprogram!mem*                    Wildcard symbol breakpoint
+bu myModule!func                     Breakpoint on module load
+bp @@( MyClass::MyMethod )           Break on overloaded method
+bp mod!addr /1                       Trigger only once
+bp mod!addr k                        Trigger after k-1 passes
+ba w4 81a578a8 "k;g"                 Log + continue
+bu myModule!func ".dump c:\dump.dmp; g"
+bu kernel32!LoadLibraryExW ".echo DLL Load ->; du dwo(@esp+4); g"
+      </pre>
+    </details>
+    <details>
+      <summary>Skip Execution Example</summary>
+      <pre>
+bu sioctl!DriverEntry "r eip = poi(@esp); r esp = @esp + 0xC; .echo skipped; g"
+bu MyApp!WinMain "r eip = poi(@esp); r esp = @esp + 0x14; .echo entered; g"
+      </pre>
+    </details>
+    <details>
+      <summary>Programmatic Breakpoints</summary>
+      <pre>
+kernel32!DebugBreak
+ntdll!DbgBreakPoint
+__asm int 3  // x86 only
+      </pre>
+    </details>
+  </section>
+
+  <section id="stepping">
+    <h2>Tracing & Stepping (F10, F11)</h2>
+    <details>
+      <summary>Basic Execution Control</summary>
+      <pre>
+g       Continue execution
+gu      Run until function returns (go up)
+p       Step over (source or asm)
+t       Step into
+pt      Step until return (in current context)
+tt      Trace until return
+pc      Step until call
+tc      Trace until call
+pa Addr Step until address
+ta Addr Trace until address
+      </pre>
+    </details>
+    <details>
+      <summary>Watch & Trace (wt command)</summary>
+      <pre>
+wt                      Trace and log function calls
+wt -l 3                 Max call depth 3
+wt -m kernel32          Only trace kernel32
+wt -oa                  Show actual call addresses
+wt -or                  Show return register values
+      </pre>
+    </details>
+    <details>
+      <summary>Step Filters</summary>
+      <pre>
+.step_filter             Show current filters
+.step_filter "Func1;Func2"  Add filters
+.step_filter /c          Clear filters
+      </pre>
+    </details>
+  </section>
+<section id="execution-control">
+  <h2>Execution Control</h2>
+  <ul>
+    <li><strong>g</strong> — go</li>
+    <li><strong>g `:123`; ? poi(counter); g</strong> — go to line 123, print <code>counter</code>, resume</li>
+    <li><strong>p</strong> — single step</li>
+    <li><strong>pr</strong> — toggle register display</li>
+    <li><strong>p 5 "kb"</strong> — step 5 times, then run <code>kb</code></li>
+    <li><strong>pc</strong> — step to next CALL</li>
+    <li><strong>pa 7c801b0b</strong> — step until address <code>7c801b0b</code></li>
+    <li><strong>wt</strong> — trace and watch sub-functions</li>
+    <li><strong>wt -l 4 -oR</strong> — trace depth 4, show return values</li>
+  </ul>
+</section>
+<section id="call-stack">
+  <h2>Call Stack</h2>
+  <ul>
+    <li><strong>k</strong> — display call stack</li>
+    <li><strong>kn</strong> — with frame numbers</li>
+    <li><strong>kb</strong> — show 3 params</li>
+    <li><strong>kb 5</strong> — show 5 frames</li>
+    <li><strong>kd</strong> — dump raw stack</li>
+    <li><strong>kM</strong> — DML variant with links</li>
+    <li><strong>.kframes</strong> — set stack length (default 20)</li>
+    <li><strong>.frame</strong> — show/set frame, display registers</li>
+    <li><strong>!uniqstack</strong> — stacks for all threads</li>
+    <li><strong>!findstack Symbol</strong> — locate stacks containing a symbol</li>
+  </ul>
+</section>
+<section id="registers">
+  <h2>Registers</h2>
+  <ul>
+    <li><strong>r</strong> — show all or specific registers</li>
+    <li><strong>r eax=5</strong> — set register value</li>
+    <li><strong>r eax:uw</strong> — display in specific format</li>
+    <li><strong>rM 0x1</strong> — integer registers</li>
+    <li><strong>rF</strong> — floating-point registers</li>
+    <li><strong>rX</strong> — SSE XMM registers</li>
+    <li><strong>rm ?</strong> — show register masks</li>
+  </ul>
+</section>
+<section id="variables">
+  <h2>Variables</h2>
+  <ul>
+    <li><strong>dt</strong> — dump type info</li>
+    <li><strong>dt ntdll!_PEB</strong> — dump PEB</li>
+    <li><strong>dv</strong> — display local variables</li>
+    <li><strong>dv /t /i /V</strong> — type, scope, memory info</li>
+  </ul>
+</section>
+<section id="memory-display">
+  <h2>Memory</h2>
+  <ul>
+    <li><strong>dd</strong>, <strong>du</strong>, <strong>dc</strong>, etc. — display memory</li>
+    <li><strong>e*</strong> — edit memory</li>
+    <li><strong>ds</strong>, <strong>dS</strong> — dump string struct</li>
+    <li><strong>dd*</strong>, <strong>dq*</strong>, <strong>dp*</strong> — dereference pointers</li>
+    <li><strong>dl</strong> — display linked list</li>
+    <li><strong>!address</strong> — display memory regions</li>
+    <li><strong>!mapped_file</strong> — show mapped file for address</li>
+  </ul>
+</section>
+<section id="memory-operations">
+  <h2>Memory Operations</h2>
+  <ul>
+    <li><strong>c</strong> — compare memory</li>
+    <li><strong>m</strong> — move memory</li>
+    <li><strong>f</strong> — fill memory</li>
+    <li><strong>s</strong> — search memory</li>
+    <li><strong>.holdmem</strong> — hold & compare memory snapshots</li>
+  </ul>
+</section>
+<section id="heap">
+  <h2>Heap Analysis</h2>
+  <ul>
+    <li><strong>!heap</strong> — heap overview</li>
+    <li><strong>!heap -p -a Addr</strong> — show heap block and call stack</li>
+    <li><strong>!heap -stat</strong> — heap statistics</li>
+    <li><strong>!heap -flt s Size</strong> — allocations of a specific size</li>
+    <li><strong>!heap -p -all</strong> — show all allocations</li>
+  </ul>
+</section>
+<section id="application-verifier">
+  <h2>Application Verifier</h2>
+  <ul>
+    <li><strong>!avrf</strong> — show verifier info</li>
+    <li><strong>!avrf -vs N</strong> — virtual space log</li>
+    <li><strong>!avrf -hp N</strong> — heap log</li>
+    <li><strong>!avrf -dlls N</strong> — DLL load/unload log</li>
+    <li><strong>!avrf -trace INDEX</strong> — trace details</li>
+  </ul>
+</section>
+<section id="logging">
+  <h2>Logging (logexts.dll)</h2>
+  <ul>
+    <li><strong>!loge</strong> — enable logging</li>
+    <li><strong>!logd</strong> — disable logging</li>
+    <li><strong>!logo</strong> — configure output</li>
+    <li><strong>!logc</strong> — category control</li>
+    <li><strong>!logm</strong> — module filter</li>
+    <li><strong>!logb</strong> — print or flush log buffer</li>
+  </ul>
+</section>
+
+
+</body>
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Defense Matrix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --light-bg: #f8f9fa;
+      --dark-bg: #343a40;
+      --text-light: #f8f9fa;
+      --text-dark: #212529;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      background-color: var(--light-bg);
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo img {
+      height: 60px;
+      margin-right: 15px;
+    }
+    
+    .logo-text h1 {
+      margin: 0;
+      color: var(--secondary-color);
+      font-size: 28px;
+    }
+    
+    .logo-text p {
+      margin: 5px 0 0;
+      color: #666;
+      font-size: 14px;
+    }
+    
+    /* Defense Matrix Visualization */
+    .matrix-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .matrix-category {
+      flex: 1;
+      min-width: 300px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .category-header {
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 15px 20px;
+      font-weight: 500;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .category-header:hover {
+      background-color: #1a252f;
+    }
+    
+    .category-header .toggle {
+      font-size: 14px;
+    }
+    
+    .category-content {
+      padding: 15px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .category-content.show {
+      max-height: 1000px;
+    }
+    
+    .matrix-item {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      position: relative;
+      padding-left: 20px;
+    }
+    
+    .matrix-item:before {
+      content: "•";
+      position: absolute;
+      left: 5px;
+      color: var(--primary-color);
+    }
+    
+    .matrix-item:hover {
+      color: var(--primary-color);
+    }
+    
+    .matrix-item.has-children:after {
+      content: "+";
+      position: absolute;
+      right: 10px;
+      color: #999;
+    }
+    
+    .matrix-item.has-children.expanded:after {
+      content: "-";
+    }
+    
+    .sub-items {
+      padding-left: 20px;
+      display: none;
+    }
+    
+    .sub-items.show {
+      display: block;
+    }
+    
+    /* Details Panel */
+    .details-panel {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .details-panel.show {
+      right: 0;
+    }
+    
+    .details-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .details-header h2 {
+      margin: 0;
+      color: var(--secondary-color);
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #999;
+    }
+    
+    .details-content {
+      line-height: 1.6;
+    }
+    
+    .details-content p {
+      margin-bottom: 15px;
+    }
+    
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+    
+    .overlay.show {
+      display: block;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .matrix-category {
+        min-width: 100%;
+      }
+      
+      .details-panel {
+        width: 90%;
+        right: -90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="defend.png" alt="Defense Matrix Logo" id="matrix-logo">
+        <div class="logo-text">
+          <h1>Defense Matrix</h1>
+          <p>Comprehensive Cybersecurity Framework</p>
+        </div>
+      </div>
+    </header>
+    
+    <div class="matrix-container" id="defenseMatrix">
+      <!-- Matrix will be generated by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Details Panel -->
+  <div class="overlay" id="overlay"></div>
+  <div class="details-panel" id="detailsPanel">
+    <div class="details-header">
+      <h2 id="detailTitle">Item Details</h2>
+      <button class="close-btn" id="closeDetails">&times;</button>
+    </div>
+    <div class="details-content" id="detailContent">
+      <p>Select an item to view its details.</p>
+    </div>
+  </div>
+
+  <script>
+    // Defense Matrix Data with descriptions
+    const defenseMatrix = {
+      "Model": {
+        "description": "Foundation for understanding and mapping your digital environment",
+        "items": {
+          "Asset Inventory": "Catalog of all hardware, software, and data assets",
+          "Asset Vulnerability Enumeration": "Identification of vulnerabilities in assets",
+          "Container Image Analysis": "Security assessment of container images",
+          "Configuration Inventory": "Documentation of system configurations",
+          "Data Inventory": "Catalog of data types, locations, and classifications",
+          "Hardware Component Inventory": "Detailed record of physical hardware components",
+          "Network Node Inventory": "Documentation of all network devices and endpoints",
+          "Software Inventory": "Comprehensive list of installed software",
+          "Network Mapping": {
+            "description": "Visual representation of network architecture and connections",
+            "items": {
+              "Logical Link Mapping": "Documentation of virtual network connections",
+              "Active Logical Link Mapping": "Real-time mapping of active logical connections",
+              "Passive Logical Link Mapping": "Historical mapping of logical connections",
+              "Network Traffic Policy Mapping": "Documentation of traffic rules and policies",
+              "Physical Link Mapping": "Mapping of physical network infrastructure",
+              "Active Physical Link Mapping": "Real-time status of physical connections",
+              "Direct Physical Link Mapping": "Documentation of direct hardware links"
+            }
+          },
+          "Operational Activity Mapping": {
+            "description": "Visualization of business processes and workflows",
+            "items": {
+              "Access Modeling": "Documentation of access patterns and permissions",
+              "Operational Dependency Mapping": "Mapping of system interdependencies",
+              "Operational Risk Assessment": "Evaluation of risks to business operations"
+            }
+          },
+          "Organization Mapping": "Documentation of organizational structure and roles",
+          "System Mapping": {
+            "description": "Comprehensive view of system architecture",
+            "items": {
+              "Data Exchange Mapping": "Documentation of data flows between systems",
+              "Service Dependency Mapping": "Visualization of service interdependencies",
+              "System Dependency Mapping": "Mapping of system component relationships",
+              "System Vulnerability Assessment": "Evaluation of system vulnerabilities"
+            }
+          }
+        }
+      },
+      "Harden": {
+        "description": "Strengthening systems and processes against attacks",
+        "items": {
+          "Agent Authentication": "Secure authentication for agent-based systems",
+          "Biometric Authentication": "Authentication using biological characteristics",
+          "Certificate-based Authentication": "Authentication using digital certificates",
+          "Multi-factor Authentication": "Layered authentication requiring multiple proofs",
+          "Password Authentication": "Traditional username/password authentication",
+          "Token-based Authentication": "Authentication using physical or virtual tokens",
+          "Application Hardening": {
+            "description": "Security enhancements for applications",
+            "items": {
+              "Application Configuration Hardening": "Securing application settings",
+              "Dead Code Elimination": "Removal of unused code to reduce attack surface",
+              "Exception Handler Pointer Validation": "Protection against exception abuse",
+              "Pointer Authentication": "Verification of memory pointer validity",
+              "Process Segment Execution Prevention": "Memory protection technique",
+              "Segment Address Offset Randomization": "ASLR implementation",
+              "Stack Frame Canary Validation": "Protection against stack smashing"
+            }
+          },
+          "Credential Hardening": {
+            "description": "Strengthening credential management",
+            "items": {
+              "Certificate Pinning": "Binding certificates to specific hosts",
+              "Credential Rotation": "Regular updating of credentials",
+              "Password Rotation": "Regular password changes",
+              "One-time Password": "Single-use passwords",
+              "Strong Password Policy": "Enforcement of complex passwords"
+            }
+          },
+          "Message Hardening": {
+            "description": "Securing communication channels",
+            "items": {
+              "Message Authentication": "Verification of message integrity",
+              "Message Encryption": "Protection of message content",
+              "Transfer Agent Authentication": "Verification of transfer intermediaries"
+            }
+          },
+          "Platform Hardening": {
+            "description": "System-level security enhancements",
+            "items": {
+              "Bootloader Authentication": "Secure boot process verification",
+              "Disk Encryption": "Protection of stored data",
+              "Driver Load Integrity Checking": "Validation of driver authenticity",
+              "File Encryption": "Protection of individual files",
+              "RF Shielding": "Protection against electromagnetic eavesdropping",
+              "Software Update": "Regular patching of vulnerabilities",
+              "System Configuration Permissions": "Restriction of system settings access",
+              "TPM Boot Integrity": "Hardware-based boot process verification"
+            }
+          },
+          "Source Code Hardening": {
+            "description": "Secure coding practices",
+            "items": {
+              "Credential Scrubbing": "Removal of sensitive data from code",
+              "Integer Range Validation": "Protection against integer overflow",
+              "Pointer Validation": "Verification of pointer references",
+              "Memory Block Start Validation": "Bounds checking for memory access",
+              "Null Pointer Checking": "Prevention of null reference errors",
+              "Reference Nullification": "Secure memory deallocation",
+              "Trusted Library": "Use of vetted code libraries",
+              "Variable Initialization": "Prevention of uninitialized variable use",
+              "Variable Type Validation": "Protection against type confusion"
+            }
+          }
+        }
+      },
+      "Detect": {
+        "description": "Identifying potential security incidents and anomalies",
+        "items": {
+          "File Analysis": {
+            "description": "Examination of files for malicious content",
+            "items": {
+              "Dynamic Analysis": "Behavioral analysis of file execution",
+              "Emulated File Analysis": "Sandboxed file examination",
+              "File Content Analysis": "Inspection of file contents",
+              "File Content Rules": "Pattern matching for malicious content",
+              "File Hashing": "Identification of files via cryptographic hashes"
+            }
+          },
+          "Identifier Analysis": {
+            "description": "Examination of system identifiers",
+            "items": {
+              "Homoglyph Detection": "Identification of visually similar characters",
+              "Identifier Activity Analysis": "Behavioral analysis of identifiers",
+              "Identifier Reputation Analysis": {
+                "description": "Assessment of identifier trustworthiness",
+                "items": {
+                  "Domain Name Reputation Analysis": "Evaluation of domain trust",
+                  "File Hash Reputation Analysis": "Assessment of file hashes",
+                  "IP Reputation Analysis": "Evaluation of IP address trust",
+                  "URL Reputation Analysis": "Assessment of web address trust"
+                }
+              }
+            }
+          },
+          "URL Analysis": "Examination of web addresses for malicious indicators",
+          "Message Analysis": {
+            "description": "Inspection of communication content",
+            "items": {
+              "Sender MTA Reputation Analysis": "Evaluation of mail transfer agents",
+              "Sender Reputation Analysis": "Assessment of message senders"
+            }
+          },
+          "Network Traffic Analysis": {
+            "description": "Examination of network communications",
+            "items": {
+              "Administrative Network Activity Analysis": "Monitoring of management traffic",
+              "Byte Sequence Emulation": "Pattern recognition in network streams",
+              "Certificate Analysis": {
+                "description": "Inspection of digital certificates",
+                "items": {
+                  "Active Certificate Analysis": "Real-time certificate validation",
+                  "Passive Certificate Analysis": "Historical certificate evaluation"
+                }
+              },
+              "Client-server Payload Profiling": "Behavioral analysis of network traffic",
+              "Connection Attempt Analysis": "Examination of connection patterns",
+              "DNS Traffic Analysis": "Inspection of domain name queries",
+              "File Carving": "Extraction of files from network streams",
+              "Inbound Session Volume Analysis": "Monitoring of incoming connections",
+              "IPC Traffic Analysis": "Examination of inter-process communication",
+              "Network Traffic Community Deviation": "Detection of anomalous traffic patterns",
+              "Per Host Download-Upload Ratio Analysis": "Behavioral profiling of hosts",
+              "Protocol Metadata Anomaly Detection": "Identification of protocol violations",
+              "Relay Pattern Analysis": "Detection of traffic redirection",
+              "Remote Terminal Session Detection": "Identification of remote access",
+              "RPC Traffic Analysis": "Examination of remote procedure calls"
+            }
+          },
+          "Platform Monitoring": {
+            "description": "Continuous system health assessment",
+            "items": {
+              "File Integrity Monitoring": "Detection of unauthorized file changes",
+              "Firmware Behavior Analysis": "Examination of firmware operations",
+              "Firmware Embedded Monitoring Code": "Built-in firmware health checks",
+              "Firmware Verification": {
+                "description": "Validation of firmware integrity",
+                "items": {
+                  "Peripheral Firmware Verification": "Validation of device firmware",
+                  "System Firmware Verification": "Validation of core system firmware"
+                }
+              },
+              "Operating System Monitoring": {
+                "description": "Continuous OS health assessment",
+                "items": {
+                  "Endpoint Health Beacon": "Regular system status reporting",
+                  "Input Device Analysis": "Monitoring of user input devices",
+                  "Memory Boundary Tracking": "Detection of memory violations",
+                  "Scheduled Job Analysis": "Examination of automated tasks",
+                  "System Daemon Monitoring": "Supervision of background processes"
+                }
+              },
+              "System File Analysis": {
+                "description": "Inspection of critical system files",
+                "items": {
+                  "Service Binary Verification": "Validation of service executables",
+                  "System Init Config Analysis": "Examination of startup configuration",
+                  "User Session Init Config Analysis": "Inspection of user session settings"
+                }
+              }
+            }
+          },
+          "Process Analysis": {
+            "description": "Examination of running processes",
+            "items": {
+              "Database Query String Analysis": "Inspection of database commands",
+              "File Access Pattern Analysis": "Behavioral analysis of file operations",
+              "Indirect Branch Call Analysis": "Detection of code flow manipulation",
+              "Process Code Segment Verification": "Validation of executable memory",
+              "Process Self-Modification Detection": "Identification of self-altering code",
+              "Process Spawn Analysis": "Examination of process creation",
+              "Process Lineage Analysis": "Tracking of process ancestry",
+              "Script Execution Analysis": "Inspection of script behavior",
+              "Shadow Stack Comparisons": "Detection of return-oriented programming",
+              "System Call Analysis": {
+                "description": "Examination of system interactions",
+                "items": {
+                  "File Creation Analysis": "Monitoring of file system operations"
+                }
+              }
+            }
+          },
+          "User Behavior Analysis": {
+            "description": "Monitoring of user activities",
+            "items": {
+              "Authentication Event Thresholding": "Detection of brute force attempts",
+              "Authorization Event Thresholding": "Identification of privilege abuse",
+              "Credential Compromise Scope Analysis": "Assessment of credential exposure",
+              "Domain Account Monitoring": "Tracking of domain user activities",
+              "Job Function Access Pattern Analysis": "Behavioral profiling by role",
+              "Local Account Monitoring": "Tracking of local user activities",
+              "Resource Access Pattern Analysis": "Examination of access behaviors",
+              "Session Duration Analysis": "Detection of anomalous session lengths",
+              "User Data Transfer Analysis": "Monitoring of data movement",
+              "User Geolocation Logon Pattern Analysis": "Detection of impossible travel",
+              "Web Session Activity Analysis": "Examination of web interactions"
+            }
+          }
+        }
+      },
+      "Isolate": {
+        "description": "Containing threats and limiting their impact",
+        "items": {
+          "Access Mediation": {
+            "description": "Controlling resource access",
+            "items": {
+              "Credential Transmission Scoping": "Limiting credential exposure",
+              "IO Port Restriction": "Controlling hardware access",
+              "Network Access Mediation": {
+                "description": "Managing network connectivity",
+                "items": {
+                  "LAN Access Mediation": "Local network access control",
+                  "Routing Access Mediation": "Network path management",
+                  "Network Resource Access Mediation": "Network service access control",
+                  "Remote File Access Mediation": "Control of remote file access",
+                  "Web Session Access Mediation": {
+                    "description": "Web traffic management",
+                    "items": {
+                      "Endpoint-based Web Server Access Mediation": "Client-side web access control",
+                      "Proxy-based Web Server Access Mediation": "Intermediate web traffic control"
+                    }
+                  }
+                }
+              },
+              "Physical Access Mediation": "Control of physical access points",
+              "System Call Filtering": {
+                "description": "Kernel-level access control",
+                "items": {
+                  "Local File Access Mediation": "File system operation control"
+                }
+              }
+            }
+          },
+          "Access Policy Administration": {
+            "description": "Management of access rules",
+            "items": {
+              "Domain Trust Policy": "Control of domain relationships",
+              "Local File Permissions": "Management of file system access",
+              "User Account Permissions": "Control of user privileges"
+            }
+          },
+          "Execution Isolation": {
+            "description": "Containing process execution",
+            "items": {
+              "Application-based Process Isolation": "Containerization techniques",
+              "Executable Allowlisting": "Permitting only approved executables",
+              "Executable Denylisting": "Blocking known malicious executables",
+              "Hardware-based Process Isolation": "CPU-level process separation",
+              "Kernel-based Process Isolation": "OS-level process containment"
+            }
+          },
+          "Network Isolation": {
+            "description": "Segmenting network communications",
+            "items": {
+              "Broadcast Domain Isolation": "Control of broadcast traffic",
+              "DNS Allowlisting": "Permitting only approved domain resolutions",
+              "DNS Denylisting": {
+                "description": "Blocking malicious domain resolutions",
+                "items": {
+                  "Forward Resolution Domain Denylisting": "Blocking malicious domains",
+                  "Hierarchical Domain Denylisting": "Blocking domain trees",
+                  "Homoglyph Denylisting": "Blocking visually similar domains"
+                }
+              },
+              "Forward Resolution IP Denylisting": "Blocking malicious IP addresses",
+              "Reverse Resolution IP Denylisting": "Blocking IP ranges",
+              "Encrypted Tunnels": "Secure communication channels"
+            }
+          },
+          "Network Traffic Filtering": {
+            "description": "Selective traffic control",
+            "items": {
+              "Inbound Traffic Filtering": {
+                "description": "Control of incoming traffic",
+                "items": {
+                  "Email Filtering": "Inspection of incoming messages"
+                }
+              },
+              "Outbound Traffic Filtering": "Control of outgoing traffic"
+            }
+          }
+        }
+      },
+      "Deceive": {
+        "description": "Misdirecting and confusing attackers",
+        "items": {
+          "Decoy Environment": {
+            "description": "Fake systems to detect and study attackers",
+            "items": {
+              "Connected Honeynet": "Integrated deceptive network segments",
+              "Integrated Honeynet": "Partial deceptive environments",
+              "Standalone Honeynet": "Complete isolated deceptive networks"
+            }
+          },
+          "Decoy Object": {
+            "description": "Bait to detect malicious activity",
+            "items": {
+              "Decoy File": "Fake files to detect access",
+              "Decoy Network Resource": "Fake network services",
+              "Decoy Persona": "Fake user accounts",
+              "Decoy Public Release": "Fake information leaks",
+              "Decoy Session Token": "Fake authentication tokens",
+              "Decoy User Credential": "Fake login credentials"
+            }
+          }
+        }
+      },
+      "Evict": {
+        "description": "Removing threats and unauthorized entities",
+        "items": {
+          "Credential Eviction": {
+            "description": "Revoking access privileges",
+            "items": {
+              "Account Locking": "Temporary access suspension",
+              "Authentication Cache Invalidation": "Clearing cached credentials",
+              "Credential Revocation": "Permanent access removal"
+            }
+          },
+          "Object Eviction": {
+            "description": "Removing malicious artifacts",
+            "items": {
+              "Disk Formatting": "Complete storage erasure",
+              "Disk Erasure": "Secure data removal",
+              "Disk Partitioning": "Storage segmentation",
+              "DNS Cache Eviction": "Clearing DNS resolver cache",
+              "Domain Registration Takedown": "Removing malicious domains",
+              "File Eviction": {
+                "description": "Removing malicious files",
+                "items": {
+                  "Email Removal": "Deleting malicious messages",
+                  "Registry Key Deletion": "Removing malicious registry entries"
+                }
+              }
+            }
+          },
+          "Process Eviction": {
+            "description": "Terminating malicious activities",
+            "items": {
+              "Host Shutdown": "Complete system power-off",
+              "Host Reboot": "System restart",
+              "Process Suspension": "Temporary process halt",
+              "Process Termination": "Permanent process stop",
+              "Session Termination": "Ending user sessions"
+            }
+          }
+        }
+      },
+      "Restore": {
+        "description": "Recovering systems and data after incidents",
+        "items": {
+          "Restore Access": {
+            "description": "Reinstating legitimate access",
+            "items": {
+              "Reissue Credential": "Providing new authentication tokens",
+              "Restore Network Access": "Reconnecting legitimate systems",
+              "Restore User Account Access": "Reinstating user privileges",
+              "Unlock Account": "Removing access locks"
+            }
+          },
+          "Restore Object": {
+            "description": "Recovering systems and data",
+            "items": {
+              "Restore Configuration": "Reverting to known-good settings",
+              "Restore Database": "Recovering database content",
+              "Restore Disk Image": "Rebuilding system storage",
+              "Restore File": {
+                "description": "Recovering individual files",
+                "items": {
+                  "Restore Email": "Recovering message content"
+                }
+              },
+              "Restore Software": "Reinstalling applications"
+            }
+          }
+        }
+      }
+    };
+
+    // Function to generate the matrix
+    function generateMatrix(data, parentElement) {
+      for (const category in data) {
+        if (category === "description") continue;
+        
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'matrix-category';
+        
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.innerHTML = `
+          <span>${category}</span>
+          <span class="toggle">+</span>
+        `;
+        
+        const content = document.createElement('div');
+        content.className = 'category-content';
+        
+        // Add category description if available
+        if (data[category].description) {
+          const desc = document.createElement('p');
+          desc.textContent = data[category].description;
+          desc.style.fontStyle = 'italic';
+          desc.style.marginBottom = '15px';
+          content.appendChild(desc);
+        }
+        
+        // Generate items
+        if (data[category].items) {
+          generateItems(data[category].items, content);
+        }
+        
+        categoryDiv.appendChild(header);
+        categoryDiv.appendChild(content);
+        parentElement.appendChild(categoryDiv);
+        
+        // Toggle category
+        header.addEventListener('click', function() {
+          content.classList.toggle('show');
+          const toggle = this.querySelector('.toggle');
+          toggle.textContent = content.classList.contains('show') ? '-' : '+';
+        });
+      }
+    }
+    
+    // Function to generate items
+    function generateItems(items, parentElement, level = 0) {
+      const ul = document.createElement('ul');
+      ul.style.paddingLeft = level > 0 ? '20px' : '0';
+      
+      for (const item in items) {
+        if (item === "description") continue;
+        
+        const li = document.createElement('li');
+        li.className = 'matrix-item';
+        
+        if (typeof items[item] === 'object' && items[item] !== null) {
+          li.classList.add('has-children');
+          li.textContent = item;
+          
+          const subItems = document.createElement('div');
+          subItems.className = 'sub-items';
+          
+          // Add description if available
+          if (items[item].description) {
+            const desc = document.createElement('p');
+            desc.textContent = items[item].description;
+            desc.style.fontSize = '0.9em';
+            desc.style.color = '#666';
+            desc.style.margin = '5px 0 10px';
+            subItems.appendChild(desc);
+          }
+          
+          generateItems(items[item].items, subItems, level + 1);
+          li.appendChild(subItems);
+          
+          li.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('expanded');
+            subItems.classList.toggle('show');
+          });
+        } else {
+          li.textContent = item;
+        }
+        
+        // Add click handler for details
+        li.addEventListener('click', function(e) {
+          if (e.target === this) {
+            showDetails(item, typeof items[item] === 'string' ? items[item] : items[item].description || 'No description available');
+          }
+        });
+        
+        ul.appendChild(li);
+      }
+      
+      parentElement.appendChild(ul);
+    }
+    
+    // Function to show details
+    function showDetails(title, content) {
+      document.getElementById('detailTitle').textContent = title;
+      document.getElementById('detailContent').innerHTML = `<p>${content}</p>`;
+      document.getElementById('overlay').classList.add('show');
+      document.getElementById('detailsPanel').classList.add('show');
+    }
+    
+    // Function to close details
+    function closeDetails() {
+      document.getElementById('overlay').classList.remove('show');
+      document.getElementById('detailsPanel').classList.remove('show');
+    }
+    
+    // Initialize the matrix
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('defenseMatrix');
+      generateMatrix(defenseMatrix, container);
+      
+      // Close details panel
+      document.getElementById('closeDetails').addEventListener('click', closeDetails);
+      document.getElementById('overlay').addEventListener('click', closeDetails);
+    });
+  </script>
+</body>
+</html>

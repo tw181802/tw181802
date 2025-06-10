@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Event ID Reference</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #0078d7;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .search-container {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        #search {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #0078d7;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .event-id {
+            font-weight: bold;
+            color: #0078d7;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 768px) {
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Windows Event ID Reference</h1>
+        <p>Complete list of Windows security event IDs with descriptions</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Search event IDs or descriptions...">
+        <div class="filter-container">
+            <div class="filter-group">
+                <label for="category-filter">Filter by Category:</label>
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                    <option value="Logon/Logoff">Logon/Logoff</option>
+                    <option value="Account Management">Account Management</option>
+                    <option value="Object Access">Object Access</option>
+                    <option value="Policy Change">Policy Change</option>
+                    <option value="Privilege Use">Privilege Use</option>
+                    <option value="System">System</option>
+                    <option value="Process Tracking">Process Tracking</option>
+                    <option value="IPsec">IPsec</option>
+                    <option value="Firewall">Firewall</option>
+                    <option value="Certificate Services">Certificate Services</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="id-range-filter">Filter by ID Range:</label>
+                <select id="id-range-filter">
+                    <option value="">All IDs</option>
+                    <option value="1000-1999">1000-1999 (System)</option>
+                    <option value="2000-2999">2000-2999 (Security)</option>
+                    <option value="4600-4699">4600-4699 (Logon/Logoff)</option>
+                    <option value="4700-4799">4700-4799 (Policy Change)</option>
+                    <option value="4800-4899">4800-4899 (Account Lockout)</option>
+                    <option value="4900-4999">4900-4999 (Audit Policy)</option>
+                    <option value="5000-5999">5000-5999 (Firewall/IPsec)</option>
+                    <option value="6000-6999">6000-6999 (Network Policy)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <table id="event-table">
+        <thead>
+            <tr>
+                <th>Event ID</th>
+                <th>Description</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody id="event-data">
+            <!-- Event data will be inserted here by JavaScript -->
+<li><strong>1100</strong>: The event logging service has shut down <em>(System)</em></li>
+<li><strong>1101</strong>: Audit events have been dropped by the transport. <em>(System)</em></li>
+<li><strong>1102</strong>: The audit log was cleared <em>(System)</em></li>
+<li><strong>1104</strong>: The security Log is now full <em>(System)</em></li>
+<li><strong>1105</strong>: Event log automatic backup <em>(System)</em></li>
+<li><strong>1108</strong>: The event logging service encountered an error <em>(System)</em></li>
+<li><strong>4608</strong>: Windows is starting up <em>(System)</em></li>
+<li><strong>4609</strong>: Windows is shutting down <em>(System)</em></li>
+<li><strong>4610</strong>: An authentication package has been loaded by the Local Security Authority <em>(System)</em></li>
+<li><strong>4611</strong>: A trusted logon process has been registered with the Local Security Authority <em>(System)</em></li>
+<li><strong>4612</strong>: Internal resources allocated for the queuing of audit messages have been exhausted, leading to the loss of some audits. <em>(System)</em></li>
+<li><strong>4614</strong>: A notification package has been loaded by the Security Account Manager. <em>(System)</em></li>
+<li><strong>4615</strong>: Invalid use of LPC port <em>(System)</em></li>
+<li><strong>4616</strong>: The system time was changed. <em>(System)</em></li>
+<li><strong>4618</strong>: A monitored security event pattern has occurred <em>(System)</em></li>
+<li><strong>4621</strong>: Administrator recovered system from CrashOnAuditFail <em>(System)</em></li>
+<li><strong>4622</strong>: A security package has been loaded by the Local Security Authority. <em>(System)</em></li>
+<li><strong>4624</strong>: An account was successfully logged on <em>(Logon/Logoff)</em></li>
+<li><strong>4625</strong>: An account failed to log on <em>(Logon/Logoff)</em></li>
+<li><strong>4626</strong>: User/Device claims information <em>(Logon/Logoff)</em></li>
+<li><strong>4627</strong>: Group membership information. <em>(Logon/Logoff)</em></li>
+<li><strong>4634</strong>: An account was logged off <em>(Logon/Logoff)</em></li>
+<li><strong>4646</strong>: IKE DoS-prevention mode started <em>(IPsec)</em></li>
+<li><strong>4647</strong>: User initiated logoff <em>(Logon/Logoff)</em></li>
+<li><strong>4648</strong>: A logon was attempted using explicit credentials <em>(Logon/Logoff)</em></li>
+<li><strong>4649</strong>: A replay attack was detected <em>(Logon/Logoff)</em></li>
+<li><strong>4650</strong>: An IPsec Main Mode security association was established <em>(IPsec)</em></li>
+<li><strong>4651</strong>: An IPsec Main Mode security association was established <em>(IPsec)</em></li>
+<li><strong>4652</strong>: An IPsec Main Mode negotiation failed <em>(IPsec)</em></li>
+<li><strong>4653</strong>: An IPsec Main Mode negotiation failed <em>(IPsec)</em></li>
+<li><strong>4654</strong>: An IPsec Quick Mode negotiation failed <em>(IPsec)</em></li>
+<li><strong>4655</strong>: An IPsec Main Mode security association ended <em>(IPsec)</em></li>
+<li><strong>4656</strong>: A handle to an object was requested <em>(Object Access)</em></li>
+<li><strong>4657</strong>: A registry value was modified <em>(Object Access)</em></li>
+<li><strong>4658</strong>: The handle to an object was closed <em>(Object Access)</em></li>
+<li><strong>4659</strong>: A handle to an object was requested with intent to delete <em>(Object Access)</em></li>
+<li><strong>4660</strong>: An object was deleted <em>(Object Access)</em></li>
+<li><strong>4661</strong>: A handle to an object was requested <em>(Object Access)</em></li>
+<li><strong>4662</strong>: An operation was performed on an object <em>(Object Access)</em></li>
+<li><strong>4663</strong>: An attempt was made to access an object <em>(Object Access)</em></li>
+<li><strong>4664</strong>: An attempt was made to create a hard link <em>(Object Access)</em></li>
+<li><strong>4665</strong>: An attempt was made to create an application client context. <em>(Object Access)</em></li>
+<li><strong>4666</strong>: An application attempted an operation <em>(Object Access)</em></li>
+<li><strong>4667</strong>: An application client context was deleted <em>(Object Access)</em></li>
+<li><strong>4668</strong>: An application was initialized <em>(Object Access)</em></li>
+<li><strong>4670</strong>: Permissions on an object were changed <em>(Object Access)</em></li>
+<li><strong>4671</strong>: An application attempted to access a blocked ordinal through the TBS <em>(Object Access)</em></li>
+<li><strong>4672</strong>: Special privileges assigned to new logon <em>(Privilege Use)</em></li>
+<li><strong>4673</strong>: A privileged service was called <em>(Privilege Use)</em></li>
+<li><strong>4674</strong>: An operation was attempted on a privileged object <em>(Privilege Use)</em></li>
+<li><strong>4675</strong>: SIDs were filtered <em>(Privilege Use)</em></li>
+<li><strong>4688</strong>: A new process has been created <em>(Process Tracking)</em></li>
+<li><strong>4689</strong>: A process has exited <em>(Process Tracking)</em></li>
+<li><strong>4690</strong>: An attempt was made to duplicate a handle to an object <em>(Process Tracking)</em></li>
+<li><strong>4691</strong>: Indirect access to an object was requested <em>(Process Tracking)</em></li>
+<li><strong>4692</strong>: Backup of data protection master key was attempted <em>(Process Tracking)</em></li>
+<li><strong>4693</strong>: Recovery of data protection master key was attempted <em>(Process Tracking)</em></li>
+<li><strong>4694</strong>: Protection of auditable protected data was attempted <em>(Process Tracking)</em></li>
+<li><strong>4695</strong>: Unprotection of auditable protected data was attempted <em>(Process Tracking)</em></li>
+<li><strong>4696</strong>: A primary token was assigned to process <em>(Process Tracking)</em></li>
+<li><strong>4697</strong>: A service was installed in the system <em>(Process Tracking)</em></li>
+<li><strong>4698</strong>: A scheduled task was created <em>(Process Tracking)</em></li>
+<li><strong>4699</strong>: A scheduled task was deleted <em>(Process Tracking)</em></li>
+<li><strong>4700</strong>: A scheduled task was enabled <em>(Process Tracking)</em></li>
+<li><strong>4701</strong>: A scheduled task was disabled <em>(Process Tracking)</em></li>
+<li><strong>4702</strong>: A scheduled task was updated <em>(Process Tracking)</em></li>
+<li><strong>4703</strong>: A token right was adjusted <em>(Privilege Use)</em></li>
+<li><strong>4704</strong>: A user right was assigned <em>(Privilege Use)</em></li>
+<li><strong>4705</strong>: A user right was removed <em>(Privilege Use)</em></li>
+<li><strong>4706</strong>: A new trust was created to a domain <em>(Policy Change)</em></li>
+<li><strong>4707</strong>: A trust to a domain was removed <em>(Policy Change)</em></li>
+<li><strong>4709</strong>: IPsec Services was started <em>(IPsec)</em></li>
+<li><strong>4710</strong>: IPsec Services was disabled <em>(IPsec)</em></li>
+<li><strong>4711</strong>: PAStore Engine (1%) <em>(IPsec)</em></li>
+<li><strong>4712</strong>: IPsec Services encountered a potentially serious failure <em>(IPsec)</em></li>
+<li><strong>4713</strong>: Kerberos policy was changed <em>(Policy Change)</em></li>
+<li><strong>4714</strong>: Encrypted data recovery policy was changed <em>(Policy Change)</em></li>
+<li><strong>4715</strong>: The audit policy (SACL) on an object was changed <em>(Policy Change)</em></li>
+<li><strong>4716</strong>: Trusted domain information was modified <em>(Policy Change)</em></li>
+<li><strong>4717</strong>: System security access was granted to an account <em>(Policy Change)</em></li>
+<li><strong>4718</strong>: System security access was removed from an account <em>(Policy Change)</em></li>
+<li><strong>4719</strong>: System audit policy was changed <em>(Policy Change)</em></li>
+<li><strong>4720</strong>: A user account was created <em>(Account Management)</em></li>
+<li><strong>4722</strong>: A user account was enabled <em>(Account Management)</em></li>
+<li><strong>4723</strong>: An attempt was made to change an account's password <em>(Account Management)</em></li>
+<li><strong>4724</strong>: An attempt was made to reset an accounts password <em>(Account Management)</em></li>
+<li><strong>4725</strong>: A user account was disabled <em>(Account Management)</em></li>
+<li><strong>4726</strong>: A user account was deleted <em>(Account Management)</em></li>
+<li><strong>4727</strong>: A security-enabled global group was created <em>(Account Management)</em></li>
+<li><strong>4728</strong>: A member was added to a security-enabled global group <em>(Account Management)</em></li>
+<li><strong>4729</strong>: A member was removed from a security-enabled global group <em>(Account Management)</em></li>
+<li><strong>4730</strong>: A security-enabled global group was deleted <em>(Account Management)</em></li>
+<li><strong>4731</strong>: A security-enabled local group was created <em>(Account Management)</em></li>
+<li><strong>4732</strong>: A member was added to a security-enabled local group <em>(Account Management)</em></li>
+<li><strong>4733</strong>: A member was removed from a security-enabled local group <em>(Account Management)</em></li>
+<li><strong>4734</strong>: A security-enabled local group was deleted <em>(Account Management)</em></li>
+<li><strong>4735</strong>: A security-enabled local group was changed <em>(Account Management)</em></li>
+<li><strong>4737</strong>: A security-enabled global group was changed <em>(Account Management)</em></li>
+<li><strong>4738</strong>: A user account was changed <em>(Account Management)</em></li>
+<li><strong>4739</strong>: Domain Policy was changed <em>(Policy Change)</em></li>
+<li><strong>4740</strong>: A user account was locked out <em>(Account Management)</em></li>
+<li><strong>4741</strong>: A computer account was created <em>(Account Management)</em></li>
+<li><strong>4742</strong>: A computer account was changed <em>(Account Management)</em></li>
+<li><strong>4743</strong>: A computer account was deleted <em>(Account Management)</em></li>
+<li><strong>4744</strong>: A security-disabled local group was created <em>(Account Management)</em></li>
+<li><strong>4745</strong>: A security-disabled local group was changed <em>(Account Management)</em></li>
+<li><strong>4746</strong>: A member was added to a security-disabled local group <em>(Account Management)</em></li>
+<li><strong>4747</strong>: A member was removed from a security-disabled local group <em>(Account Management)</em></li>
+<li><strong>4748</strong>: A security-disabled local group was deleted <em>(Account Management)</em></li>
+<li><strong>4749</strong>: A security-disabled global group was created <em>(Account Management)</em></li>
+<li><strong>4750</strong>: A security-disabled global group was changed <em>(Account Management)</em></li>
+<li><strong>4751</strong>: A member was added to a security-disabled global group <em>(Account Management)</em></li>
+<li><strong>4752</strong>: A member was removed from a security-disabled global group <em>(Account Management)</em></li>
+<li><strong>4753</strong>: A security-disabled global group was deleted <em>(Account Management)</em></li>
+<li><strong>4754</strong>: A security-enabled universal group was created <em>(Account Management)</em></li>
+<li><strong>4755</strong>: A security-enabled universal group was changed <em>(Account Management)</em></li>
+<li><strong>4756</strong>: A member was added to a security-enabled universal group <em>(Account Management)</em></li>
+<li><strong>4757</strong>: A member was removed from a security-enabled universal group <em>(Account Management)</em></li>
+<li><strong>4758</strong>: A security-enabled universal group was deleted <em>(Account Management)</em></li>
+<li><strong>4759</strong>: A security-disabled universal group was created <em>(Account Management)</em></li>
+<li><strong>4760</strong>: A security-disabled universal group was changed <em>(Account Management)</em></li>
+<li><strong>4761</strong>: A member was added to a security-disabled universal group <em>(Account Management)</em></li>
+<li><strong>4762</strong>: A member was removed from a security-disabled universal group <em>(Account Management)</em></li>
+<li><strong>4763</strong>: A security-disabled universal group was deleted <em>(Account Management)</em></li>
+<li><strong>4764</strong>: A groups type was changed <em>(Account Management)</em></li>
+<li><strong>4765</strong>: SID History was added to an account <em>(Account Management)</em></li>
+<li><strong>4766</strong>: An attempt to add SID History to an account failed <em>(Account Management)</em></li>
+<li><strong>4767</strong>: A user account was unlocked <em>(Account Management)</em></li>
+<li><strong>4768</strong>: A Kerberos authentication ticket (TGT) was requested <em>(Account Management)</em></li>
+<li><strong>4769</strong>: A Kerberos service ticket was requested <em>(Account Management)</em></li>
+<li><strong>4770</strong>: A Kerberos service ticket was renewed <em>(Account Management)</em></li>
+<li><strong>4771</strong>: Kerberos pre-authentication failed <em>(Account Management)</em></li>
+<li><strong>4772</strong>: A Kerberos authentication ticket request failed <em>(Account Management)</em></li>
+<li><strong>4773</strong>: A Kerberos service ticket request failed <em>(Account Management)</em></li>
+<li><strong>4774</strong>: An account was mapped for logon <em>(Account Management)</em></li>
+<li><strong>4775</strong>: An account could not be mapped for logon <em>(Account Management)</em></li>
+<li><strong>4776</strong>: The domain controller attempted to validate the credentials for an account <em>(Account Management)</em></li>
+<li><strong>4777</strong>: The domain controller failed to validate the credentials for an account <em>(Account Management)</em></li>
+<li><strong>4778</strong>: A session was reconnected to a Window Station <em>(Account Management)</em></li>
+<li><strong>4779</strong>: A session was disconnected from a Window Station <em>(Account Management)</em></li>
+<li><strong>4780</strong>: The ACL was set on accounts which are members of administrators groups <em>(Account Management)</em></li>
+<li><strong>4781</strong>: The name of an account was changed <em>(Account Management)</em></li>
+<li><strong>4782</strong>: The password hash an account was accessed <em>(Account Management)</em></li>
+<li><strong>4783</strong>: A basic application group was created <em>(Account Management)</em></li>
+<li><strong>4784</strong>: A basic application group was changed <em>(Account Management)</em></li>
+<li><strong>4785</strong>: A member was added to a basic application group <em>(Account Management)</em></li>
+<li><strong>4786</strong>: A member was removed from a basic application group <em>(Account Management)</em></li>
+<li><strong>4787</strong>: A non-member was added to a basic application group <em>(Account Management)</em></li>
+<li><strong>4788</strong>: A non-member was removed from a basic application group.. <em>(Account Management)</em></li>
+<li><strong>4789</strong>: A basic application group was deleted <em>(Account Management)</em></li>
+<li><strong>4790</strong>: An LDAP query group was created <em>(Account Management)</em></li>
+<li><strong>4791</strong>: A basic application group was changed <em>(Account Management)</em></li>
+<li><strong>4792</strong>: An LDAP query group was deleted <em>(Account Management)</em></li>
+<li><strong>4793</strong>: The Password Policy Checking API was called <em>(Account Management)</em></li>
+<li><strong>4794</strong>: An attempt was made to set the Directory Services Restore Mode administrator password <em>(Account Management)</em></li>
+<li><strong>4797</strong>: An attempt was made to query the existence of a blank password for an account <em>(Account Management)</em></li>
+<li><strong>4798</strong>: A user's local group membership was enumerated. <em>(Account Management)</em></li>
+<li><strong>4799</strong>: A security-enabled local group membership was enumerated <em>(Account Management)</em></li>
+<li><strong>4800</strong>: The workstation was locked <em>(Logon/Logoff)</em></li>
+<li><strong>4801</strong>: The workstation was unlocked <em>(Logon/Logoff)</em></li>
+<li><strong>4802</strong>: The screen saver was invoked <em>(Logon/Logoff)</em></li>
+<li><strong>4803</strong>: The screen saver was dismissed <em>(Logon/Logoff)</em></li>
+<li><strong>4816</strong>: RPC detected an integrity violation while decrypting an incoming message <em>(System)</em></li>
+<li><strong>4817</strong>: Auditing settings on object were changed. <em>(Policy Change)</em></li>
+<li><strong>4818</strong>: Proposed Central Access Policy does not grant the same access permissions as the current Central Access Policy <em>(Policy Change)</em></li>
+<li><strong>4819</strong>: Central Access Policies on the machine have been changed <em>(Policy Change)</em></li>
+<li><strong>4820</strong>: A Kerberos Ticket-granting-ticket (TGT) was denied because the device does not meet the access control restrictions <em>(Account Management)</em></li>
+<li><strong>4821</strong>: A Kerberos service ticket was denied because the user, device, or both does not meet the access control restrictions <em>(Account Management)</em></li>
+<li><strong>4822</strong>: NTLM authentication failed because the account was a member of the Protected User group <em>(Account Management)</em></li>
+<li><strong>4823</strong>: NTLM authentication failed because access control restrictions are required <em>(Account Management)</em></li>
+<li><strong>4824</strong>: Kerberos preauthentication by using DES or RC4 failed because the account was a member of the Protected User group <em>(Account Management)</em></li>
+<li><strong>4825</strong>: A user was denied the access to Remote Desktop. By default, users are allowed to connect only if they are members of the Remote Desktop Users group or Administrators group <em>(Account Management)</em></li>
+<li><strong>4826</strong>: Boot Configuration Data loaded <em>(System)</em></li>
+<li><strong>4830</strong>: SID History was removed from an account <em>(Account Management)</em></li>
+<li><strong>4864</strong>: A namespace collision was detected <em>(System)</em></li>
+<li><strong>4865</strong>: A trusted forest information entry was added <em>(System)</em></li>
+<li><strong>4866</strong>: A trusted forest information entry was removed <em>(System)</em></li>
+<li><strong>4867</strong>: A trusted forest information entry was modified <em>(System)</em></li>
+<li><strong>4868</strong>: The certificate manager denied a pending certificate request <em>(Certificate Services)</em></li>
+<li><strong>4869</strong>: Certificate Services received a resubmitted certificate request <em>(Certificate Services)</em></li>
+<li><strong>4870</strong>: Certificate Services revoked a certificate <em>(Certificate Services)</em></li>
+<li><strong>4871</strong>: Certificate Services received a request to publish the certificate revocation list (CRL) <em>(Certificate Services)</em></li>
+<li><strong>4872</strong>: Certificate Services published the certificate revocation list (CRL) <em>(Certificate Services)</em></li>
+<li><strong>4873</strong>: A certificate request extension changed <em>(Certificate Services)</em></li>
+<li><strong>4874</strong>: One or more certificate request attributes changed. <em>(Certificate Services)</em></li>
+<li><strong>4875</strong>: Certificate Services received a request to shut down <em>(Certificate Services)</em></li>
+<li><strong>4876</strong>: Certificate Services backup started <em>(Certificate Services)</em></li>
+<li><strong>4877</strong>: Certificate Services backup completed <em>(Certificate Services)</em></li>
+<li><strong>4878</strong>: Certificate Services restore started <em>(Certificate Services)</em></li>
+<li><strong>4879</strong>: Certificate Services restore completed <em>(Certificate Services)</em></li>
+<li><strong>4880</strong>: Certificate Services started <em>(Certificate Services)</em></li>
+<li><strong>4881</strong>: Certificate Services stopped <em>(Certificate Services)</em></li>
+<li><strong>4882</strong>: The security permissions for Certificate Services changed <em>(Certificate Services)</em></li>
+<li><strong>4883</strong>: Certificate Services retrieved an archived key <em>(Certificate Services)</em></li>
+<li><strong>4884</strong>: Certificate Services imported a certificate into its database <em>(Certificate Services)</em></li>
+<li><strong>4885</strong>: The audit filter for Certificate Services changed <em>(Certificate Services)</em></li>
+<li><strong>4886</strong>: Certificate Services received a certificate request <em>(Certificate Services)</em></li>
+<li><strong>4887</strong>: Certificate Services approved a certificate request and issued a certificate <em>(Certificate Services)</em></li>
+<li><strong>4888</strong>: Certificate Services denied a certificate request <em>(Certificate Services)</em></li>
+<li><strong>4889</strong>: Certificate Services set the status of a certificate request to pending <em>(Certificate Services)</em></li>
+<li><strong>4890</strong>: The certificate manager settings for Certificate Services changed. <em>(Certificate Services)</em></li>
+<li><strong>4891</strong>: A configuration entry changed in Certificate Services <em>(Certificate Services)</em></li>
+<li><strong>4892</strong>: A property of Certificate Services changed <em>(Certificate Services)</em></li>
+<li><strong>4893</strong>: Certificate Services archived a key <em>(Certificate Services)</em></li>
+<li><strong>4894</strong>: Certificate Services imported and archived a key <em>(Certificate Services)</em></li>
+<li><strong>4895</strong>: Certificate Services published the CA certificate to Active Directory Domain Services <em>(Certificate Services)</em></li>
+<li><strong>4896</strong>: One or more rows have been deleted from the certificate database <em>(Certificate Services)</em></li>
+<li><strong>4897</strong>: Role separation enabled <em>(Certificate Services)</em></li>
+<li><strong>4898</strong>: Certificate Services loaded a template <em>(Certificate Services)</em></li>
+<li><strong>4899</strong>: A Certificate Services template was updated <em>(Certificate Services)</em></li>
+<li><strong>4900</strong>: Certificate Services template security was updated <em>(Certificate Services)</em></li>
+<li><strong>4902</strong>: The Per-user audit policy table was created <em>(Policy Change)</em></li>
+<li><strong>4904</strong>: An attempt was made to register a security event source <em>(Policy Change)</em></li>
+<li><strong>4905</strong>: An attempt was made to unregister a security event source <em>(Policy Change)</em></li>
+<li><strong>4906</strong>: The CrashOnAuditFail value has changed <em>(Policy Change)</em></li>
+<li><strong>4907</strong>: Auditing settings on object were changed <em>(Policy Change)</em></li>
+<li><strong>4908</strong>: Special Groups Logon table modified <em>(Policy Change)</em></li>
+<li><strong>4909</strong>: The local policy settings for the TBS were changed <em>(Policy Change)</em></li>
+<li><strong>4910</strong>: The group policy settings for the TBS were changed <em>(Policy Change)</em></li>
+<li><strong>4911</strong>: Resource attributes of the object were changed <em>(Policy Change)</em></li>
+<li><strong>4912</strong>: Per User Audit Policy was changed <em>(Policy Change)</em></li>
+<li><strong>4913</strong>: Central Access Policy on the object was changed <em>(Policy Change)</em></li>
+<li><strong>4928</strong>: An Active Directory replica source naming context was established <em>(System)</em></li>
+<li><strong>4929</strong>: An Active Directory replica source naming context was removed <em>(System)</em></li>
+<li><strong>4930</strong>: An Active Directory replica source naming context was modified <em>(System)</em></li>
+<li><strong>4931</strong>: An Active Directory replica destination naming context was modified <em>(System)</em></li>
+<li><strong>4931</strong>: An Active Directory replica destination naming context was modified <em>(System)</em></li>
+<li><strong>4932</strong>: Synchronization of a replica of an Active Directory naming context has begun <em>(System)</em></li>
+<li><strong>4933</strong>: Synchronization of a replica of an Active Directory naming context has ended <em>(System)</em></li>
+<li><strong>4934</strong>: Attributes of an Active Directory object were replicated <em>(System)</em></li>
+<li><strong>4935</strong>: Replication failure begins <em>(System)</em></li>
+<li><strong>4936</strong>: Replication failure ends <em>(System)</em></li>
+<li><strong>4937</strong>: A lingering object was removed from a replica <em>(System)</em></li>
+<li><strong>4944</strong>: The following policy was active when the Windows Firewall started <em>(Firewall)</em></li>
+<li><strong>4945</strong>: A rule was listed when the Windows Firewall started <em>(Firewall)</em></li>
+<li><strong>4946</strong>: A change has been made to Windows Firewall exception list. A rule was added <em>(Firewall)</em></li>
+<li><strong>4947</strong>: A change has been made to Windows Firewall exception list. A rule was modified <em>(Firewall)</em></li>
+<li><strong>4948</strong>: A change has been made to Windows Firewall exception list. A rule was deleted <em>(Firewall)</em></li>
+<li><strong>4949</strong>: Windows Firewall settings were restored to the default values <em>(Firewall)</em></li>
+<li><strong>4950</strong>: A Windows Firewall setting has changed <em>(Firewall)</em></li>
+<li><strong>4951</strong>: A rule has been ignored because its major version number was not recognized by Windows Firewall <em>(Firewall)</em></li>
+<li><strong>4952</strong>: Parts of a rule have been ignored because its minor version number was not recognized by Windows Firewall <em>(Firewall)</em></li>
+<li><strong>4953</strong>: A rule has been ignored by Windows Firewall because it could not parse the rule <em>(Firewall)</em></li>
+<li><strong>4954</strong>: Windows Firewall Group Policy settings has changed. The new settings have been applied <em>(Firewall)</em></li>
+<li><strong>4956</strong>: Windows Firewall has changed the active profile <em>(Firewall)</em></li>
+<li><strong>4957</strong>: Windows Firewall did not apply the following rule <em>(Firewall)</em></li>
+<li><strong>4958</strong>: Windows Firewall did not apply the following rule because the rule referred to items not configured on this computer <em>(Firewall)</em></li>
+<li><strong>4960</strong>: IPsec dropped an inbound packet that failed an integrity check <em>(IPsec)</em></li>
+<li><strong>4961</strong>: IPsec dropped an inbound packet that failed a replay check <em>(IPsec)</em></li>
+<li><strong>4963</strong>: IPsec dropped an inbound clear text packet that should have been secured <em>(IPsec)</em></li>
+<li><strong>4964</strong>: Special groups have been assigned to a new logon <em>(Logon)</em></li>
+<li><strong>4965</strong>: IPsec received a packet from a remote computer with an incorrect Security Parameter Index (SPI) <em>(IPsec)</em></li>
+<li><strong>4976</strong>: During Main Mode negotiation, IPsec received an invalid negotiation packet <em>(IPsec)</em></li>
+<li><strong>4977</strong>: During Quick Mode negotiation, IPsec received an invalid negotiation packet <em>(IPsec)</em></li>
+<li><strong>4978</strong>: During Extended Mode negotiation, IPsec received an invalid negotiation packet <em>(IPsec)</em></li>
+<li><strong>4979</strong>: IPsec Main Mode and Extended Mode security associations were established <em>(IPsec)</em></li>
+<li><strong>4980</strong>: IPsec Main Mode and Extended Mode security associations were established <em>(IPsec)</em></li>
+<li><strong>4981</strong>: IPsec Main Mode and Extended Mode security associations were established <em>(IPsec)</em></li>
+<li><strong>4982</strong>: IPsec Main Mode and Extended Mode security associations were established <em>(IPsec)</em></li>
+<li><strong>4983</strong>: An IPsec Extended Mode negotiation failed <em>(IPsec)</em></li>
+<li><strong>4984</strong>: An IPsec Extended Mode negotiation failed <em>(IPsec)</em></li>
+<li><strong>4985</strong>: The state of a transaction has changed <em>(System)</em></li>
+<li><strong>5024</strong>: The Windows Firewall Service has started successfully <em>(Firewall)</em></li>
+<li><strong>5025</strong>: The Windows Firewall Service has been stopped <em>(Firewall)</em></li>
+<li><strong>5027</strong>: The Windows Firewall Service was unable to retrieve the security policy from the local storage <em>(Firewall)</em></li>
+<li><strong>5028</strong>: The Windows Firewall Service was unable to parse the new security policy <em>(Firewall)</em></li>
+<li><strong>5029</strong>: The Windows Firewall Service failed to initialize the driver <em>(Firewall)</em></li>
+<li><strong>5030</strong>: The Windows Firewall Service failed to start <em>(Firewall)</em></li>
+<li><strong>5031</strong>: The Windows Firewall Service blocked an application from accepting incoming connections on the network <em>(Firewall)</em></li>
+<li><strong>5032</strong>: Windows Firewall was unable to notify the user that it blocked an application from accepting incoming connections on the network <em>(Firewall)</em></li>
+<li><strong>5033</strong>: The Windows Firewall Driver has started successfully <em>(Firewall)</em></li>
+<li><strong>5034</strong>: The Windows Firewall Driver has been stopped <em>(Firewall)</em></li>
+<li><strong>5035</strong>: The Windows Firewall Driver failed to start <em>(Firewall)</em></li>
+<li><strong>5037</strong>: The Windows Firewall Driver detected critical runtime error. Terminating <em>(Firewall)</em></li>
+<li><strong>5038</strong>: Code integrity determined that the image hash of a file is not valid <em>(Code Integrity)</em></li>
+<li><strong>5039</strong>: A registry key was virtualized <em>(System)</em></li>
+<li><strong>5040</strong>: A change has been made to IPsec settings. An Authentication Set was added <em>(IPsec)</em></li>
+<li><strong>5041</strong>: A change has been made to IPsec settings. An Authentication Set was modified <em>(IPsec)</em></li>
+<li><strong>5042</strong>: A change has been made to IPsec settings. An Authentication Set was deleted <em>(IPsec)</em></li>
+<li><strong>5043</strong>: A change has been made to IPsec settings. A Connection Security Rule was added <em>(IPsec)</em></li>
+<li><strong>5044</strong>: A change has been made to IPsec settings. A Connection Security Rule was modified <em>(IPsec)</em></li>
+<li><strong>5045</strong>: A change has been made to IPsec settings. A Connection Security Rule was deleted <em>(IPsec)</em></li>
+<li><strong>5046</strong>: A change has been made to IPsec settings. A Crypto Set was added <em>(IPsec)</em></li>
+<li><strong>5047</strong>: A change has been made to IPsec settings. A Crypto Set was modified <em>(IPsec)</em></li>
+<li><strong>5048</strong>: A change has been made to IPsec settings. A Crypto Set was deleted <em>(IPsec)</em></li>
+<li><strong>5049</strong>: An IPsec Security Association was deleted <em>(IPsec)</em></li>
+<li><strong>5050</strong>: An attempt to programmatically disable the Windows Firewall using a call to INetFwProfile.FirewallEnabled(FALSE) <em>(Firewall)</em></li>
+
+<li><strong>1</strong>: Process creation <em>(Sysmon)</em></li>
+<li><strong>2</strong>: A process changed a file creation time <em>(Sysmon)</em></li>
+<li><strong>3</strong>: Network connection detected <em>(Sysmon)</em></li>
+<li><strong>4</strong>: Sysmon service state changed <em>(Sysmon)</em></li>
+<li><strong>5</strong>: Process terminated <em>(Sysmon)</em></li>
+<li><strong>6</strong>: Driver loaded <em>(Sysmon)</em></li>
+<li><strong>7</strong>: Image loaded <em>(Sysmon)</em></li>
+<li><strong>8</strong>: CreateRemoteThread <em>(Sysmon)</em></li>
+<li><strong>9</strong>: RawAccessRead <em>(Sysmon)</em></li>
+<li><strong>10</strong>: ProcessAccess <em>(Sysmon)</em></li>
+<li><strong>11</strong>: FileCreate <em>(Sysmon)</em></li>
+<li><strong>12</strong>: RegistryEvent (Object create and delete) <em>(Sysmon)</em></li>
+<li><strong>13</strong>: RegistryEvent (Value Set) <em>(Sysmon)</em></li>
+<li><strong>14</strong>: RegistryEvent (Key and Value Rename) <em>(Sysmon)</em></li>
+<li><strong>15</strong>: FileCreateStreamHash <em>(Sysmon)</em></li>
+<li><strong>16</strong>: Sysmon config state changed <em>(Sysmon)</em></li>
+<li><strong>17</strong>: Pipe created <em>(Sysmon)</em></li>
+<li><strong>18</strong>: Pipe connected <em>(Sysmon)</em></li>
+<li><strong>19</strong>: WmiEventFilter activity detected <em>(Sysmon)</em></li>
+<li><strong>20</strong>: WmiEventConsumer activity detected <em>(Sysmon)</em></li>
+<li><strong>21</strong>: WmiEventConsumerToFilter activity detected <em>(Sysmon)</em></li>
+<li><strong>22</strong>: DNSEvent <em>(Sysmon)</em></li>
+<li><strong>23</strong>: FileDelete <em>(Sysmon)</em></li>
+<li><strong>24</strong>: ClipboardChange <em>(Sysmon)</em></li>
+<li><strong>25</strong>: Process Tampering <em>(Sysmon)</em></li>
+<li><strong>26</strong>: File Delete Logged <em>(Sysmon)</em></li>
+<li><strong>27</strong>: File Block Executable <em>(Sysmon)</em></li>
+<li><strong>28</strong>: File Block Shredding <em>(Sysmon)</em></li>
+<li><strong>29</strong>: File Executable Detected <em>(Sysmon)</em></li>
+<li><strong>225</strong>: Error <em>(Sysmon)</em></li>
+
+        </tbody>
+    </table>
+
+    <div id="no-results" class="no-results" style="display: none;">
+        <h3>No events found matching your search criteria</h3>
+        <p>Try adjusting your search or filters</p>
+    </div>
+
+    <footer>
+        <p>Windows Event ID Reference | Last updated: May 2023</p>
+    </footer>
+
+ </body>
+</html>

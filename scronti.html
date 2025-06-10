@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Executable Index - GitBook Style</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #2d2d2d;
+  color: white;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  font-size: 1.2em;
+  margin-top: 0;
+}
+
+.sidebar a {
+  color: #a9d0f5;
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  vertical-align: top;
+  text-align: left;
+}
+
+th {
+  background-color: #eee;
+}
+</style>
+
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Contents</h2>
+      <nav>
+        <ul>
+          <li><a href="#index">Index</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="content">
+      <section id="index">
+        <h1>Index</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>File Name / Variants</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- We'll inject rows with JavaScript -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+<script>
+const entries = [
+  { file: "_isdel.exe (2)", desc: "32-bit InstallShield Deleter.." },
+  { file: "4gb_patch.exe", desc: "4gb_patch." },
+  { file: "64BitMailAgent.exe", desc: "64Bit MAPI Mail Agent." },
+  { file: "7z.exe", desc: "7-Zip Console." },
+  { file: "7zFM.exe", desc: "7-Zip File Manager." },
+  { file: "7zG.exe", desc: "7-Zip GUI." },
+  { file: "AccCheckConsole.exe (2) (3) (4)", desc: "." },
+  { file: "acccheckui.exe (2) (3) (4)", desc: "UI Accessibility Checker." },
+  { file: "accesschk.exe", desc: "Reports effective permissions for securable objects." },
+  { file: "accesschk64.exe", desc: "Reports effective permissions for securable objects." },
+  { file: "AccessEnum.exe", desc: "AccessEnum." },
+  { file: "accevent.exe (2) (3) (4)", desc: "Accessible Event Watcher (32-bit UNICODE Release)." },
+  { file: "ACCICONS.EXE (2)", desc: "Microsoft Office component." },
+  // ... and so on (you can paste the rest into this array in same format)
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+  const tableBody = document.querySelector("tbody");
+  entries.forEach(entry => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${entry.file}</td><td>${entry.desc}</td>`;
+    tableBody.appendChild(row);
+  });
+});
+
+</script>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

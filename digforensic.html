@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Forensics Toolbox</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Digital Forensics Toolbox</h1>
+    <p>Your gateway to tools, libraries, and frameworks in digital investigations</p>
+  </header>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8f9fa;
+  color: #333;
+}
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+nav {
+  background: #34495e;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+nav li {
+  margin: 10px;
+}
+nav a {
+  color: #ecf0f1;
+  text-decoration: none;
+}
+main {
+  padding: 20px;
+}
+section {
+  margin-bottom: 30px;
+}
+footer {
+  background: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+</style>
+
+  <nav>
+    <ul>
+      <li><a href="#computer-forensics">Computer Forensics</a></li>
+      <li><a href="#memory-analysis">Memory Forensics</a></li>
+      <li><a href="#mobile-analysis">Mobile Forensics</a></li>
+      <li><a href="#network-analysis">Network Forensics</a></li>
+      <li><a href="#frameworks">Frameworks & Suites</a></li>
+      <li><a href="#utilities">Utilities & Repositories</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- Each section follows the same pattern -->
+    <section id="computer-forensics">
+      <h2>Computer Forensics</h2>
+      <ul>
+        <li><strong>Autopsy®:</strong> GUI for The Sleuth Kit® for disk investigation.</li>
+        <li><strong>The Sleuth Kit®:</strong> Command line tools for disk image analysis.</li>
+        <li><strong>FTK® (Forensic Toolkit):</strong> Fast processing and indexing tool.</li>
+        <li><strong>WinHex:</strong> Hex, disk, and RAM editor.</li>
+        <li><strong>X-Ways Forensics:</strong> Full-featured forensic suite for Windows.</li>
+        <li><strong>Registry Recon:</strong> Recover Windows Registry data.</li>
+        <li><strong>Forensic Explorer™:</strong> Advanced sorting, keyword search, and data recovery.</li>
+      </ul>
+    </section>
+
+    <section id="memory-analysis">
+      <h2>Memory Forensics</h2>
+      <ul>
+        <li><strong>Volatility:</strong> Memory forensics framework for malware and incident analysis.</li>
+        <li><strong>WindowsSCOPE:</strong> Reverse engineering and volatile memory analysis.</li>
+        <li><strong>Redline®:</strong> Free endpoint tool by FireEye for memory/file inspection.</li>
+        <li><strong>FEX Memory Imager:</strong> Free RAM acquisition tool.</li>
+      </ul>
+    </section>
+
+    <section id="mobile-analysis">
+      <h2>Mobile Forensics</h2>
+      <ul>
+        <li><strong>Mobile Device Investigator®:</strong> Logical acquisition of iOS/Android devices.</li>
+        <li><strong>Digital Evidence Investigator® PRO:</strong> Combines mobile and computer forensic capabilities.</li>
+        <li><strong>XRY:</strong> Logical and physical tools for mobile forensics.</li>
+        <li><strong>Oxygen Forensic Detective:</strong> Mobile, IoT, drone, cloud forensics.</li>
+        <li><strong>Magnet ACQUIRE:</strong> Cross-platform acquisition tool.</li>
+      </ul>
+    </section>
+
+    <section id="network-analysis">
+      <h2>Network Forensics</h2>
+      <ul>
+        <li><strong>Wireshark:</strong> Network protocol analyzer.</li>
+        <li><strong>Network Miner:</strong> Passive sniffer and forensic analyzer.</li>
+        <li><strong>Xplico:</strong> Open-source NFAT supporting many protocols.</li>
+        <li><strong>F-Response:</strong> Remote analysis of networks, RAM, and cloud storage.</li>
+      </ul>
+    </section>
+
+    <section id="frameworks">
+      <h2>Frameworks & Platforms</h2>
+      <ul>
+        <li><strong>PTK Forensics:</strong> GUI and framework for Sleuth Kit.</li>
+        <li><strong>DFF (Digital Forensics Framework):</strong> Open source software with API support.</li>
+        <li><strong>SIFT Workstation:</strong> Linux VM by SANS with free forensic tools.</li>
+        <li><strong>Paraben E3:</strong> Comprehensive forensic suite for multiple domains.</li>
+        <li><strong>Dissect:</strong> Forensics & incident response framework by Fox-IT.</li>
+        <li><strong>DIRTY:</strong> Research tool for improving reverse engineering output.</li>
+      </ul>
+  <table>
+    <tr><th>Name</th><th>Descriptions</th><th>Download</th></tr>
+    <tr>
+      <td>dexter</td>
+      <td>Forensics acquisition framework designed to be extensible and secure.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>IntelMQ</td>
+      <td>IntelMQ is a solution for IT security teams for collecting and processing security feeds using a message queuing protocol.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>Kuiper</td>
+      <td>Kuiper is a digital investigation platform to parse, search, and visualize collected evidences.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>Laika BOSS</td>
+      <td>Object scanning system for digital forensics analysis.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>PowerForensics</td>
+      <td>Provides an all-in-one platform for live disk forensic analysis.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>The Sleuth Kit</td>
+      <td>Command-line tools and libraries to investigate volume and file system data.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>turbinia</td>
+      <td>Open-source framework for managing and running forensic workloads on cloud platforms.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>IPED - Indexador e Processador de Evidências Digitais</td>
+      <td>Open source software to process and analyze digital evidence.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>Wombat Forensics</td>
+      <td>New forensic analysis tool written in C/C++ with Qt5 GUI.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+    <tr>
+      <td>binwalk</td>
+      <td>Firmware analysis tool for extracting embedded files and executable code.</td>
+      <td><a href="#">github</a></td>
+    </tr>
+  </table>
+
+    </section>
+
+    <section id="utilities">
+      <h2>Utilities & Artifact Collectors</h2>
+      <ul>
+        <li><strong>Bulk Extractor:</strong> Extract emails, credit card info, and more.</li>
+        <li><strong>Cold Disk Quick Response:</strong> Lightweight forensic image analysis.</li>
+        <li><strong>CyLR:</strong> Fast artifact collection on NTFS systems.</li>
+        <li><strong>Artifactcollector / Acquire / UAC:</strong> Collection tools for live systems.</li>
+        <li><strong>HashKeeper:</strong> Central hash repository for forensic intelligence.</li>
+        <li><strong>FEX CLI / FEX Imager:</strong> Command line tools for imaging and processing.</li>
+        <li><strong>Forensic Artifacts:</strong> Artifact knowledge base.</li>
+        <li><strong>Rehex:</strong> Hex editor for reverse engineering.</li>
+      </ul>
+    </section>
+<h1>Digital Forensics Tool List</h1>
+
+<section>
+  <h2>🔧 Live OS / Distros</h2>
+  <table>
+    <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    <tr><td>bitscout</td><td>Customizable live OS constructor tool in bash for remote forensics.</td><td><a href="#">GitHub</a></td></tr>
+    <tr><td>Remnux</td><td>Linux toolkit for reverse-engineering and analyzing malware.</td><td><a href="#">Download</a></td></tr>
+    <tr><td>SANS SIFT</td><td>Linux distro for forensic analysis.</td><td><a href="#">GitHub</a></td></tr>
+    <tr><td>Tsurugi Linux</td><td>Open-source DFIR Linux distribution.</td><td><a href="#">Download</a></td></tr>
+    <tr><td>WinFE</td><td>Forensically boots on UEFI and legacy Windows systems.</td><td><a href="#">Download</a></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>📔 Frameworks</h2>
+  <table>
+    <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    <tr><td>Autopsy</td><td>GUI for Sleuth Kit used in forensic investigations.</td><td><a href="#">Download</a></td></tr>
+    <tr><td>dff</td><td>CLI and GUI forensics framework for disks and memory.</td><td><a href="#">GitHub</a></td></tr>
+    <tr><td>dexter</td><td>Extensible and secure acquisition framework.</td><td><a href="#">GitHub</a></td></tr>
+    <tr><td>IntelMQ</td><td>Security feed collector and processor using message queueing.</td><td><a href="#">GitHub</a></td></tr>
+    <tr><td>Kuiper</td><td>Digital investigation platform for evidence analysis.</td><td><a href="#">GitHub</a></td></tr>
+    <!-- Add more rows as needed -->
+  </table>
+</section>
+
+<section>
+  <h2>🔬 Memory Forensics</h2>
+  <table>
+    <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    <tr><td>volatility</td><td>Memory forensics framework written in Python.</td><td><a href="#">GitHub</a></td></tr>
+    <tr><td>Rekall</td><td>Memory forensic framework.</td><td><a href="#">GitHub</a></td></tr>
+    <!-- Add more rows -->
+  </table>
+</section>
+
+<section>
+  <h2>📡 Network Forensics</h2>
+  <table>
+    <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    <tr><td>NetworkMiner</td><td>Network forensic analysis tool for packet capture and session detection.</td><td><a href="#">Download</a></td></tr>
+    <tr><td>Wireshark</td><td>Most widely-used network protocol analyzer.</td><td><a href="#">Download</a></td></tr>
+  </table>
+</section
+<section id="decryption">
+  <h2>🔩 Decryption</h2>
+  <table>
+    <tr><th>Name</th><th>Descriptions</th><th>Download</th></tr>
+    <tr><td>hashcat</td><td>Fast password cracker with GPU support</td><td><a href="#">Download</a></td></tr>
+    <tr><td>John the Ripper</td><td>Open Source password auditing and recovery tool with support for numerous hash and cipher types.</td><td><a href="#">Download</a></td></tr>
+  </table>
+</section>
+<section id="disk-image-handling">
+  <h2>📀 Disk Image Handling</h2>
+  <table>
+    <tr><th>Name</th><th>Descriptions</th><th>Download</th></tr>
+    <tr><td>Disk Arbitrator</td><td>Mac OS X forensic utility for correct forensic imaging procedure.</td><td><a href="#">github</a></td></tr>
+    <tr><td>imagemounter</td><td>Command line tool and Python package for (un)mounting forensic disk images.</td><td><a href="#">github</a></td></tr>
+    <tr><td>libewf</td><td>Library and tools for Expert Witness Compression Format (EWF, E01).</td><td><a href="#">github</a></td></tr>
+    <tr><td>PancakeViewer</td><td>Disk image viewer based on dfvfs, like FTK Imager viewer.</td><td><a href="#">github</a></td></tr>
+    <tr><td>xmount</td><td>Convert between different disk image formats.</td><td><a href="#">Download</a></td></tr>
+  </table>
+
+<h2>🔪 Live Forensics</h2>
+<table>
+  <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+  <tr><td>grr</td><td>GRR Rapid Response: remote live forensics for incident response.</td><td><a href="https://github.com/google/grr">GitHub</a></td></tr>
+  <tr><td>Linux Expl0rer</td><td>Easy-to-use live forensics toolbox for Linux endpoints.</td><td><a href="https://github.com/intezer/linux-expl0rer">GitHub</a></td></tr>
+  <tr><td>mig</td><td>Distributed & real time digital forensics at the speed of the cloud.</td><td><a href="https://github.com/mozilla/mig">GitHub</a></td></tr>
+  <tr><td>osquery</td><td>SQL powered operating system analytics.</td><td><a href="https://github.com/osquery/osquery">GitHub</a></td></tr>
+  <tr><td>UAC</td><td>Live response collection tool for Unix-like systems.</td><td><a href="https://github.com/tclahr/uac">GitHub</a></td></tr>
+</table>
+
+<h2>📎 IOC Scanner</h2>
+<table>
+  <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+  <tr><td>Fenrir</td><td>Simple IOC scanner bash script.</td><td><a href="https://github.com/Neo23x0/Fenrir">GitHub</a></td></tr>
+  <tr><td>Loki</td><td>Scanner for Simple Indicators of Compromise.</td><td><a href="https://github.com/Neo23x0/Loki">GitHub</a></td></tr>
+  <tr><td>Redline</td><td>FireEye's endpoint security tool for host investigations.</td><td><a href="https://www.mandiant.com/resources/redline">Download</a></td></tr>
+  <tr><td>THOR Lite</td><td>Includes file system, process scan, and autoruns modules.</td><td><a href="https://www.nextron-systems.com/thor-lite/">Download</a></td></tr>
+</table>
+
+<h2>📷 Imaging</h2>
+<table>
+  <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+  <tr><td>dc3dd</td><td>Enhanced dd for forensic acquisition with hashing and progress.</td><td><a href="https://sourceforge.net/projects/dc3dd/">Download</a></td></tr>
+  <tr><td>dcfldd</td><td>Enhanced GNU dd for forensics and security.</td><td><a href="https://dcfldd.sourceforge.net/">Download</a></td></tr>
+  <tr><td>FTK Imager</td><td>Free imaging tool for Windows.</td><td><a href="https://accessdata.com/product-download/ftk-imager-version-4-2-0">Download</a></td></tr>
+  <tr><td>Guymager</td><td>Open source disk imaging tool for Linux.</td><td><a href="https://guymager.sourceforge.io/">Download</a></td></tr>
+</table>
+<section id="windows-artifacts">
+  <h2>🏢 Windows Artifacts</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Beagle</td><td>Transform data sources and logs into graphs.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>FRED</td><td>Cross-platform microsoft registry hive editor.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>LastActivityView</td><td>LastActivityView by Nirsoft is a tool for Windows operating system that collects information from various sources on a running system, and displays a log of actions made by the user and events occurred on this computer.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>LogonTracer</td><td>Investigate malicious Windows logon by visualizing and analyzing Windows event log.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>python-evt</td><td>Pure Python parser for classic Windows Event Log files (.evt).</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>RegRipper3.0</td><td>RegRipper is an open source Perl tool for parsing the Registry and presenting it for analysis.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>RegRippy</td><td>A framework for reading and extracting useful forensics data from Windows registry hives.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="osx-forensics">
+  <h2>🍏 OS X Forensics</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>APFS Fuse</td><td>This project is a read-only FUSE driver for the new Apple File System. It also supports software encrypted volumes and fusion drives. Firmlinks are not supported yet.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>mac_apt (macOS Artifact Parsing Tool)</td><td>mac_apt is a DFIR (Digital Forensics and Incident Response) tool to process Mac computer full disk images (or live machines) and extract data/metadata useful for forensic investigation.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>MacLocationsScraper</td><td>Dump the contents of the location database files on iOS and macOS.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>macMRUParser</td><td>Python script to parse the Most Recently Used (MRU) plist files on macOS into a more human friendly format.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>OSXAuditor</td><td>OS X Auditor is a free Mac OS X computer forensics tool.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>OSX Collect</td><td>OSXCollector is a forensic evidence collection & analysis toolkit for OSX.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="mobile-forensics">
+  <h2>📱 Mobile Forensics</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Andriller</td><td>Andriller - is software utility with a collection of forensic tools for smartphones. It performs read-only, forensically sound, non-destructive acquisition from Android devices.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>ALEAPP</td><td>Android Logs Events And Protobuf Parser.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>ArtEx</td><td>DoubleBlak Digital Forensics is a Digital Forensics web site aimed at helping forensic examiners. I am Ian Whiffin, an ex-Law Enforcement Officer / Digital Forensics Examiner with a mid-sized municipal police agency.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>iLEAPP</td><td>An iOS Logs, Events, And Plists Parser.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>iOS Frequent Locations Dumper</td><td>Dump the contents of the StateModel#.archive files located in /private/var/mobile/Library/Caches/com.apple.routined/</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>MEAT</td><td>Perform different kinds of acquisitions on iOS devices.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>MobSF</td><td>An automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>OpenBackupExtractor</td><td>An app for extracting data from iPhone and iPad backups.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="docker-forensics">
+  <h2>👮‍♂️ Docker Forensics</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>dof (Docker Forensics Toolkit)</td><td>A toolkit for the post-mortem examination of Docker containers from forensic HDD copies.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Docker Explorer</td><td>Extracts and interprets forensic artifacts from disk images of Docker Host systems.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="picture-analysis">
+  <h2>📸 Picture Analysis</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ghiro</td><td>A fully automated tool designed to run forensics analysis over a massive amount of images.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>sherloq</td><td>Forensic Image Analysis is the application of image science and domain expertise to interpret the content of an image and/or the image itself in legal matters.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Image Analyzer</td><td>is a program that you can use to view and edit image files. The interface of the tool is plain and easy to navigate through. Image Analyzer definitely needs some improvements when it comes to its appearance, since it’s a little outdated. Pictures can be opened via the file browser only, since the “drag and drop” method is not supported. So, you can configure file format options, such as compression level, transparent color key, quality and file size.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>pngcheck</td><td>pngcheck verifies the integrity of PNG, JNG and MNG files (by checking the internal 32-bit CRCs, a.k.a. checksums, and decompressing the image data); it can optionally dump almost all of the chunk-level information in the image in human-readable form. For example, it can be used to print the basic statistics about an image (dimensions, bit depth, etc.); to list the color and transparency info in its palette (assuming it has one); or to extract the embedded text annotations. This is a command-line program with batch capabilities.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="metadata-forensics">
+  <h2>📚 Metadata Forensics</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>ExifTool</td><td>ExifTool is a platform-independent Perl library plus a command-line application for reading, writing and editing meta information in a wide variety of files.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>FOCA</td><td>FOCA is a tool used mainly to find metadata and hidden information in the documents.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="steganography">
+  <h2>🔎 Steganography</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Sonicvisualizer</td><td>Sonic Visualiser is a free, open-source application for Windows, Linux, and Mac, designed to be the first program you reach for when want to study a music recording closely.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Steghide</td><td>is a steganography program that hides data in various kinds of image and audio files.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Wavsteg</td><td>A steganographic coder for WAV files.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Zsteg</td><td>A steganographic coder for WAV files.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Outguess</td><td>Outguess is an advanced steganography tool. Outguess will conceal your document inside image (JPG) of your choice.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Xiao Steganography</td><td>Xiao Steganography is free software that can be used to hide secret files in BMP images or WAV files.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Crypture</td><td>Crypture is another command-line tool that performs steganography. You can use this tool to hide your sensitive data inside a BMP image file.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>SteganographX Plus</td><td>SteganographX Plus is another small tool that lets you hide your confidential data inside a BMP image.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>rSteg</td><td>rSteg is a Java-based tool that lets you hide textual data inside an image. It has two buttons: one to encrypt and second to decrypt the text.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>SSuite Picsel</td><td>SSuite Picsel is a free portable application to hide text inside an image file.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Our Secret</td><td>Our Secret is another tool that is used to hide sensitive information in a file.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Camouflage</td><td>Camouflage is another steganography tool that lets you hide any type of file inside of a file.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>OpenStego</td><td>You can hide data in these files and take output as a PNG file. The same software will be used to reveal data from the output file. It also uses a password to encrypt your data along with hiding inside the image file. This tool is open-source and developed in Java.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>SteganPEG</td><td>SteganPEG lets you hide any kind of file in a JPG image file. You can attach any file and give a password to hide inside a JPG file.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Hide’N’Send</td><td>Hide’N’Send is a small utility which offers steganography.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>exif</td><td>exif is a small command-line utility to show and change EXIF information in JPEG files.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>AperiSolve</td><td>Aperi'Solve is a platform which performs layer analysis on image (open-source).</td><td><a href="#" target="_blank" rel="noopener">WebPage</a></td></tr>
+      <tr><td>Exiv2</td><td>Image metadata manipulation tool.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Image Steganography</td><td>Embeds text and files in images with optional encryption. Easy-to-use UI.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Pngtools</td><td>For various analysis related to PNGs.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Steganabara</td><td>Tool for stegano analysis written in Java.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>stegbreak</td><td>The stegbreak states a brute-force dictionary attack against the specified JPG images.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>StegCracker</td><td>Steganography brute-force utility to uncover hidden data inside files.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>stegextract</td><td>Detect hidden files and text in images.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="timeline-forensics">
+  <h2>📅 Timeline Forensics</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Plaso</td><td>Plaso is a framework for automatic creation of a super timeline.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>TimeLine</td><td>TimeLine is a tool to create a timeline of file activity.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="other-tools">
+  <h2>⚙️ Other Tools</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Forenscope</td><td>Scalable, secure, and easily searchable platform to handle the most challenging computer forensic investigations.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Freezedry</td><td>A forensic deduplication tool to reduce storage requirements and accelerate investigations.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Hunchly</td><td>Helps investigative researchers document their work.</td><td><a href="https://hunch.ly" target="_blank" rel="noopener">Official</a></td></tr>
+      <tr><td>Infected File Detector</td><td>A tool to detect infected files.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Kape</td><td>KAPE (Kroll Artifact Parser and Extractor) is a triage program.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Log2Timeline</td><td>Creates a timeline from various log sources.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Privazer</td><td>Securely cleans and frees traces of your past activity on your PC.</td><td><a href="#" target="_blank" rel="noopener">Download</a></td></tr>
+      <tr><td>Regripper</td><td>Windows Registry data extraction tool.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>RegRipper</td><td>Registry analysis tool for Windows.</td><td><a href="https://github.com" target="_blank" rel="noopener">github</a></td></tr>
+      <tr><td>Valkyrie</td><td>Helps analyze unknown files and classify them.</td><td><a href="https://valkyrie.com" target="_blank" rel="noopener">Official</a></td></tr>
+      <tr><td>VeraCrypt</td><td>Open-source disk encryption software.</td><td><a href="https://veracrypt.fr" target="_blank" rel="noopener">Official</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+  </main>
+
+  <footer>
+    <p>© 2025 Digital Forensics Toolbox | Built for analysts, examiners, and enthusiasts</p>
+  </footer>
+</body>
+</html>

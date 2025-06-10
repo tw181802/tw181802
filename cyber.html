@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Matrix Experience</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+            font-family: monospace;
+        }
+
+        /* Portal effect */
+        .portal {
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.9), rgba(0, 255, 0, 0.5));
+            animation: spin 5s infinite linear;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Matrix rain effect */
+        canvas#matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        #pill-selection {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            padding: 20px;
+        }
+
+        #pill-selection button {
+            background-color: transparent;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #pill-selection button:hover {
+            background-color: #00FF00;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="portal"></div>
+    <canvas id="matrix"></canvas>
+    <div id="pill-selection">
+        <h1>Do you want to take the red pill or the blue pill?</h1>
+        <button onclick="goRedPill()">Red Pill (Offensive Security)</button>
+        <button onclick="goBluePill()">Blue Pill (Defensive Security)</button>
+    </div>
+
+    <script>
+        // Matrix Rain Effect
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = "abcdefghijklmnopqrstuvwxyz0123456789".split("");
+        const font_size = 10;
+        const columns = Math.floor(canvas.width / font_size);
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "green";
+            ctx.font = font_size + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * font_size, drops[i] * font_size);
+
+                if (drops[i] * font_size > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        // Redirect after pill selection
+        function goRedPill() {
+            window.location.href = "offensive_security.html"; // Redirect to offensive security page
+        }
+
+        function goBluePill() {
+            window.location.href = "defensive_security.html"; // Redirect to defensive security page
+        }
+    </script>
+</body>
+</html>

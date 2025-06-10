@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Windows Files Metadata Viewer</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+  }
+  #fileList {
+    width: 250px;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+  }
+  #fileList button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+  }
+  #fileList button:hover,
+  #fileList button.active {
+    background-color: #e0e0e0;
+  }
+  #fileDetails {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  h2 {
+    margin-top: 0;
+  }
+  .meta-section {
+    margin-bottom: 15px;
+  }
+  .meta-section h3 {
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 3px;
+  }
+  .meta-section table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .meta-section table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid #eee;
+  }
+  .meta-section table td.key {
+    font-weight: bold;
+    width: 35%;
+    color: #333;
+  }
+  a.vt-link {
+    color: #0066cc;
+  }
+</style>
+</head>
+<body>
+
+<div id="fileList"></div>
+
+<div id="fileDetails">
+  <p>Select a file from the list to view details</p>
+</div>
+
+<script>
+  // Data store for your files - add more files here
+  const filesData = [
+    {
+      file_name: "aitstatic.exe",
+      file_path: "C:\\Program Files (x86)\\Windows Kits\\10\\App Certification Kit\\aitstatic.exe",
+      hash_md5: "B7738FF18A19DD34AAE380CE1B2EC495",
+      hash_sha1: "5652A7769E12ED1919CA0AA675EEEB4F0C9EF2B6",
+      hash_sha256: "9668475A74FD17695929D2882C35C0C29DFEAC4BDBE09B264BE69931BC2F1216",
+      hash_sha384: "4735B09E0444327186A968A081B15D9144C8FA88703CC055ED02FCF087DDAA29F22A45256312BE6488418DC0FD53DA65",
+      hash_sha512: "D0AC5518BAB1BFAFE385CF8A233AEE6AFAE09EDF93995DAD6FF8DED9145201BB2DE9827EC59502298515C05037CEC9FDD91096A6A6250239BA1EC1E63EC30C7D",
+      hash_ssdeep: "49152:HGU3EStENWqei+pSYryLTQ4ullYF5svlRlZPAoTMZmhJv3eEkF/L:HlIAwvAImAoTMgJvuL",
+      hash_imp: "EDDF29389FA2B9CA07B8B79CE911A8D9",
+      hash_pesha1: "9520115C83B36475E7E03C311F9CFDAC8DDC3413",
+      hash_pe256: "9E7D4013F750DDFE5F8C5D41FDFB6863BE6560F5B0376D8B17407E4651A67369",
+      signature_status: 0,
+      signature_status_message: "Signature verified.",
+      signature_serial: "33000002CF6D2CC57CAA65A6D80000000002CF",
+      signature_thumbprint: "1A221B3B4FEF088B17BA6704FD088DF192D9E0EF",
+      signature_issuer: "CN=Microsoft Code Signing PCA 2010, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      signature_subject: "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      meta_description: "Application Impact Telemetry Static Analyzer",
+      meta_product_name: "Microsoft Windows Operating System",
+      meta_company_name: "Microsoft Corporation",
+      meta_file_version: "10.0.19041.1 (WinBuild.160101.0800)",
+      meta_product_version: "10.0.19041.1",
+      meta_language: "English (United States)",
+      meta_legal_copyright: " Microsoft Corporation. All rights reserved.",
+      meta_machinetype: "64-bit",
+      filescan_vtdetection: "0/73",
+      filescan_vtlink: "https://www.virustotal.com/gui/file/9668475a74fd17695929d2882c35c0c29dfeac4bdbe09b264be69931bc2f1216/detection",
+      runtime_modules: [
+        "C:\\Program Files (x86)\\Windows Kits\\10\\App Certification Kit\\aitstatic.exe",
+        "C:\\Windows\\SYSTEM32\\ntdll.dll",
+        "C:\\Windows\\System32\\KERNEL32.DLL",
+        "C:\\Windows\\System32\\KERNELBASE.dll"
+      ]
+    }
+  ];
+
+  const fileListDiv = document.getElementById('fileList');
+  const fileDetailsDiv = document.getElementById('fileDetails');
+
+  function renderFileList() {
+    fileListDiv.innerHTML = '';
+    filesData.forEach((file, index) => {
+      const btn = document.createElement('button');
+      btn.textContent = file.file_name;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#fileList button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderFileDetails(file);
+      });
+      fileListDiv.appendChild(btn);
+    });
+  }
+
+  function renderFileDetails(file) {
+    const sections = [];
+
+    // Basic info
+    sections.push(createSection("Basic Info", {
+      "File Name": file.file_name,
+      "File Path": file.file_path,
+      "Description": file.meta_description || "-",
+      "Product Name": file.meta_product_name || "-",
+      "Company Name": file.meta_company_name || "-"
+    }));
+
+    // Hashes
+    sections.push(createSection("Hashes", {
+      "MD5": file.hash_md5,
+      "SHA-1": file.hash_sha1,
+      "SHA-256": file.hash_sha256,
+      "SHA-384": file.hash_sha384,
+      "SHA-512": file.hash_sha512,
+      "ssdeep": file.hash_ssdeep,
+      "ImpHash": file.hash_imp,
+      "PE SHA-1": file.hash_pesha1,
+      "PE SHA-256": file.hash_pe256
+    }));
+
+    // Signature
+    sections.push(createSection("Signature", {
+      "Status": file.signature_status_message,
+      "Serial": file.signature_serial,
+      "Thumbprint": file.signature_thumbprint,
+      "Issuer": file.signature_issuer,
+      "Subject": file.signature_subject
+    }));
+
+    // Meta
+    sections.push(createSection("Metadata", {
+      "File Version": file.meta_file_version,
+      "Product Version": file.meta_product_version,
+      "Language": file.meta_language,
+      "Legal Copyright": file.meta_legal_copyright,
+      "Machine Type": file.meta_machinetype
+    }));
+
+    // VirusTotal
+    sections.push(createSection("VirusTotal Scan", {
+      "Detection": file.filescan_vtdetection,
+      "Link": `<a class="vt-link" href="${file.filescan_vtlink}" target="_blank">View on VirusTotal</a>`
+    }, true));
+
+    // Runtime Modules
+    sections.push(createSection("Runtime Modules", file.runtime_modules.reduce((acc, m, i) => {
+      acc[`Module ${i + 1}`] = m;
+      return acc;
+    }, {})));
+
+    fileDetailsDiv.innerHTML = sections.join('');
+  }
+
+  // Helper to create sections with tables
+  function createSection(title, data, allowHtml = false) {
+    let rows = '';
+    for (const key in data) {
+      rows += `<tr><td class="key">${key}</td><td>${allowHtml ? data[key] : escapeHtml(data[key])}</td></tr>`;
+    }
+    return `
+      <div class="meta-section">
+        <h3>${title}</h3>
+        <table>${rows}</table>
+      </div>
+    `;
+  }
+
+  // Escape HTML for safety
+  function escapeHtml(text) {
+    if (!text) return '-';
+    return text.toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Init
+  renderFileList();
+</script>
+
+</body>
+</html>

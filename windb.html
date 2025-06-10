@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Debugging Tools for Windows Cheatsheet</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 1rem 2rem;
+    background: #f5f7fa;
+    color: #222;
+    line-height: 1.5;
+  }
+  h1, h2, h3 {
+    color: #1e3a8a;
+  }
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    margin-top: 2rem;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 0.25rem;
+  }
+  p {
+    margin: 0.5rem 0 1rem 0;
+  }
+  ul {
+    margin: 0.5rem 0 1rem 1.5rem;
+  }
+  pre {
+    background: #1e293b;
+    color: #d4d4d4;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    margin: 0.75rem 0 1.25rem 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #ccc;
+    vertical-align: top;
+  }
+  th {
+    background-color: #1e40af;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+  }
+  tbody tr:hover {
+    background-color: #e0e7ff;
+  }
+  input[type="search"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+    border: 2px solid #1e3a8a;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  details > summary {
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #2563eb;
+  }
+  details[open] > summary::after {
+    content: "▲";
+    float: right;
+    font-size: 0.8rem;
+  }
+  details > summary::after {
+    content: "▼";
+    float: right;
+    font-size: 0.8rem;
+  }
+  @media (max-width: 600px) {
+    body {
+      padding: 1rem;
+    }
+    table, th, td {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Setting up Debugging Tools for Windows - Cheatsheet</h1>
+
+<section>
+  <h2>Installation</h2>
+  <ul>
+    <li>Debugging Tools for Windows (x86)</li>
+    <li>Debugging Tools for Windows (AMD64)</li>
+    <li>Debugging Tools for Windows (ARM64)</li>
+  </ul>
+  <p>The 64-bit version can debug 32-bit processes, but it often shows translation layer artifacts; 32-bit Windbg debugging 32-bit processes is cleaner.</p>
+  <p>Once installed, set the <code>_NT_SYMBOL_PATH</code> environment variable. Add the Windbg installation directory to your <code>PATH</code>.</p>
+  <p>If ambitious, grab the symbol file and save it somewhere easy to type; you will need its path to load later.</p>
+</section>
+
+<section>
+  <h2>Running the debugger</h2>
+  <p>Run <code>cdb</code> for text mode debugging or <code>windbg</code> for GUI.</p>
+  <ul>
+    <li>Run a new process by specifying the target executable and options</li>
+    <li>Attach to an existing process with <code>-p &lt;pid&gt;</code></li>
+    <li>Running a new process lets you see thread names</li>
+    <li>Use <code>-z &lt;path-to-dump&gt;</code> to examine a minidump</li>
+    <li>Use <code>-o</code> to debug multiple processes with one debugger</li>
+  </ul>
+</section>
+
+<section>
+  <h2>GDB to WinDbg Rosetta Stone</h2>
+
+  <input type="search" id="cmd-search" placeholder="Search commands..." aria-label="Search commands"/>
+
+  <details open>
+    <summary>Command Reference Table</summary>
+    <table id="cmd-table" aria-describedby="cmd-search">
+      <thead>
+        <tr>
+          <th>Command</th>
+          <th>gdb</th>
+          <th>windbg</th>
+          <th>windbg keyboard accelerator</th>
+          <th>windbg toolbar button</th>
+          <th>notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Continue Execution</td><td>c</td><td>g</td><td>F5</td><td>toolbar button</td><td></td></tr>
+        <tr><td>Set breakpoint (address)</td><td>break &lt;address&gt;</td><td>bp &lt;address&gt;</td><td></td><td></td><td></td></tr>
+        <tr><td>Set breakpoint (unresolved symbol)</td><td>break &lt;location&gt;</td><td>bu &lt;location&gt;</td><td></td><td></td><td></td></tr>
+        <tr><td>Set breakpoint (source line)</td><td>break &lt;source line&gt;</td><td>bp `&lt;source line&gt;`</td><td>F9 at caret location</td><td>toolbar button (toggle)</td><td></td></tr>
+        <tr><td>Set watchpoint</td><td>watch/rwatch/awatch</td><td>ba w/r/r</td><td></td><td></td><td></td></tr>
+        <tr><td>Step over</td><td>next</td><td>p</td><td>F10</td><td>toolbar button</td><td></td></tr>
+        <tr><td>Step into</td><td>step</td><td>t</td><td>F11</td><td>toolbar button</td><td></td></tr>
+        <tr><td>Step out</td><td>finish</td><td>gu</td><td>Shift + F11</td><td>toolbar button</td><td></td></tr>
+        <tr><td>List breakpoints</td><td>info breakpoints</td><td>bl</td><td></td><td></td><td></td></tr>
+        <tr><td>Disable breakpoint</td><td>disable</td><td>bd</td><td></td><td></td><td></td></tr>
+        <tr><td>Enable breakpoint</td><td>enable</td><td>be</td><td></td><td></td><td></td></tr>
+        <tr><td>Clear breakpoint</td><td>clear</td><td>bc</td><td>F9 at caret location</td><td>toolbar button (toggle)</td><td></td></tr>
+        <tr><td>Run to location</td><td>advance</td><td>pa</td><td>F7 at caret location</td><td>toolbar button</td><td></td></tr>
+        <tr><td>Current Thread Backtrace</td><td>bt</td><td>k</td><td>Alt + 6</td><td>toolbar button</td><td></td></tr>
+        <tr><td>Switch non-volatile register context to frame</td><td>f &lt;frame number&gt;</td><td>.frame /r /c &lt;frame number&gt;</td><td></td><td></td><td></td></tr>
+        <tr><td>List so/dll</td><td>info sharedlibrary</td><td>lm</td><td></td><td></td><td></td></tr>
+        <tr><td>List processes</td><td></td><td>|*</td><td>Alt + 9</td><td>toolbar button</td><td></td></tr>
+        <tr><td>List threads</td><td>info threads</td><td>~*</td><td>Alt + 9</td><td>toolbar button</td><td></td></tr>
+        <tr><td>Switch current thread</td><td>thread &lt;thread number&gt;</td><td>~&lt;thread number&gt; s</td><td></td><td></td><td></td></tr>
+        <tr><td>Break on .so/.dll load</td><td>catch load &lt;regex&gt;</td><td>sxe ld:&lt;module&gt;</td><td></td><td></td><td></td></tr>
+        <tr><td>Ignore signal/exception</td><td>handle &lt;signal&gt; nostop</td><td>sxd av</td><td></td><td></td><td></td></tr>
+        <tr><td>Load symbols for module</td><td>add-symbol-file</td><td>.reload &lt;module&gt;</td><td></td><td></td><td></td></tr>
+        <tr><td>Local variables in current stack frame</td><td>info locals</td><td>dv</td><td>Alt + 3</td><td>toolbar button</td><td></td></tr>
+        <tr><td>Arguments for current stack frame</td><td>info args</td><td>kb 1</td><td></td><td></td><td></td></tr>
+        <tr><td>Symbol lookup</td><td>info (functions|variables) &lt;regexp&gt;</td><td>x &lt;module!symbol&gt;</td><td></td><td></td><td>May use * and ? as glob-style wildcards</td></tr>
+        <tr><td>Registers</td><td>info registers</td><td>r</td><td>Alt + 4</td><td>toolbar button</td><td></td></tr>
+      </tbody>
+    </table>
+  </details>
+</section>
+
+<section>
+  <h2>Process & Thread Syntax</h2>
+  <p><strong>Process syntax:</strong></p>
+  <pre>
+|.    Current process
+|#    Faulting process
+|*    All processes
+|&lt;index&gt;  Process at index
+|~&lt;pid&gt;   Process by ID
+
+Note: Uses <code>|</code> prefix instead of <code>~</code> (thread syntax)
+  </pre>
+
+  <p><strong>Thread syntax:</strong></p>
+  <pre>
+~.    Current thread
+~#    Faulting thread
+~*    All threads
+~&lt;index&gt;   Thread at index
+~~&lt;tid&gt;   Thread by ID
+
+Note: Uses <code>~</code> prefix instead of <code>|</code> (process syntax)
+  </pre>
+
+  <p>This syntax can be prefixed to restrict scope of certain subcommands:</p>
+  <table>
+    <thead>
+      <tr><th>Command</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>f</td><td>Freeze thread</td></tr>
+      <tr><td>u</td><td>Thaw thread</td></tr>
+      <tr><td>s</td><td>Switch current thread</td></tr>
+      <tr><td>~0 bp &lt;address&gt;</td><td>Set breakpoint to fire only for the main thread</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>WARNING:</strong> Some thread subcommands share abbreviations with regular commands but differ in meaning!</p>
+  <p><em>Example: Freeze all threads except main thread</em></p>
+  <pre>
+~* f
+~0 u
+  </pre>
+</section>
+
+<section>
+  <h2>Other useful commands</h2>
+  <table>
+    <thead>
+      <tr><th>Command</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>!gle</td><td>Get the current thread's "last error" value (Win32 errno)</td></tr>
+      <tr><td>!error &lt;code&gt;</td><td>Look up human-readable error code description</td></tr>
+      <tr><td>!sym noisy</td><td>Debug logging for symbol resolver</td></tr>
+      <tr><td>!sym quiet</td><td>Revert to quiet symbol resolution</td></tr>
+      <tr><td>!wow64exts.sw</td><td>Switch between 32-bit and 64-bit modes (Windbg 64-bit only)</td></tr>
+      <tr><td>.nvload &lt;path-to-natvis-file&gt;</td><td>Load natvis definitions (requires WinDbg 10)</td></tr>
+      <tr><td>.dump /mfh &lt;path-to-dump-file&gt;</td><td>Save current debugging state to minidump</td></tr>
+      <tr><td>!analyze -hang -v</td><td>Query kernel to find why selected thread is hung</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Expression Evaluation</h2>
+  <p>There are three expression evaluators: MASM (default), C++, and NatVis.</p>
+  <p>NatVis is available only with the <code>dx</code> command.</p>
+  <p>You can override evaluator per expression with <code>@@masm(...)</code> or <code>@@c++(...)</code>.</p>
+  <p>Immediate evaluation on command line: <code>?</code> for MASM or <code>??</code> for C++. Registers referenced with <code>@</code>.</p>
+  <p><em>Example:</em></p>
+  <pre>?? (@eax + 0n15)</pre>
+  <p>Prints value of eax + 15 (0n prefix is decimal literal)</p>
+</section>
+
+<section>
+  <h2>Examining Data</h2>
+  <p>Old method: <code>dt &lt;module!name&gt; &lt;address&gt;</code></p>
+  <p>New (WinDbg 10): <code>dx &lt;C++ expression&gt;</code></p>
+  <p>NatVis output uses XML to describe complex data structures for visualization (load with <code>.nvload</code>).</p>
+  <p>Hypertext output uses debugger markup language for drilling down deep data structures.</p>
+</section>
+
+<script>
+  // Search/filter commands in the table
+  const searchInput = document.getElementById('cmd-search');
+  const table = document.getElementById('cmd-table');
+  const tbody = table.querySelector('tbody');
+  searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.toLowerCase();
+    [...tbody.rows].forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>

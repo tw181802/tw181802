@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Defense Matrix | MITRE DEFEND Integration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --accent: #e74c3c;
+      --light: #ecf0f1;
+      --dark: #1a252f;
+      --success: #27ae60;
+      --warning: #f39c12;
+      --info: #2980b9;
+    }
+    
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--light);
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .logo {
+      height: 60px;
+      width: auto;
+    }
+    
+    h1 {
+      color: var(--primary);
+      margin: 0;
+      font-size: 2.2rem;
+    }
+    
+    .subtitle {
+      color: var(--secondary);
+      margin-top: 5px;
+      font-size: 1.1rem;
+    }
+    
+    /* Defense Matrix Tree Styles */
+    .matrix-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .tree {
+      font-family: 'Roboto Mono', monospace;
+      line-height: 1.8;
+      margin-left: 10px;
+    }
+    
+    .tree ul {
+      list-style-type: none;
+      padding-left: 25px;
+    }
+    
+    .tree li {
+      position: relative;
+      margin: 8px 0;
+      transition: all 0.2s ease;
+    }
+    
+    .tree li:hover {
+      background-color: rgba(52, 152, 219, 0.05);
+    }
+    
+    .tree li:before {
+      content: "";
+      position: absolute;
+      left: -15px;
+      top: 11px;
+      width: 10px;
+      height: 1px;
+      background: #ccc;
+    }
+    
+    .category {
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      padding: 5px 0;
+      transition: all 0.2s ease;
+    }
+    
+    .category:hover {
+      color: var(--secondary);
+    }
+    
+    .category:before {
+      content: "►";
+      font-size: 12px;
+      margin-right: 8px;
+      transition: transform 0.2s ease;
+    }
+    
+    .category.collapsed:before {
+      content: "▼";
+    }
+    
+    .sub-items {
+      display: none;
+      margin-left: 5px;
+      border-left: 1px dashed #ddd;
+      padding-left: 15px;
+    }
+    
+    .sub-items.show {
+      display: block;
+    }
+    
+    .item {
+      cursor: pointer;
+      padding: 5px 0;
+      color: var(--dark);
+      position: relative;
+      padding-left: 20px;
+    }
+    
+    .item:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--secondary);
+    }
+    
+    .item:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+    
+    /* Description Panel */
+    .description-panel {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-top: 20px;
+      display: none;
+    }
+    
+    .description-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .description-title {
+      color: var(--primary);
+      margin-top: 0;
+      border-bottom: 1px solid var(--light);
+      padding-bottom: 10px;
+      font-size: 1.4rem;
+    }
+    
+    .description-content {
+      color: var(--dark);
+      line-height: 1.7;
+    }
+    
+    .description-category {
+      display: inline-block;
+      background: var(--secondary);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .logo-container {
+        margin-bottom: 15px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <!-- Placeholder for your organization logo -->
+        <img src="nsa.png" alt="Organization Logo" class="logo">
+        <!-- MITRE logo placeholder -->
+        <img src="defend.png" alt="MITRE DEFEND" class="logo">
+      </div>
+      <div>
+        <h1>Defense Matrix</h1>
+        <p class="subtitle">MITRE DEFEND Integration Framework</p>
+      </div>
+    </header>
+    
+    <div class="matrix-container">
+      <div class="tree" id="defenseMatrix">
+        <!-- Tree will be generated by JavaScript -->
+      </div>
+    </div>
+    
+    <div class="description-panel" id="descriptionPanel">
+      <h3 class="description-title" id="descriptionTitle">Select an item to view details</h3>
+      <span class="description-category" id="descriptionCategory"></span>
+      <div class="description-content" id="descriptionContent">
+        Click on any defense technique in the matrix above to view detailed information about its implementation, purpose, and MITRE DEFEND reference.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Defense Matrix Data with descriptions
+    const defenseMatrix = {
+      "Model": {
+        "Asset Inventory": "Maintain a complete record of all organizational assets including hardware, software, and data resources.",
+        "Asset Vulnerability Enumeration": "Systematically identify and document vulnerabilities present in organizational assets.",
+        "Container Image Analysis": "Inspect container images for vulnerabilities, misconfigurations, and compliance with security policies.",
+        "Configuration Inventory": "Document and track system configurations across the organization's IT infrastructure.",
+        "Data Inventory": "Catalog all data assets including their classification, location, and ownership.",
+        "Hardware Component Inventory": "Maintain detailed records of all hardware components and their specifications.",
+        "Network Node Inventory": "Document all devices connected to the organizational network.",
+        "Software Inventory": "Track all software installed across the organization with version information.",
+        "Network Mapping": {
+          "Logical Link Mapping": "Document the logical connections between network nodes.",
+          "Active Logical Link Mapping": "Discover and map active logical connections through network scanning.",
+          "Passive Logical Link Mapping": "Map logical connections by observing network traffic patterns.",
+          "Network Traffic Policy Mapping": "Document rules governing allowed network communications.",
+          "Physical Link Mapping": "Record the physical network infrastructure including cabling and connections."
+        },
+        "Operational Activity Mapping": {
+          "Access Modeling": "Document patterns of access to systems and data.",
+          "Operational Dependency Mapping": "Identify dependencies between systems and processes.",
+          "Operational Risk Assessment": "Evaluate risks associated with operational activities."
+        },
+        "Organization Mapping": "Document the organizational structure and relationships.",
+        "System Mapping": {
+          "Data Exchange Mapping": "Document how data flows between systems.",
+          "Service Dependency Mapping": "Identify dependencies between services.",
+          "System Dependency Mapping": "Document dependencies between systems.",
+          "System Vulnerability Assessment": "Evaluate vulnerabilities in system components."
+        }
+      },
+      "Harden": {
+        "Agent Authentication": "Require authentication for agent processes communicating with systems.",
+        "Biometric Authentication": "Implement biometric verification for access control.",
+        "Certificate-based Authentication": "Use digital certificates for authenticating entities.",
+        "Multi-factor Authentication": "Require multiple authentication factors for access.",
+        "Password Authentication": "Implement secure password-based authentication.",
+        "Token-based Authentication": "Use physical or virtual tokens for authentication.",
+        "Application Hardening": {
+          "Application Configuration Hardening": "Secure application configurations to reduce attack surface.",
+          "Dead Code Elimination": "Remove unused code to reduce potential vulnerabilities.",
+          "Exception Handler Pointer Validation": "Validate exception handler pointers to prevent exploitation.",
+          "Pointer Authentication": "Implement mechanisms to verify pointer integrity.",
+          "Process Segment Execution Prevention": "Prevent execution in certain memory segments.",
+          "Segment Address Offset Randomization": "Randomize memory segment offsets to thwart attacks.",
+          "Stack Frame Canary Validation": "Use canaries to detect stack buffer overflows."
+        },
+        "Credential Hardening": {
+          "Certificate Pinning": "Associate hosts with their expected certificates.",
+          "Credential Rotation": "Regularly change credentials to limit exposure.",
+          "Password Rotation": "Enforce periodic password changes.",
+          "One-time Password": "Implement single-use passwords for authentication.",
+          "Strong Password Policy": "Enforce complex password requirements."
+        },
+        "Message Hardening": {
+          "Message Authentication": "Verify the authenticity of messages.",
+          "Message Encryption": "Encrypt messages to protect confidentiality.",
+          "Transfer Agent Authentication": "Authenticate agents involved in message transfer."
+        },
+        "Platform Hardening": {
+          "Bootloader Authentication": "Verify bootloader integrity during system startup.",
+          "Disk Encryption": "Encrypt disk contents to protect data at rest.",
+          "Driver Load Integrity Checking": "Verify driver integrity before loading.",
+          "File Encryption": "Encrypt individual files for protection.",
+          "RF Shielding": "Protect against radio frequency interference.",
+          "Software Update": "Maintain systems with current software updates.",
+          "System Configuration Permissions": "Control access to system configuration settings.",
+          "TPM Boot Integrity": "Use Trusted Platform Module for boot integrity verification."
+        },
+        "Source Code Hardening": {
+          "Credential Scrubbing": "Remove hardcoded credentials from source code.",
+          "Integer Range Validation": "Validate integer inputs to prevent overflow.",
+          "Pointer Validation": "Verify pointers before dereferencing.",
+          "Memory Block Start Validation": "Check memory block boundaries.",
+          "Null Pointer Checking": "Prevent null pointer dereferences.",
+          "Reference Nullification": "Clear references when no longer needed.",
+          "Trusted Library": "Use vetted libraries with known security properties.",
+          "Variable Initialization": "Initialize variables to prevent undefined behavior.",
+          "Variable Type Validation": "Verify variable types match expected values."
+        }
+      },
+      "Detect": {
+        "File Analysis": {
+          "Dynamic Analysis": "Execute files in controlled environments to observe behavior.",
+          "Emulated File Analysis": "Analyze files using emulation techniques.",
+          "File Content Analysis": "Inspect file contents for malicious patterns.",
+          "File Content Rules": "Apply rules to identify suspicious file content.",
+          "File Hashing": "Use cryptographic hashes to identify known files."
+        },
+        "Identifier Analysis": {
+          "Homoglyph Detection": "Identify deceptive use of similar-looking characters.",
+          "Identifier Activity Analysis": "Analyze patterns of use for identifiers.",
+          "Identifier Reputation Analysis": {
+            "Domain Name Reputation Analysis": "Assess domain reputation based on historical data.",
+            "File Hash Reputation Analysis": "Check file hashes against reputation databases.",
+            "IP Reputation Analysis": "Evaluate IP addresses based on reputation data.",
+            "URL Reputation Analysis": "Assess URLs against known threat indicators."
+          }
+        },
+        "URL Analysis": "Inspect URLs for malicious characteristics.",
+        "Message Analysis": {
+          "Sender MTA Reputation Analysis": "Evaluate mail transfer agent reputation.",
+          "Sender Reputation Analysis": "Assess message sender reputation."
+        },
+        "Network Traffic Analysis": {
+          "Administrative Network Activity Analysis": "Monitor administrative network traffic.",
+          "Byte Sequence Emulation": "Analyze network byte sequences for anomalies.",
+          "Certificate Analysis": {
+            "Active Certificate Analysis": "Proactively inspect certificates.",
+            "Passive Certificate Analysis": "Observe certificates in network traffic."
+          },
+          "Client-server Payload Profiling": "Analyze payload patterns between clients and servers.",
+          "Connection Attempt Analysis": "Examine patterns in connection attempts.",
+          "DNS Traffic Analysis": "Inspect DNS queries and responses.",
+          "File Carving": "Extract files from network traffic for analysis.",
+          "Inbound Session Volume Analysis": "Monitor patterns in incoming sessions.",
+          "IPC Traffic Analysis": "Analyze inter-process communication.",
+          "Network Traffic Community Deviation": "Detect deviations from normal traffic patterns.",
+          "Per Host Download-Upload Ratio Analysis": "Monitor data transfer ratios.",
+          "Protocol Metadata Anomaly Detection": "Identify anomalies in protocol metadata.",
+          "Relay Pattern Analysis": "Detect patterns indicating traffic relay.",
+          "Remote Terminal Session Detection": "Identify remote terminal sessions.",
+          "RPC Traffic Analysis": "Analyze remote procedure call traffic."
+        },
+        "Platform Monitoring": {
+          "File Integrity Monitoring": "Track changes to critical system files.",
+          "Firmware Behavior Analysis": "Monitor firmware for suspicious activity.",
+          "Firmware Embedded Monitoring Code": "Include monitoring capabilities in firmware.",
+          "Firmware Verification": {
+            "Peripheral Firmware Verification": "Verify integrity of peripheral firmware.",
+            "System Firmware Verification": "Check system firmware integrity."
+          },
+          "Operating System Monitoring": {
+            "Endpoint Health Beacon": "Monitor endpoint status through beaconing.",
+            "Input Device Analysis": "Analyze input device activity.",
+            "Memory Boundary Tracking": "Monitor memory boundary operations.",
+            "Scheduled Job Analysis": "Inspect scheduled tasks and jobs.",
+            "System Daemon Monitoring": "Monitor system daemon activities."
+          },
+          "System File Analysis": {
+            "Service Binary Verification": "Check integrity of service binaries.",
+            "System Init Config Analysis": "Analyze system initialization configurations.",
+            "User Session Init Config Analysis": "Inspect user session initialization."
+          }
+        },
+        "Process Analysis": {
+          "Database Query String Analysis": "Inspect database queries for anomalies.",
+          "File Access Pattern Analysis": "Monitor patterns in file access.",
+          "Indirect Branch Call Analysis": "Analyze indirect branch instructions.",
+          "Process Code Segment Verification": "Verify process code segment integrity.",
+          "Process Self-Modification Detection": "Detect processes modifying their own code.",
+          "Process Spawn Analysis": "Analyze process creation patterns.",
+          "Process Lineage Analysis": "Track relationships between processes.",
+          "Script Execution Analysis": "Monitor script execution characteristics.",
+          "Shadow Stack Comparisons": "Compare shadow stacks for integrity.",
+          "System Call Analysis": {
+            "File Creation Analysis": "Analyze patterns in file creation."
+          }
+        },
+        "User Behavior Analysis": {
+          "Authentication Event Thresholding": "Set thresholds for authentication events.",
+          "Authorization Event Thresholding": "Establish thresholds for authorization events.",
+          "Credential Compromise Scope Analysis": "Assess scope when credentials are compromised.",
+          "Domain Account Monitoring": "Monitor domain account activities.",
+          "Job Function Access Pattern Analysis": "Analyze access patterns by job function.",
+          "Local Account Monitoring": "Monitor local account activities.",
+          "Resource Access Pattern Analysis": "Analyze patterns in resource access.",
+          "Session Duration Analysis": "Examine session duration characteristics.",
+          "User Data Transfer Analysis": "Monitor user data transfer activities.",
+          "User Geolocation Logon Pattern Analysis": "Analyze login patterns by geography.",
+          "Web Session Activity Analysis": "Monitor web session characteristics."
+        }
+      },
+      "Isolate": {
+        "Access Mediation": {
+          "Credential Transmission Scoping": "Limit where credentials can be transmitted.",
+          "IO Port Restriction": "Control access to input/output ports.",
+          "Network Access Mediation": {
+            "LAN Access Mediation": "Control LAN access.",
+            "Routing Access Mediation": "Manage routing access.",
+            "Network Resource Access Mediation": "Control access to network resources.",
+            "Remote File Access Mediation": "Manage remote file access.",
+            "Web Session Access Mediation": {
+              "Endpoint-based Web Server Access Mediation": "Control web access at endpoints.",
+              "Proxy-based Web Server Access Mediation": "Manage web access through proxies."
+            }
+          },
+          "Physical Access Mediation": "Control physical access to systems.",
+          "System Call Filtering": {
+            "Local File Access Mediation": "Control local file access via system calls."
+          }
+        },
+        "Access Policy Administration": {
+          "Domain Trust Policy": "Manage trust relationships between domains.",
+          "Local File Permissions": "Control local file access permissions.",
+          "User Account Permissions": "Manage user account privileges."
+        },
+        "Execution Isolation": {
+          "Application-based Process Isolation": "Isolate processes by application.",
+          "Executable Allowlisting": "Only permit approved executables to run.",
+          "Executable Denylisting": "Block known malicious executables.",
+          "Hardware-based Process Isolation": "Use hardware features for isolation.",
+          "Kernel-based Process Isolation": "Leverage kernel mechanisms for isolation."
+        },
+        "Network Isolation": {
+          "Broadcast Domain Isolation": "Segment broadcast domains.",
+          "DNS Allowlisting": "Only permit DNS resolution for approved domains.",
+          "DNS Denylisting": {
+            "Forward Resolution Domain Denylisting": "Block domain name resolution.",
+            "Hierarchical Domain Denylisting": "Block domains hierarchically.",
+            "Homoglyph Denylisting": "Block deceptive domain names."
+          },
+          "Forward Resolution IP Denylisting": "Block IP address resolution.",
+          "Reverse Resolution IP Denylisting": "Block reverse DNS lookups.",
+          "Encrypted Tunnels": "Isolate traffic within encrypted tunnels."
+        },
+        "Network Traffic Filtering": {
+          "Inbound Traffic Filtering": {
+            "Email Filtering": "Filter incoming email messages."
+          },
+          "Outbound Traffic Filtering": "Filter outgoing network traffic."
+        }
+      },
+      "Deceive": {
+        "Decoy Environment": {
+          "Connected Honeynet": "Deploy honeynets connected to production.",
+          "Integrated Honeynet": "Integrate honeynets with monitoring systems.",
+          "Standalone Honeynet": "Maintain isolated honeynet environments."
+        },
+        "Decoy Object": {
+          "Decoy File": "Place fake files to detect access attempts.",
+          "Decoy Network Resource": "Deploy fake network resources.",
+          "Decoy Persona": "Create fake user identities.",
+          "Decoy Public Release": "Publish fake information to detect leaks.",
+          "Decoy Session Token": "Distribute fake session tokens.",
+          "Decoy User Credential": "Place fake credentials to detect theft."
+        }
+      },
+      "Evict": {
+        "Credential Eviction": {
+          "Account Locking": "Temporarily disable accounts.",
+          "Authentication Cache Invalidation": "Clear cached authentication data.",
+          "Credential Revocation": "Permanently invalidate credentials."
+        },
+        "Object Eviction": {
+          "Disk Formatting": "Erase disks by reformatting.",
+          "Disk Erasure": "Securely erase disk contents.",
+          "Disk Partitioning": "Modify disk partitions to remove data.",
+          "DNS Cache Eviction": "Clear DNS cache entries.",
+          "Domain Registration Takedown": "Remove malicious domain registrations.",
+          "File Eviction": {
+            "Email Removal": "Delete email messages.",
+            "Registry Key Deletion": "Remove registry entries."
+          }
+        },
+        "Process Eviction": {
+          "Host Shutdown": "Power down affected systems.",
+          "Host Reboot": "Restart affected systems.",
+          "Process Suspension": "Pause suspicious processes.",
+          "Process Termination": "End malicious processes.",
+          "Session Termination": "Close active sessions."
+        }
+      },
+      "Restore": {
+        "Restore Access": {
+          "Reissue Credential": "Provide new credentials.",
+          "Restore Network Access": "Re-establish network connectivity.",
+          "Restore User Account Access": "Re-enable user account access.",
+          "Unlock Account": "Remove account locks."
+        },
+        "Restore Object": {
+          "Restore Configuration": "Return systems to known good configurations.",
+          "Restore Database": "Recover database contents.",
+          "Restore Disk Image": "Restore systems from disk images.",
+          "Restore File": {
+            "Restore Email": "Recover deleted email messages."
+          },
+          "Restore Software": "Reinstall or repair software."
+        }
+      }
+    };
+
+    // Function to generate the tree
+    function generateTree(data, parentElement, path = []) {
+      const ul = document.createElement('ul');
+      for (const key in data) {
+        const li = document.createElement('li');
+        
+        if (data[key] && typeof data[key] === 'object') {
+          // Category with sub-items
+          const category = document.createElement('span');
+          category.className = 'category';
+          category.textContent = key;
+          category.addEventListener('click', function() {
+            this.classList.toggle('collapsed');
+            const subItems = this.nextElementSibling;
+            subItems.classList.toggle('show');
+          });
+          li.appendChild(category);
+          
+          const subItems = document.createElement('div');
+          subItems.className = 'sub-items';
+          generateTree(data[key], subItems, [...path, key]);
+          li.appendChild(subItems);
+        } else {
+          // Leaf item
+          const item = document.createElement('span');
+          item.className = 'item';
+          item.textContent = key;
+          item.addEventListener('click', function() {
+            showDescription(key, typeof data[key] === 'string' ? data[key] : 'No description available.', path[0]);
+          });
+          li.appendChild(item);
+        }
+        ul.appendChild(li);
+      }
+      parentElement.appendChild(ul);
+    }
+
+    // Function to show description in panel
+    function showDescription(title, content, category) {
+      const panel = document.getElementById('descriptionPanel');
+      const titleElement = document.getElementById('descriptionTitle');
+      const contentElement = document.getElementById('descriptionContent');
+      const categoryElement = document.getElementById('descriptionCategory');
+      
+      titleElement.textContent = title;
+      contentElement.textContent = content;
+      categoryElement.textContent = category || 'General';
+      
+      // Set category-specific color
+      const categoryColors = {
+        'Model': '#3498db',
+        'Harden': '#2ecc71',
+        'Detect': '#f39c12',
+        'Isolate': '#9b59b6',
+        'Deceive': '#e74c3c',
+        'Evict': '#1abc9c',
+        'Restore': '#34495e'
+      };
+      
+      categoryElement.style.backgroundColor = categoryColors[category] || '#3498db';
+      
+      panel.classList.add('active');
+    }
+
+    // Initialize the tree
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('defenseMatrix');
+      generateTree(defenseMatrix, container);
+      
+      // Auto-expand first level
+      const topLevelCategories = container.querySelectorAll('.category');
+      topLevelCategories.forEach(cat => {
+        cat.classList.add('collapsed');
+        cat.nextElementSibling.classList.add('show');
+      });
+    });
+  </script>
+</body>
+</html>

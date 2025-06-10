@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malware Collection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .tool-section {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #e7e7e7;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Malware Collection</h1>
+
+    <div class="tool-section">
+        <h2>Anonymizers</h2>
+        <ul>
+            <li>Anonymouse.org - A free, web-based anonymizer.</li>
+            <li>OpenVPN - VPN software and hosting solutions.</li>
+            <li>Privoxy - Open-source proxy server with privacy features.</li>
+            <li>Tor - The Onion Router for anonymous browsing.</li>
+        </ul>
+    </div>
+
+    <div class="tool-section">
+        <h2>Honeypots</h2>
+        <ul>
+            <li>Conpot - ICS/SCADA honeypot.</li>
+            <li>Cowrie - SSH honeypot based on Kippo.</li>
+            <li>DemoHunter - Low interaction distributed honeypots.</li>
+            <li>Dionaea - Malware trapping honeypot.</li>
+            <li>Glastopf - Web application honeypot.</li>
+            <li>Honeyd - Virtual honeynet creator.</li>
+            <li>HoneyDrive - Honeypot bundle Linux distro.</li>
+            <li>Honeytrap - Opensource honeypot management system.</li>
+            <li>MHN - Centralized honeypot data collection and management.</li>
+            <li>Mnemosyne - Normalizer for honeypot data.</li>
+            <li>Thug - Low interaction honeyclient for malicious sites.</li>
+        </ul>
+    </div>
+
+    <div class="tool-section">
+        <h2>Malware Corpora</h2>
+        <ul>
+            <li>Clean MX - Realtime database of malware and malicious domains.</li>
+<li>Contagio - A collection of recent malware samples and analyses.</li>
+<li>Exploit Database - Exploit and shellcode samples.</li>
+<li>Infosec - CERT-PA - Malware samples collection and analysis.</li>
+<li>InQuest Labs - Evergrowing searchable corpus of malicious Microsoft documents.</li>
+<li>Javascript Malware Collection - Collection of almost 40,000 JavaScript malware samples.</li>
+<li>Malpedia - A resource providing rapid identification and actionable context for malware investigations.</li>
+<li>Malshare - Large repository of malware actively scraped from malicious sites.</li>
+<li>Ragpicker - Plugin-based malware crawler with pre-analysis and reporting functionalities.</li>
+<li>theZoo - Live malware samples for analysts.</li>
+<li>Tracker h3x - Aggregator for malware corpus tracker and malicious download sites.</li>
+<li>vduddu malware repo - Collection of various malware files and source code.</li>
+<li>VirusBay - Community-based malware repository and social network.</li>
+<li>ViruSign - Malware database detected by many anti-malware programs except ClamAV.</li>
+<li>VirusShare - Malware repository, registration required.</li>
+<li>VX Vault - Active collection of malware samples.</li>
+<li>Zeltser's Sources - A list of malware sample sources put together by Lenny Zeltser.</li>
+<li>Zeus Source Code - Source for the Zeus trojan leaked in 2011.</li>
+<li>VX Underground - Massive and growing collection of free malware samples.</li>
+
+        </ul>
+    </div>
+
+    <div class="tool-section">
+        <h2>Open Source Threat Intelligence</h2>
+        <ul>
+           <li>AbuseHelper - An open-source framework for receiving and redistributing abuse feeds and threat intel.</li>
+<li>AlienVault Open Threat Exchange - Share and collaborate in developing Threat Intelligence.</li>
+<li>Combine - Tool to gather Threat Intelligence indicators from publicly available sources.</li>
+<li>Fileintel - Pull intelligence per file hash.</li>
+<li>Hostintel - Pull intelligence per host.</li>
+<li>IntelMQ - A tool for CERTs for processing incident data using a message queue.</li>
+<li>IOC Editor - A free editor for XML IOC files.</li>
+<li>iocextract - Advanced Indicator of Compromise (IOC) extractor, Python library and command-line tool.</li>
+<li>ioc_writer - Python library for working with OpenIOC objects, from Mandiant.</li>
+<li>MalPipe - Malware/IOC ingestion and processing engine, that enriches collected data.</li>
+<li>Massive Octo Spice - Previously known as CIF (Collective Intelligence Framework). Aggregates IOCs from various lists. Curated by the CSIRT Gadgets Foundation.</li>
+<li>MISP - Malware Information Sharing Platform curated by The MISP Project.</li>
+<li>Pulsedive - Free, community-driven threat intelligence platform collecting IOCs from open-source feeds.</li>
+<li>PyIOCe - A Python OpenIOC editor.</li>
+<li>RiskIQ - Research, connect, tag and share IPs and domains. (Was PassiveTotal.)</li>
+<li>threataggregator - Aggregates security threats from a number of sources, including some of those listed below in other resources.</li>
+<li>ThreatConnect - TC Open allows you to see and share open-source threat data, with support and validation from our free community.</li>
+<li>ThreatCrowd - A search engine for threats, with graphical visualization.</li>
+<li>ThreatIngestor - Build automated threat intel pipelines sourcing from Twitter, RSS, GitHub, and more.</li>
+<li>ThreatTracker - A Python script to monitor and generate alerts based on IOCs indexed by a set of Google Custom Search Engines.</li>
+<li>TIQ-test - Data visualization and statistical analysis of Threat Intelligence feeds.</li>
+
+        </ul>
+    </div>
+   <div class="resource-section">
+        <h2>Other Resources</h2>
+        <ul>
+<li>Autoshun (list) - Snort plugin and blocklist.</li>
+<li>Bambenek Consulting Feeds - OSINT feeds based on malicious DGA algorithms.</li>
+<li>Fidelis Barncat - Extensive malware config database (must request access).</li>
+<li>CI Army (list) - Network security blocklists.</li>
+<li>Critical Stack - Free Intel Market - Free intel aggregator with deduplication featuring 90+ feeds and over 1.2M indicators.</li>
+<li>Cybercrime tracker - Multiple botnet active tracker.</li>
+<li>FireEye IOCs - Indicators of Compromise shared publicly by FireEye.</li>
+<li>FireHOL IP Lists - Analytics for 350+ IP lists focusing on attacks, malware, and abuse.</li>
+<li>HoneyDB - Community-driven honeypot sensor data collection and aggregation.</li>
+<li>hpfeeds - Honeypot feed protocol.</li>
+<li>Infosec - CERT-PA lists (IPs - Domains - URLs) - Blocklist service.</li>
+<li>InQuest REPdb - Continuous aggregation of IOCs from various open reputation sources.</li>
+<li>InQuest IOCdb - Continuous aggregation of IOCs from various blogs, Github repos, and Twitter.</li>
+<li>Internet Storm Center (DShield) - Diary and searchable incident database with a web API.</li>
+<li>malc0de - Searchable incident database.</li>
+<li>Malware Domain List - Search and share malicious URLs.</li>
+<li>MetaDefender Threat Intelligence Feed - List of the most looked up file hashes from MetaDefender Cloud.</li>
+<li>OpenIOC - Framework for sharing threat intelligence.</li>
+<li>Proofpoint Threat Intelligence - Rulesets and more (formerly Emerging Threats).</li>
+<li>Ransomware overview - A list of ransomware overview with details, detection, and prevention.</li>
+<li>STIX - Structured Threat Information eXpression - Standardized language to represent and share cyber threat information.</li>
+<li>CAPEC - Common Attack Pattern Enumeration and Classification.</li>
+<li>CybOX - Cyber Observables eXpression.</li>
+<li>MAEC - Malware Attribute Enumeration and Characterization.</li>
+<li>TAXII - Trusted Automated eXchange of Indicator Information.</li>
+<li>SystemLookup - Hosts a collection of lists providing information on components of legitimate and potentially unwanted programs.</li>
+<li>ThreatMiner - Data mining portal for threat intelligence, with search.</li>
+<li>threatRECON - Search for indicators, up to 1000 free per month.</li>
+<li>ThreatShare - C2 panel tracker.</li>
+<li>Yara rules - Yara rules repository.</li>
+<li>YETI - Platform meant to organize observables, indicators of compromise, TTPs, and knowledge on threats.</li>
+<li>ZeuS Tracker - ZeuS blocklists.</li>
+</ul>
+
+
+
+   <div class="detection-section">
+        <h2>Detection & Classification</h2>
+        <ul>
+<li>AnalyzePE - Wrapper for a variety of tools for reporting on Windows PE files.</li>
+<li>Assemblyline - Scalable file triage and malware analysis system integrating cybersecurity tools.</li>
+<li>BinaryAlert - Open-source serverless AWS pipeline that scans and alerts on uploaded files based on YARA rules.</li>
+<li>capa - Detects capabilities in executable files.</li>
+<li>chkrootkit - Local Linux rootkit detection tool.</li>
+<li>ClamAV - Open-source antivirus engine.</li>
+<li>Detect It Easy (DiE) - Program for determining types of files.</li>
+<li>Exeinfo PE - Packer, compressor detector, unpacking info, internal exe tools.</li>
+<li>ExifTool - Read, write, and edit file metadata.</li>
+<li>File Scanning Framework - Modular, recursive file scanning solution.</li>
+<li>fn2yara - Tool to generate Yara signatures for matching functions in executable programs.</li>
+<li>Generic File Parser - Single Library Parser to extract meta information, static analysis, and detect macros in files.</li>
+<li>hashdeep - Compute digest hashes with various algorithms.</li>
+<li>HashCheck - Windows shell extension for computing hashes with various algorithms.</li>
+<li>Loki - Host-based scanner for IOCs.</li>
+<li>Malfunction - Catalog and compare malware at a function level.</li>
+<li>Manalyze - Static analyzer for PE executables.</li>
+<li>MASTIFF - Static analysis framework.</li>
+<li>MultiScanner - Modular file scanning/analysis framework.</li>
+<li>Nauz File Detector (NFD) - Linker/Compiler/Tool detector for Windows, Linux, and macOS.</li>
+<li>nsrllookup - Tool for looking up hashes in NIST's National Software Reference Library database.</li>
+<li>packerid - Cross-platform Python alternative to PEiD.</li>
+<li>PE-bear - Reversing tool for PE files.</li>
+<li>PEframe - Open-source tool for performing static analysis on PE malware and malicious MS Office documents.</li>
+<li>PEV - Multiplatform toolkit for working with PE files, providing analysis of suspicious binaries.</li>
+<li>PortEx - Java library for analyzing PE files, focusing on malware analysis and PE malformation robustness.</li>
+<li>Quark-Engine - Obfuscation-Neglect Android Malware Scoring System.</li>
+<li>Rootkit Hunter - Linux rootkit detection tool.</li>
+<li>ssdeep - Compute fuzzy hashes.</li>
+<li>totalhash.py - Python script for easy searching of the TotalHash.cymru.com database.</li>
+<li>TrID - File identifier.</li>
+<li>YARA - Pattern matching tool for analysts.</li>
+<li>Yara rules generator - Generates Yara rules based on malware samples and maintains a useful strings database.</li>
+<li>Yara Finder - Simple tool to match files against various Yara rules to find indicators of suspicion.</li>
+</ul>
+<div class="tool-section">
+    <h2>Online Scanners and Sandboxes</h2>
+    <ul>
+        <li>anlyz.io - Online sandbox.</li>
+        <li>any.run - Online interactive sandbox.</li>
+        <li>AndroTotal - Free online analysis of APKs against multiple mobile antivirus apps.</li>
+        <li>BoomBox - Automatic deployment of Cuckoo Sandbox malware lab using Packer and Vagrant.</li>
+        <li>Cryptam - Analyze suspicious office documents.</li>
+        <li>Cuckoo Sandbox - Open-source, self-hosted sandbox and automated analysis system.</li>
+        <li>cuckoo-modified - Modified version of Cuckoo Sandbox with GPL license.</li>
+        <li>cuckoo-modified-api - Python API for controlling a cuckoo-modified sandbox.</li>
+        <li>DeepViz - Multi-format file analyzer with machine-learning classification.</li>
+        <li>detux - Sandbox for traffic analysis of Linux malware and capturing IOCs.</li>
+        <li>DRAKVUF - Dynamic malware analysis system.</li>
+        <li>filescan.io - Static malware analysis, VBA/Powershell/VBS/JS Emulation.</li>
+        <li>firmware.re - Unpacks, scans, and analyzes almost any firmware package.</li>
+        <li>HaboMalHunter - Automated Malware Analysis Tool for Linux ELF Files.</li>
+        <li>Hybrid Analysis - Online malware analysis tool powered by VxSandbox.</li>
+        <li>Intezer - Detect, analyze, and categorize malware based on code reuse.</li>
+        <li>IRMA - Asynchronous and customizable analysis platform for suspicious files.</li>
+        <li>Joe Sandbox - Deep malware analysis system.</li>
+        <li>Jotti - Free online multi-AV scanner.</li>
+        <li>Limon - Sandbox for analyzing Linux malware.</li>
+        <li>Malheur - Automatic sandboxed analysis of malware behavior.</li>
+        <li>malice.io - Massively scalable malware analysis framework.</li>
+        <li>malsub - Python RESTful API framework for online malware and URL analysis services.</li>
+        <li>Malware config - Extract, decode, and display common malware configurations.</li>
+        <li>MalwareAnalyser.io - Online anomaly-based static malware analyzer powered by machine learning.</li>
+        <li>Malwr - Free analysis with an online Cuckoo Sandbox instance.</li>
+        <li>MetaDefender Cloud - Free malware scanning for files, hashes, IPs, URLs, and domains.</li>
+        <li>NetworkTotal - Analyzes pcap files and detects various malware types.</li>
+        <li>Noriben - Uses Sysinternals Procmon to collect malware data in a sandboxed environment.</li>
+        <li>PacketTotal - Online engine for analyzing .pcap files and visualizing network traffic.</li>
+        <li>PDF Examiner - Analyze suspicious PDF files.</li>
+        <li>ProcDot - Graphical malware analysis toolkit.</li>
+        <li>Recomposer - Helper script for safely uploading binaries to sandbox sites.</li>
+        <li>sandboxapi - Python library for integrating with multiple malware sandboxes.</li>
+        <li>SEE - Sandboxed Execution Environment (SEE) for secured automation testing.</li>
+        <li>SEKOIA Dropper Analysis - Online dropper analysis (Js, VBScript, Microsoft Office, PDF).</li>
+        <li>VirusTotal - Free online analysis of malware samples and URLs.</li>
+        <li>Visualize_Logs - Open-source visualization library and tools for logs (Cuckoo, Procmon, etc.).</li>
+        <li>Zeltser's List - Free automated sandboxes and services, compiled by Lenny Zeltser.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Domain Analysis</h2>
+    <ul>
+        <li>AbuseIPDB - Helps combat hackers, spammers, and abusive activity on the internet.</li>
+        <li>badips.com - Community-based IP blacklist service.</li>
+        <li>boomerang - Captures off-network web resources safely and consistently.</li>
+        <li>Cymon - Threat intelligence tracker for IPs, domains, and hashes.</li>
+        <li>Desenmascara.me - Retrieves website metadata and assesses site legitimacy.</li>
+        <li>Dig - Free online dig and other network tools.</li>
+        <li>dnstwist - Detects typo squatting, phishing, and corporate espionage risks.</li>
+        <li>IPinfo - Searches online resources for domain and IP information.</li>
+        <li>Machinae - OSINT tool for investigating URLs, IPs, and hashes.</li>
+        <li>mailchecker - Temporary email detection library in multiple languages.</li>
+        <li>MaltegoVT - Maltego transform for VirusTotal API, supporting domain/IP research.</li>
+        <li>Multi rbl - DNS blacklist checker across 300+ RBLs.</li>
+        <li>NormShield Services - Free API for detecting phishing domains, blacklisted IPs, and breached accounts.</li>
+        <li>PhishStats - Phishing statistics search for IPs, domains, and website titles.</li>
+        <li>Spyse - Searches subdomains, WHOIS, related domains, DNS records, hosts, AS, and SSL/TLS info.</li>
+        <li>SecurityTrails - Historical and current WHOIS and DNS records, domain similarity searches, certificate information.</li>
+        <li>SpamCop - IP-based spam block list.</li>
+        <li>SpamHaus - Domain and IP-based block lists.</li>
+        <li>Sucuri SiteCheck - Free website malware and security scanner.</li>
+        <li>Talos Intelligence - Search tool for IPs, domains, and network owners.</li>
+        <li>TekDefense Automater - OSINT tool for URLs, IPs, and hashes.</li>
+        <li>URLhaus - Shares malicious URLs used for malware distribution.</li>
+        <li>URLQuery - Free URL scanner.</li>
+        <li>urlscan.io - Free URL scanner and domain information tool.</li>
+        <li>Whois - Free online WHOIS lookup via DomainTools.</li>
+        <li>Zeltser's List - Free tools for researching malicious websites compiled by Lenny Zeltser.</li>
+        <li>ZScalar Zulu - Zulu URL Risk Analyzer.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Browser Malware</h2>
+    <p>Analyze malicious URLs. See also the domain analysis and documents and shellcode sections.</p>
+    <ul>
+        <li>Bytecode Viewer - Combines multiple Java bytecode viewers and decompilers into one tool, including APK/DEX support.</li>
+        <li>Firebug - Firefox extension for web development.</li>
+        <li>Java Decompiler - Decompile and inspect Java apps.</li>
+        <li>Java IDX Parser - Parses Java IDX cache files.</li>
+        <li>JSDetox - JavaScript malware analysis tool.</li>
+        <li>jsunpack-n - JavaScript unpacker that emulates browser functionality.</li>
+        <li>Krakatau - Java decompiler, assembler, and disassembler.</li>
+        <li>Malzilla - Analyze malicious web pages.</li>
+        <li>RABCDAsm - A "Robust ActionScript Bytecode Disassembler."</li>
+        <li>SWF Investigator - Static and dynamic analysis of SWF applications.</li>
+        <li>swftools - Tools for working with Adobe Flash files.</li>
+        <li>xxxswf - Python script for analyzing Flash files.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Documents and Shellcode</h2>
+    <p>Analyze malicious JS and shellcode from PDFs and Office documents. See also the browser malware section.</p>
+    <ul>
+        <li>AnalyzePDF - A tool for analyzing PDFs and determining if they are malicious.</li>
+        <li>box-js - Tool for studying JavaScript malware, featuring JScript/WScript support and ActiveX emulation.</li>
+        <li>diStorm - Disassembler for analyzing malicious shellcode.</li>
+        <li>InQuest Deep File Inspection - Upload common malware lures for heuristical analysis.</li>
+        <li>JS Beautifier - JavaScript unpacking and deobfuscation.</li>
+        <li>libemu - Library and tools for x86 shellcode emulation.</li>
+        <li>malpdfobj - Deconstructs malicious PDFs into a JSON representation.</li>
+        <li>OfficeMalScanner - Scans for malicious traces in MS Office documents.</li>
+        <li>olevba - Script for parsing OLE and OpenXML documents to extract useful data.</li>
+        <li>Origami PDF - Tool for analyzing malicious PDFs.</li>
+        <li>PDF Tools - Includes pdfid, pdf-parser, and more by Didier Stevens.</li>
+        <li>PDF X-Ray Lite - PDF analysis tool, backend-free version of PDF X-RAY.</li>
+        <li>peepdf - Python tool for exploring potentially malicious PDFs.</li>
+        <li>QuickSand - Compact C framework to analyze suspected malware documents and extract embedded executables.</li>
+        <li>Spidermonkey - Mozilla's JavaScript engine, useful for debugging malicious JS.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>File Carving</h2>
+    <p>For extracting files from inside disk and memory images.</p>
+    <ul>
+        <li>bulk_extractor - Fast file carving tool.</li>
+        <li>EVTXtract - Carve Windows Event Log files from raw binary data.</li>
+        <li>Foremost - File carving tool designed by the US Air Force.</li>
+        <li>hachoir3 - Python library for viewing and editing a binary stream field by field.</li>
+        <li>Scalpel - Another data carving tool.</li>
+        <li>SFlock - Nested archive extraction/unpacking (used in Cuckoo Sandbox).</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Deobfuscation</h2>
+    <p>Reverse XOR and other code obfuscation methods.</p>
+    <ul>
+        <li>Balbuzard - Malware analysis tool for reversing obfuscation (XOR, ROL, etc) and more.</li>
+        <li>de4dot - .NET deobfuscator and unpacker.</li>
+        <li>ex_pe_xor & iheartxor - Tools for working with single-byte XOR encoded files.</li>
+        <li>FLOSS - Uses advanced static analysis techniques to automatically deobfuscate strings from malware binaries.</li>
+        <li>NoMoreXOR - Guess a 256-byte XOR key using frequency analysis.</li>
+        <li>PackerAttacker - Generic hidden code extractor for Windows malware.</li>
+        <li>PyInstaller Extractor - Python script to extract contents of PyInstaller-generated Windows executables.</li>
+        <li>uncompyle6 - Cross-version Python bytecode decompiler.</li>
+        <li>un{i}packer - Automatic and platform-independent unpacker for Windows binaries.</li>
+        <li>unpacker - Automated malware unpacker for Windows malware based on WinAppDbg.</li>
+        <li>unxor - Guess XOR keys using known-plaintext attacks.</li>
+        <li>VirtualDeobfuscator - Reverse engineering tool for virtualization wrappers.</li>
+        <li>XORBruteForcer - Python script for brute forcing single-byte XOR keys.</li>
+        <li>XORSearch & XORStrings - Programs for finding XORed data.</li>
+        <li>xortool - Guess XOR key length and key itself.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Debugging and Reverse Engineering</h2>
+    <p>Disassemblers, debuggers, and other static and dynamic analysis tools.</p>
+    <ul>
+        <li>angr - Platform-agnostic binary analysis framework developed at UCSB's Seclab.</li>
+        <li>bamfdetect - Identifies and extracts information from bots and other malware.</li>
+        <li>BAP - Multiplatform binary analysis framework developed at CMU's Cylab.</li>
+        <li>BARF - Binary Analysis and Reverse Engineering Framework.</li>
+        <li>binnavi - Binary analysis IDE for reverse engineering with graph visualization.</li>
+        <li>Binary Ninja - Reverse engineering platform as an alternative to IDA.</li>
+        <li>Binwalk - Firmware analysis tool.</li>
+        <li>BluePill - Framework for executing and debugging evasive malware.</li>
+        <li>Capstone - Disassembly framework supporting multiple architectures.</li>
+        <li>codebro - Web-based code browser using Clang for analysis.</li>
+        <li>Cutter - GUI for Radare2.</li>
+        <li>DECAF - Binary analysis platform based on QEMU.</li>
+        <li>dnSpy - .NET assembly editor, decompiler, and debugger.</li>
+        <li>dotPeek - Free .NET Decompiler and Assembly Browser.</li>
+        <li>Evan's Debugger (EDB) - Modular debugger with a Qt GUI.</li>
+        <li>Fibratus - Tool for Windows kernel exploration and tracing.</li>
+        <li>FPort - Reports open ports and maps them to applications.</li>
+        <li>GDB - The GNU debugger.</li>
+        <li>GEF - GDB Enhanced Features for exploit development.</li>
+        <li>Ghidra - Reverse engineering framework maintained by the NSA.</li>
+        <li>hackers-grep - Searches PE executables for imports, exports, and debug symbols.</li>
+        <li>Hopper - macOS and Linux disassembler.</li>
+        <li>IDA Pro - Windows disassembler and debugger.</li>
+        <li>IDR - Interactive Delphi Reconstructor for decompiling Delphi executables.</li>
+        <li>Immunity Debugger - Debugger for malware analysis with Python API.</li>
+        <li>ILSpy - Open-source .NET assembly browser and decompiler.</li>
+        <li>Kaitai Struct - DSL for reverse engineering file formats and network protocols.</li>
+        <li>LIEF - Cross-platform library for parsing and modifying ELF, PE, and Mach-O files.</li>
+        <li>ltrace - Dynamic analysis for Linux executables.</li>
+        <li>mac-a-mal - Automated framework for macOS malware hunting.</li>
+        <li>objdump - Part of GNU binutils for Linux binary analysis.</li>
+        <li>OllyDbg - Assembly-level debugger for Windows executables.</li>
+        <li>OllyDumpEx - Memory dump plugin for multiple debuggers.</li>
+        <li>PANDA - Platform for architecture-neutral dynamic analysis.</li>
+        <li>PEDA - Python Exploit Development Assistance for GDB.</li>
+        <li>pestudio - Static analysis tool for Windows executables.</li>
+        <li>Pharos - Automated static analysis framework for binaries.</li>
+        <li>plasma - Interactive disassembler for x86/ARM/MIPS.</li>
+        <li>PPEE - Professional PE file Explorer.</li>
+        <li>Process Explorer - Advanced task manager for Windows.</li>
+        <li>Process Hacker - Tool for monitoring system resources.</li>
+        <li>Process Monitor - Advanced Windows monitoring tool.</li>
+        <li>PSTools - Windows command-line system management tools.</li>
+        <li>Pyew - Python tool for malware analysis.</li>
+        <li>PyREBox - Python scriptable reverse engineering sandbox.</li>
+        <li>Qiling Framework - Cross-platform emulation and sandboxing framework.</li>
+        <li>QKD - QEMU with embedded WinDbg for stealth debugging.</li>
+        <li>Radare2 - Reverse engineering framework with debugger support.</li>
+        <li>RegShot - Registry compare tool for snapshot analysis.</li>
+        <li>RetDec - Machine-code decompiler with an online service and API.</li>
+        <li>ROPMEMU - Framework for analyzing complex code-reuse attacks.</li>
+        <li>Scylla Imports Reconstructor - Fixes the IAT of unpacked PE malware.</li>
+        <li>ScyllaHide - Anti-Anti-Debug plugin for various tools.</li>
+        <li>SMRT - Malware research plugin for Sublime Text.</li>
+        <li>strace - Dynamic analysis tool for Linux executables.</li>
+        <li>StringSifter - Machine learning tool for ranking malware-relevant strings.</li>
+        <li>Triton - Dynamic binary analysis framework.</li>
+        <li>Udis86 - Disassembler library for x86 and x86_64.</li>
+        <li>Vivisect - Python malware analysis tool.</li>
+        <li>WinDbg - Multipurpose Windows debugger.</li>
+        <li>X64dbg - Open-source x64/x32 debugger for Windows.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Network Analysis</h2>
+    <p>Analyze network interactions.</p>
+    <ul>
+        <li>Bro - Protocol analyzer that operates at scale for file and network protocols.</li>
+        <li>BroYara - Use Yara rules from Bro.</li>
+        <li>CapTipper - Malicious HTTP traffic explorer.</li>
+        <li>chopshop - Protocol analysis and decoding framework.</li>
+        <li>CloudShark - Web-based tool for packet analysis and malware traffic detection.</li>
+        <li>FakeNet-NG - Next-generation dynamic network analysis tool.</li>
+        <li>Fiddler - Intercepting web proxy designed for web debugging.</li>
+        <li>Hale - Botnet C&C monitor.</li>
+        <li>Haka - Open-source language for describing protocols and applying security policies.</li>
+        <li>HTTPReplay - Library for parsing PCAP files, including TLS streams using Master Secrets.</li>
+        <li>INetSim - Network service emulation for malware lab environments.</li>
+        <li>Laika BOSS - File-centric malware analysis and intrusion detection system.</li>
+        <li>Malcolm - Network traffic analysis suite for full packet capture artifacts and Zeek logs.</li>
+        <li>Malcom - Malware Communications Analyzer.</li>
+        <li>Maltrail - Malicious traffic detection system using public blacklists.</li>
+        <li>mitmproxy - Intercept network traffic on the fly.</li>
+        <li>Moloch - IPv4 traffic capturing, indexing, and database system.</li>
+        <li>NetworkMiner - Network forensic analysis tool with a free version.</li>
+        <li>ngrep - Search through network traffic like grep.</li>
+        <li>PcapViz - Network topology and traffic visualizer.</li>
+        <li>Python ICAP Yara - ICAP Server with YARA scanning for URLs or content.</li>
+        <li>Squidmagic - Tool for detecting C&C servers and malicious sites using Squid proxy.</li>
+        <li>Tcpdump - Collect network traffic.</li>
+        <li>tcpick - Track and reassemble TCP streams from network traffic.</li>
+        <li>tcpxtract - Extract files from network traffic.</li>
+        <li>Wireshark - The essential network traffic analysis tool.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Memory Forensics</h2>
+    <p>Tools for dissecting malware in memory images or running systems.</p>
+    <ul>
+        <li>BlackLight - Windows/MacOS forensics client supporting hiberfil, pagefile, and raw memory analysis.</li>
+        <li>DAMM - Differential Analysis of Malware in Memory, built on Volatility.</li>
+        <li>evolve - Web interface for the Volatility Memory Forensics Framework.</li>
+        <li>FindAES - Find AES encryption keys in memory.</li>
+        <li>inVtero.net - High-speed memory analysis framework in .NET, supports all Windows x64.</li>
+        <li>Muninn - Automates analysis using Volatility and generates readable reports.</li>
+        <li>Orochi - Open-source framework for collaborative forensic memory dump analysis.</li>
+        <li>Rekall - Memory analysis framework, forked from Volatility in 2013.</li>
+        <li>TotalRecall - Volatility-based script for automating malware analysis tasks.</li>
+        <li>VolDiff - Compare Volatility analysis on memory images before and after malware execution.</li>
+        <li>Volatility - Advanced memory forensics framework.</li>
+        <li>VolUtility - Web interface for Volatility Memory Analysis framework.</li>
+        <li>WDBGARK - WinDBG Anti-RootKit Extension.</li>
+        <li>WinDbg - Live memory inspection and kernel debugging for Windows systems.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Windows Artifacts</h2>
+    <p>Tools for gathering and analyzing Windows forensic artifacts.</p>
+    <ul>
+        <li>AChoir - A live incident response script for gathering Windows artifacts.</li>
+        <li>python-evt - Python library for parsing Windows Event Logs.</li>
+        <li>python-registry - Python library for parsing registry files.</li>
+        <li>RegRipper (GitHub) - Plugin-based registry analysis tool.</li>
+    </ul>
+</div>
+
+<div class="tool-section">
+    <h2>Storage and Workflow</h2>
+    <p>Tools for managing and analyzing malware repositories and workflows.</p>
+    <ul>
+        <li>Aleph - Open Source Malware Analysis Pipeline System.</li>
+        <li>CRITs - Collaborative Research Into Threats, a malware and threat repository.</li>
+        <li>FAME - Malware analysis framework featuring extensible pipelines with chained modules.</li>
+        <li>Malwarehouse - Store, tag, and search malware.</li>
+        <li>Polichombr - Malware analysis platform supporting collaborative reverse engineering.</li>
+        <li>stoQ - Distributed content analysis framework with extensive plugin support.</li>
+        <li>Viper - Binary management and analysis framework for analysts and researchers.</li>
+    </ul>
+</div>
+
+<div class="tool-section">
+    <h2>Miscellaneous</h2>
+    <p>Various tools for malware analysis, reverse engineering, and cybersecurity research.</p>
+    <ul>
+        <li>al-khaser - PoC malware designed to test anti-malware systems.</li>
+        <li>CryptoKnight - Automated cryptographic algorithm reverse engineering framework.</li>
+        <li>DC3-MWCP - The Defense Cyber Crime Center's Malware Configuration Parser framework.</li>
+        <li>FLARE VM - Customizable Windows-based security distribution for malware analysis.</li>
+        <li>MalSploitBase - Database containing exploits used by malware.</li>
+        <li>Malware Museum - Collection of malware programs from the 1980s and 1990s.</li>
+        <li>Malware Organiser - Tool for organizing large sets of malicious and benign files.</li>
+        <li>Pafish - Demonstration tool that mimics malware sandbox evasion techniques.</li>
+        <li>REMnux - Linux distribution and Docker images for malware reverse engineering.</li>
+        <li>Tsurugi Linux - Linux distribution supporting DFIR investigations, malware analysis, and OSINT activities.</li>
+        <li>Santoku Linux - Linux distribution for mobile forensics, malware analysis, and security.</li>
+    </ul>
+</div>
+<div class="tool-section">
+    <h2>Legitimate Domains Used in Cyber Threats</h2>
+    <p>Attackers often exploit well-known domains for phishing, command-and-control (C&C), exfiltration, and malware distribution. Below is a list of commonly abused domains.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Website</th>
+                <th>Tags</th>
+                <th>Service Provider</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>raw.githubusercontent.com</td><td>Phishing, C&C, Download</td><td>GitHub</td></tr>
+            <tr><td>github.com</td><td>Phishing, Download</td><td>GitHub</td></tr>
+            <tr><td>1drv.ms</td><td>Phishing</td><td>Microsoft</td></tr>
+            <tr><td>1drv.com</td><td>Phishing, Download</td><td>Microsoft</td></tr>
+            <tr><td>docs.google.com</td><td>Phishing, C&C</td><td>Google</td></tr>
+            <tr><td>drive.google.com</td><td>Phishing, Download, Exfiltration</td><td>Google</td></tr>
+            <tr><td>*.azurewebsites.net</td><td>Phishing, Download, Exfiltration, C&C</td><td>Microsoft</td></tr>
+            <tr><td>dropbox.com</td><td>Phishing, Download, Exfiltration, C&C</td><td>Dropbox</td></tr>
+            <tr><td>mega.nz</td><td>Phishing, Download, Exfiltration</td><td>Mega Limited</td></tr>
+            <tr><td>pcloud.com</td><td>Phishing, Download, Exfiltration</td><td>pCloud</td></tr>
+            <tr><td>*.amazonaws.com</td><td>Phishing, Download, Exfiltration, C&C</td><td>Amazon Web Services</td></tr>
+            <tr><td>*.twitter.com</td><td>C&C</td><td>Twitter</td></tr>
+            <tr><td>*.web.core.windows.net</td><td>Phishing, Download, Exfiltration, C&C</td><td>Microsoft</td></tr>
+            <tr><td>*.blob.core.windows.net</td><td>Phishing, Download, Exfiltration</td><td>Microsoft</td></tr>
+            <tr><td>*.box.com</td><td>Phishing, Download, Exfiltration</td><td>Box</td></tr>
+            <tr><td>sites.google.com</td><td>Phishing</td><td>Google</td></tr>
+            <tr><td>*.cloudfront.net</td><td>Phishing, C&C, Download</td><td>Amazon Web Services</td></tr>
+            <tr><td>bitbucket.io</td><td>Phishing</td><td>Atlassian</td></tr>
+            <tr><td>bitbucket.org</td><td>Phishing, Download, Exfiltration, C&C</td><td>Atlassian</td></tr>
+            <tr><td>firebasestorage.googleapis.com</td><td>Phishing, Exfiltration, C&C, Download</td><td>Google</td></tr>
+            <tr><td>storage.googleapis.com</td><td>Phishing, Download, Exfiltration, C&C</td><td>Google</td></tr>
+            <tr><td>*.herokuapp.com</td><td>Phishing, Download, Exfiltration, C&C</td><td>Heroku</td></tr>
+            <tr><td>*.zendesk.com</td><td>Phishing, Download</td><td>Zendesk</td></tr>
+            <tr><td>*.cloudwaysapps.com</td><td>Phishing, Download, Exfiltration, C&C</td><td>Cloudways</td></tr>
+            <tr><td>*.netlify.app</td><td>Phishing</td><td>Netlify</td></tr>
+            <tr><td>*.cloudapp.azure.com</td><td>Phishing, Download, Exfiltration, C&C</td><td>Microsoft</td></tr>
+            <tr><td>*.cloudapp.net</td><td>Phishing, Download, Exfiltration, C&C</td><td>Microsoft</td></tr>
+            <tr><td>gitlab.com</td><td>Phishing, Download</td><td>GitLab</td></tr>
+            <tr><td>filetransfer.io</td><td>Phishing, Download, Exfiltration</td><td>Filetransfer.io</td></tr>
+            <tr><td>*.sendspace.com</td><td>Phishing, Download, Exfiltration</td><td>Sendspace</td></tr>
+            <tr><td>wetransfer.com</td><td>Phishing, Download, Exfiltration</td><td>WeTransfer B.V.</td></tr>
+            <tr><td>cdn.fbsbx.com</td><td>Phishing</td><td>Facebook</td></tr>
+            <tr><td>mediafire.com</td><td>Phishing, Download, Exfiltration</td><td>Mediafire</td></tr>
+            <tr><td>cdn.discordapp.com</td><td>Phishing, Download</td><td>Discord</td></tr>
+            <tr><td>*.workers.dev</td><td>Phishing, Download, Exfiltration, C&C</td><td>Cloudflare</td></tr>
+            <tr><td>slack-files.com</td><td>Phishing</td><td>Slack</td></tr>
+            <tr><td>youtube.com</td><td>Phishing, C&C</td><td>Google</td></tr>
+            <tr><td>reddit.com</td><td>C&C</td><td>Reddit</td></tr>
+            <tr><td>pastebin.com</td><td>Download, Exfiltration, C&C</td><td>Pastebin</td></tr>
+            <tr><td>*.sharepoint.com</td><td>Phishing, Download</td><td>Microsoft</td></tr>
+            <tr><td>onedrive.live.com</td><td>Phishing</td><td>Microsoft</td></tr>
+ <tr><td>onedrive.live.com</td><td>Phishing</td><td>Microsoft</td></tr>
+            <tr><td>app.milanote.com</td><td>Phishing</td><td>Milanote</td></tr>
+            <tr><td>*.appspot.com</td><td>Phishing, Download, C&C</td><td>Google</td></tr>
+            <tr><td>*.wordpress.com</td><td>Phishing, Download, C&C, Exfiltration</td><td>WordPress Foundation</td></tr>
+            <tr><td>*.azureedge.net</td><td>Phishing, C&C</td><td>Microsoft</td></tr>
+            <tr><td>*.tumblr.com</td><td>Phishing, C&C</td><td>Tumblr</td></tr>
+            <tr><td>*.backblazeb2.com</td><td>Phishing, Download, Exfiltration</td><td>BackBlaze</td></tr>
+            <tr><td>*.blogspot.com</td><td>Phishing, C&C</td><td>Google</td></tr>
+            <tr><td>*.translate.goog</td><td>Phishing, Download</td><td>Google</td></tr>
+            <tr><td>*.googleusercontent.com</td><td>Phishing, C&C</td><td>Google</td></tr>
+            <tr><td>*.typeform.com</td><td>Phishing</td><td>Typeform</td></tr>
+            <tr><td>*.github.io</td><td>Phishing</td><td>GitHub</td></tr>
+            <tr><td>*.web.app</td><td>Phishing</td><td>Google</td></tr>
+            <tr><td>*.firebaseapp.com</td><td>Phishing, C&C</td><td>Google</td></tr>
+            <tr><td>*.webflow.io</td><td>Phishing</td><td>Webflow</td></tr>
+            <tr><td>icloud.com</td><td>Phishing, Download, Exfiltration</td><td>Apple</td></tr>
+            <tr><td>*.duckdns.org</td><td>Phishing, C&C</td><td>DuckDNS</td></tr>
+            <tr><td>*.pages.dev</td><td>Phishing</td><td>Cloudflare</td></tr>
+            <tr><td>googleweblight.com</td><td>Phishing, Download</td><td>Google</td></tr>
+            <tr><td>forms.office.com</td><td>Phishing</td><td>Microsoft</td></tr>
+            <tr><td>sway.office.com</td><td>Phishing</td><td>Microsoft</td></tr>
+            <tr><td>discord.com</td><td>C&C, Exfiltration</td><td>Discord</td></tr>
+            <tr><td>slack.com</td><td>C&C</td><td>Slack</td></tr>
+            <tr><td>api.telegram.org</td><td>C&C, Exfiltration</td><td>Telegram</td></tr>
+            <tr><td>*.gofile.io</td><td>Phishing, Exfiltration, Download</td><td>Gofile</td></tr>
+            <tr><td>*.instagram.com</td><td>Phishing, C&C</td><td>Facebook</td></tr>
+            <tr><td>facebook.com</td><td>C&C</td><td>Facebook</td></tr>
+            <tr><td>*.glitch.me</td><td>Phishing, Download</td><td>Glitch</td></tr>
+            <tr><td>bit.ly</td><td>Phishing, Download</td><td>Bitly Inc.</td></tr>
+            <tr><td>*.trycloudflare.com</td><td>Phishing, Download</td><td>Cloudflare</td></tr>
+            <tr><td>beautiful.ai</td><td>Phishing</td><td>Beautiful.ai</td></tr>
+            <tr><td>siasky.net</td><td>Phishing, Exfiltration, Download</td><td>Siasky</td></tr>
+            <tr><td>*.clickfunnels.com</td><td>Phishing</td><td>ClickFunnels</td></tr>
+            <tr><td>*.docusign.com</td><td>Phishing</td><td>DocuSign</td></tr>
+            <tr><td>*.digitaloceanspaces.com</td><td>Phishing, Download, Exfiltration, C&C</td><td>DigitalOcean</td></tr>
+            <tr><td>*.godaddysites.com</td><td>Phishing, C&C</td><td>GoDaddy</td></tr>
+            <tr><td>*.weebly.com</td><td>Phishing, C&C</td><td>Weebly</td></tr>
+            <tr><td>www.canva.com</td><td>Phishing</td><td>Canva</td></tr>
+            <tr><td>t.co</td><td>Phishing, C&C</td><td>Twitter</td></tr>
+            <tr><td>*.mybluemix.net</td><td>Phishing, Download, C&C</td><td>IBM</td></tr>
+            <tr><td>appdomain.cloud</td><td>Phishing, Download, C&C, Exfiltration</td><td>IBM</td></tr>
+            <tr><td>archive.org</td><td>Phishing, Download</td><td>Archive.org</td></tr>
+            <tr><td>spark.adobe.com</td><td>Phishing, C&C</td><td>Adobe</td></tr>
+
+		 <tr><td>*.weebly.com</td><td>Phishing, C&C</td><td>Weebly</td></tr>
+            <tr><td>www.canva.com</td><td>Phishing</td><td>Canva</td></tr>
+            <tr><td>t.co</td><td>Phishing, C&C</td><td>Twitter</td></tr>
+            <tr><td>*.mybluemix.net</td><td>Phishing, Download, C&C</td><td>IBM</td></tr>
+            <tr><td>appdomain.cloud</td><td>Phishing, Download, C&C, Exfiltration</td><td>IBM</td></tr>
+            <tr><td>archive.org</td><td>Phishing, Download</td><td>Archive.org</td></tr>
+            <tr><td>spark.adobe.com</td><td>Phishing, C&C</td><td>Adobe</td></tr>
+            <tr><td>*.atlassian.net</td><td>Phishing, C&C</td><td>Atlassian</td></tr>
+            <tr><td>dogechain.info</td><td>C&C</td><td>Dogechain.info</td></tr>
+            <tr><td>paste.ee</td><td>C&C, Exfiltration, Download</td><td>Paste.ee</td></tr>
+            <tr><td>gitee.com</td><td>C&C, Download</td><td>Gitee.com</td></tr>
+            <tr><td>*.rf.gd</td><td>Phishing, C&C</td><td>InfinityFree</td></tr>
+            <tr><td>viewer.joomag.com</td><td>Phishing</td><td>Joomag</td></tr>
+            <tr><td>my.visme.co</td><td>Phishing</td><td>Visme</td></tr>
+            <tr><td>archive.ph</td><td>Phishing, Download</td><td>Archive.ph</td></tr>
+            <tr><td>docsend.com</td><td>Phishing</td><td>Docsend</td></tr>
+            <tr><td>*.nimbusweb.me</td><td>Phishing</td><td>Nimbus Note</td></tr>
+            <tr><td>*.oraclecloud.com</td><td>Phishing, Exfiltration, Download, C&C</td><td>Oracle</td></tr>
+            <tr><td>*.azurefd.net</td><td>Phishing, C&C</td><td>Microsoft</td></tr>
+            <tr><td>parg.co</td><td>Phishing, Download</td><td>Parg.co</td></tr>
+            <tr><td>*.ngrok.io</td><td>Phishing, C&C, Exfiltration, Download</td><td>Ngrok</td></tr>
+            <tr><td>codepen.io</td><td>C&C, Download</td><td>CodePen</td></tr>
+            <tr><td>pastetext.net</td><td>Download</td><td>Pastetext.net</td></tr>
+            <tr><td>notion.so</td><td>Phishing, C&C, Exfiltration, Download</td><td>Notion.so</td></tr>
+            <tr><td>*.wixsite.com</td><td>Phishing</td><td>Wix</td></tr>
+            <tr><td>attachment.outlook.live.net</td><td>Phishing, Download, Exfiltration</td><td>Microsoft</td></tr>
+            <tr><td>attachments.office.net</td><td>Phishing, Download, Exfiltration</td><td>Microsoft</td></tr>
+            <tr><td>lnkd.in</td><td>Phishing, Download</td><td>Microsoft</td></tr>
+            <tr><td>*.myportfolio.com</td><td>Phishing</td><td>Adobe</td></tr>
+            <tr><td>*.notion.site</td><td>Phishing, Download</td><td>Notion.so</td></tr>
+            <tr><td>*.wasabisys.com</td><td>Phishing, C&C, Exfiltration, Download</td><td>Wasabi Technologies</td></tr>
+            <tr><td>rebrand.ly</td><td>Phishing, Download</td><td>Rebrandly</td></tr>
+            <tr><td>rb.gy</td><td>Phishing, Download</td><td>Rebrandly</td></tr>
+            <tr><td>genius.com</td><td>C&C</td><td>Genius</td></tr>
+
+	  <tr><td>inmotionhosting.com</td><td>Phishing, C&C, Exfiltration, Download</td><td>InMotion Hosting</td></tr>
+            <tr><td>stonly.com</td><td>Phishing</td><td>Stonly</td></tr>
+            <tr><td>*.csb.app</td><td>Phishing</td><td>CodeSandbox</td></tr>
+            <tr><td>*.codesandbox.io</td><td>Phishing</td><td>CodeSandbox</td></tr>
+            <tr><td>*.000webhostapp.com</td><td>Phishing, C&C, Exfiltration, Download</td><td>Hostinger</td></tr>
+            <tr><td>*.hostingerapp.com</td><td>Phishing, C&C, Exfiltration, Download</td><td>Hostinger</td></tr>
+            <tr><td>feedproxy.google.com</td><td>Phishing</td><td>Google</td></tr>
+            <tr><td>*.pagecloud.com</td><td>Phishing</td><td>PageCloud</td></tr>
+            <tr><td>*.format.com</td><td>Phishing</td><td>Format</td></tr>
+            <tr><td>s.id</td><td>Phishing, Download</td><td>s.id</td></tr>
+            <tr><td>doc.clickup.com</td><td>Phishing</td><td>ClickUp</td></tr>
+            <tr><td>ufile.io</td><td>Phishing, Exfiltration, Download</td><td>Ufile</td></tr>
+            <tr><td>onenoteonlinesync.onenote.com</td><td>Phishing, Download, Exfiltration</td><td>Microsoft</td></tr>
+            <tr><td>12ft.io</td><td>Phishing</td><td>12ft.io</td></tr>
+            <tr><td>*.doubleclick.net</td><td>Phishing, Download</td><td>Google</td></tr>
+            <tr><td>t.m1.email.samsung.com</td><td>Phishing, Download</td><td>Samsung</td></tr>
+            <tr><td>*.repl.co</td><td>Phishing, C&C, Exfiltration, Download</td><td>Replit</td></tr>
+            <tr><td>teletype.in</td><td>Phishing</td><td>Teletype</td></tr>
+            <tr><td>*.easywp.com</td><td>Phishing</td><td>EasyWP</td></tr>
+            <tr><td>telegra.ph</td><td>Phishing</td><td>Telegraph</td></tr>
+            <tr><td>filebin.net</td><td>Phishing, Exfiltration, Download</td><td>Filebin</td></tr>
+            <tr><td>*.fyi.to</td><td>Phishing</td><td>FYI.to</td></tr>
+            <tr><td>nt.embluemail.com</td><td>Phishing, Download</td><td>emBlue</td></tr>
+            <tr><td>transfer.sh</td><td>Phishing, Exfiltration, Download</td><td>Transfer.sh</td></tr>
+            <tr><td>ct.sendgrid.net</td><td>Phishing, Download</td><td>SendGrid</td></tr>
+            <tr><td>nethunt.com</td><td>Phishing</td><td>NetHunt</td></tr>
+            <tr><td>trello.com</td><td>Phishing, Download, Exfiltration</td><td>Trello</td></tr>
+            <tr><td>evernote.com</td><td>Phishing, Exfiltration, Download</td><td>Evernote</td></tr>
+            <tr><td>track.adform.net</td><td>Phishing, Download</td><td>Adform</td></tr>
+            <tr><td>*.xiti.com</td><td>Phishing, Download</td><td>Xiti</td></tr>
+            <tr><td>wtools.io</td><td>Download</td><td>WTOOLS</td></tr>
+            <tr><td>i.imgur.com</td><td>Download</td><td>Imgur</td></tr>
+            <tr><td>workflowy.com</td><td>Phishing</td><td>WorkFlowy</td></tr>
+            <tr><td>*.mybluehost.me</td><td>Phishing, C&C, Download, Exfiltration</td><td>Bluehost</td></tr>
+            <tr><td>*.ondigitalocean.app</td><td>Phishing, C&C</td><td>DigitalOcean</td></tr>
+            <tr><td>*.axshare.com</td><td>Phishing, C&C</td><td>Axure</td></tr>
+            <tr><td>rentry.co</td><td>Exfiltration, C&C, Download</td><td>Rentry.co</td></tr>
+            <tr><td>zerobin.net</td><td>Exfiltration, C&C, Download</td><td>ZeroBin</td></tr>
+            <tr><td>textbin.net</td><td>Exfiltration, C&C, Download</td><td>TextBin</td></tr>
+            <tr><td>ideone.com</td><td>Exfiltration, C&C, Download</td><td>Ideone.com</td></tr>
+        </tbody>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<div class="tool-section">
+    <h2>File Extensions and Their Functions</h2>
+    <p>Details about file extensions, their functions, and supported operating systems.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Extension</th>
+                <th>Function</th>
+                <th>Operating System</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>.appinstaller</td><td>Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.application</td><td>Phishing Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.appref-ms</td><td>Executable Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.appx</td><td>Executable Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.appxbundle</td><td>Executable Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.asd</td><td>Phishing Double Click Macros</td><td>Windows</td></tr>
+            <tr><td>.bat</td><td>Executable Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.bz2</td><td>Phishing Double Click File Archiver</td><td>Windows, Linux, Mac</td></tr>
+            <tr><td>.chm</td><td>Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.cmd</td><td>Executable Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.com</td><td>Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.cpl</td><td>Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.desktopthemepackfile</td><td>Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.diagcab</td><td>Double Click Executable</td><td>Windows</td></tr>
+            <tr><td>.dmg</td><td>Executable Double Click</td><td>Mac</td></tr>
+            <tr><td>.doc</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.docm</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.dot</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.dotm</td><td>Phishing Double Click</td><td>Windows, Mac</td></tr>
+            <tr><td>.exe</td><td>Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.gadget</td><td>Phishing Double Click Executable File Archiver</td><td>Windows</td></tr>
+            <tr><td>.gz</td><td>Phishing Double Click File Archiver</td><td>Windows, Linux, Mac</td></tr>
+            <tr><td>.hta</td><td>Executable Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.htm</td><td>Phishing Script Double Click</td><td>Windows, Mac, Linux</td></tr>
+            <tr><td>.html</td><td>Phishing Script Double Click</td><td>Windows, Mac, Linux</td></tr>
+            <tr><td>.ics</td><td>Phishing Double Click</td><td>Windows, Mac, Linux</td></tr>
+            <tr><td>.img</td><td>Executable Double Click Phishing</td><td>Windows, Mac</td></tr>
+            <tr><td>.iqy</td><td>Phishing Double Click</td><td>Windows, Mac</td></tr>
+            <tr><td>.iso</td><td>Executable Double Click</td><td>Windows, Mac</td></tr>
+            <tr><td>.jnlp</td><td>Phishing Double Click Executable</td><td>Windows, Mac, Linux</td></tr>
+            <tr><td>.js</td><td>Executable Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.jse</td><td>Executable Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.lnk</td><td>Executable Double Click Phishing</td><td>Windows</td></tr>
+            <tr><td>.mam</td><td>Executable Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.mht</td><td>Phishing Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.mhtml</td><td>Phishing Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.msc</td><td>Double Click</td><td>Windows</td></tr>
+            <tr><td>.msi</td><td>Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.odt</td><td>Exploit Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.oxps</td><td>Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.pdf</td><td>Phishing Script Double Click</td><td>Windows, Mac, Linux</td></tr>
+            <tr><td>.pif</td><td>Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.pot</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.potm</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.pps</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.ppsm</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.ppt</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.pptm</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.pub</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.reg</td><td>Double Click</td><td>Windows</td></tr>
+            <tr><td>.rtf</td><td>Phishing Double Click</td><td>Windows, Mac, Linux</td></tr>
+            <tr><td>.scr</td><td>Executable Double Click</td><td>Windows</td></tr>
+            <tr><td>.settingcontent-ms</td><td>Phishing Double Click Executable</td><td>Windows</td></tr>
+            <tr><td>.sh</td><td>Executable Script Double Click</td><td>Linux</td></tr>
+            <tr><td>.sldm</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.slk</td><td>Phishing Double Click Macros</td><td>Windows, Mac</td></tr>
+            <tr><td>.svg</td><td>Phishing Script Double Click</td><td>Windows, Mac</td></tr>
+            <tr><td>.tar</td><td>Phishing Double Click File Archiver</td><td>Windows, Linux, Mac</td></tr>
+            <tr><td>.theme</td><td>Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.themepack</td><td>Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.url</td><td>Phishing Double Click</td><td>Windows</td></tr>
+            <tr><td>.uue</td><td>Phishing Double Click File Archiver</td><td>Windows</td></tr>
+            <tr><td>.vbe</td><td>Executable Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.vbs</td><td>Executable Script Double Click</td><td>Windows</td></tr>
+            <tr><td>.wbk</td><td>Phishing Double Click Macros</td><td>Windows</td></tr>
+            <tr><td>.website</td><td>Phishing Double Click</td><
+
+
+
+
+
+
+</div>
+
+</body>
+</html>

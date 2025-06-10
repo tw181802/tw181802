@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth Security Vulnerabilities</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bluetooth Security Vulnerabilities</h1>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Vulnerability Name</th>
+                    <th>Conference & Year Published</th>
+                    <th>Vulnerability Website URL</th>
+                    <th>Paper URL</th>
+                    <th>Video URL</th>
+                    <th>SIG Notice</th>
+                    <th>Technology Impacted</th>
+                    <th>Related CVE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>BlueBorne</td>
+                    <td>Black Hat Europe 2017</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>No Notice</td>
+                    <td>BR/EDR</td>
+                    <td>CVE-2017-8628, CVE-2017-0781, CVE-2017-0782, CVE-2017-0783, CVE-2017-0785, CVE-2017-14315, CVE-2017-1000250, CVE-2017-1000251, CVE-2017-14315, CVE-2017-1000410</td>
+                </tr>
+                <tr>
+                    <td>Bleedingbit</td>
+                    <td>2018</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>No Notice</td>
+                    <td>LE</td>
+                    <td>CVE-2018-7080, CVE-2018-16986</td>
+                </tr>
+                <tr>
+                    <td>Fixed Coordinate Invalid Curve Attack</td>
+                    <td>2018</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>SIG Notice</td>
+                    <td>BR/EDR/LE</td>
+                    <td>CVE-2018-5383</td>
+                </tr>
+                <tr>
+                    <td>SweynTooth</td>
+                    <td>2019</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>No Notice</td>
+                    <td>LE</td>
+                    <td>CVE-2019-16336, CVE-2019-17060, CVE-2019-17061, CVE-2019-17517, CVE-2019-17518, CVE-2019-17519, CVE-2019-17520, CVE-2019-19192, CVE-2019-19193, CVE-2019-19194, CVE-2019-19195, CVE-2019-19196, CVE-2020-10061, CVE-2020-10069, CVE-2020-13593, CVE-2020-13594, CVE-2020-13595</td>
+                </tr>
+                <tr>
+                    <td>KNOB</td>
+                    <td>USENIX 2019</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>SIG Notice</td>
+                    <td>BR/EDR</td>
+                    <td>CVE-2019-9506</td>
+                </tr>
+                <tr>
+                    <td>BIAS</td>
+                    <td>IEEE S&P 2020</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>SIG Notice</td>
+                    <td>BR/EDR</td>
+                    <td>CVE-2020-10135</td>
+                </tr>
+                <tr>
+                    <td>Pairing Method Confusion</td>
+                    <td>2020</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td>No Video</td>
+                    <td>SIG Notice</td>
+                    <td>BR/EDR/LE</td>
+                    <td>CVE-2020-10134</td>
+                </tr>
+                <tr>
+                    <td>BlueFrag</td>
+                    <td>2020</td>
+                    <td><a href="Article" target="_blank">Article</a></td>
+                    <td>No Paper</td>
+                    <td>No Video</td>
+                    <td>No Notice</td>
+                    <td>Android</td>
+                    <td>CVE-2020-0022</td>
+                </tr>
+                <tr>
+                    <td>Spectra</td>
+                    <td>Black Hat USA 2020</td>
+                    <td><a href="Abstract" target="_blank">Abstract</a></td>
+                    <td>TBD</td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>No Notice</td>
+                    <td>WiFi+BT modules</td>
+                    <td>CVE-2019-15063, CVE-2020-10367, CVE-2020-10368, CVE-2020-10369, CVE-2020-10370</td>
+                </tr>
+                <tr>
+                    <td>BLURtooth</td>
+                    <td>2020</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>SIG Notice</td>
+                    <td>BR/EDR+LE</td>
+                    <td>CVE-2020-15802, CVE-2022-20361</td>
+                </tr>
+                <tr>
+                    <td>BLESA</td>
+                    <td>WOOT 2020</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>No Notice</td>
+                    <td>LE</td>
+                    <td>CVE-2020-9770</td>
+                </tr>
+                <tr>
+                    <td>BleedingTooth</td>
+                    <td>2020</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Writeup" target="_blank">Writeup</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>No Notice</td>
+                    <td>Linux</td>
+                    <td>CVE-2020-12351, CVE-2020-12352, CVE-2020-24490</td>
+                </tr>
+                <tr>
+                    <td>BlueMirror</td>
+                    <td>WOOT 2021</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>Multiple SIG Notices</td>
+                    <td>BR/EDR/LE/Mesh</td>
+                    <td>CVE-2020-26555, CVE-2020-26556, CVE-2020-26557, CVE-2020-26558, CVE-2020-26559, CVE-2020-26560</td>
+                </tr>
+                <tr>
+                    <td>InjectaBLE</td>
+                    <td>IEEE DSN 2021</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td>No Video</td>
+                    <td>SIG Notice</td>
+                    <td>LE</td>
+                    <td>CVE-2021-31615</td>
+                </tr>
+                <tr>
+                    <td>BrakTooth</td>
+                    <td>2021</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td><a href="Video" target="_blank">Video</a></td>
+                    <td>No Notice</td>
+                    <td>BR/EDR</td>
+                    <td>CVE-2021-28135, CVE-2021-28136, CVE-2021-28139, CVE-2021-28155, CVE-2021-31717, CVE-2021-31609, CVE-2021-31611, CVE-2021-31612, CVE-2021-31613, CVE-2021-31785, CVE-2021-31786, CVE-2021-31610, CVE-2021-34143, CVE-2021-34144, CVE-2021-34145, CVE-2021-34146, CVE-2021-34147, CVE-2021-34148, CVE-2021-34149, CVE-2021-34150</td>
+                </tr>
+                <tr>
+                    <td>Pairing Mode Confusion</td>
+                    <td>2022</td>
+                    <td>No Site</td>
+                    <td>No Paper</td>
+                    <td>No Video</td>
+                    <td>SIG Notice</td>
+                    <td>LE</td>
+                    <td>CVE-2022-25836</td>
+                </tr>
+                <tr>
+                    <td>Pairing Mode Confusion</td>
+                    <td>2022</td>
+                    <td>No Site</td>
+                    <td>No Paper</td>
+                    <td>No Video</td>
+                    <td>SIG Notice</td>
+                    <td>BR/EDR</td>
+                    <td>CVE-2022-25837</td>
+                </tr>
+                <tr>
+                    <td>BLUFFS</td>
+                    <td>2023</td>
+                    <td><a href="Site" target="_blank">Site</a></td>
+                    <td><a href="Paper" target="_blank">Paper</a></td>
+                    <td>No Video</td>
+                    <td>SIG Notice</td>
+                    <td>BR/EDR</td>
+                    <td>CVE-2023-24023</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  <h2>Bluetooth Security Tools</h2>
+
+    <h3>Linux Utilities & Tools</h3>
+    <ul>
+        <li><a href="Link" target="_blank">BlueZ (l2ping, gatttool, hciconfig, hcidump, hcitool, sdptool, bccmd, bluetoothctl, etc.)</a></li>
+    </ul>
+
+    <h3>Scanners & Sniffers</h3>
+    <ul>
+        <li><a href="https://github.com/BlueAL/BTLEmap" target="_blank">BTLEmap (GitHub)</a></li>
+        <li><a href="https://github.com/Whispersystems/Sniffle" target="_blank">Sniffle (GitHub)</a></li>
+        <li><a href="https://github.com/evilsocket/bettercap" target="_blank">Bettercap (GitHub)</a></li>
+        <li><a href="https://github.com/sparrowwifi/sparrow-wifi" target="_blank">Sparrow-wifi (GitHub)</a></li>
+        <li><a href="https://github.com/bluelog" target="_blank">Bluelog (GitHub)</a></li>
+        <li><a href="https://github.com/btsniffer/btsniffer" target="_blank">Btsniffer (GitHub)</a></li>
+        <li><a href="https://github.com/NullArray/Blue-Hydra" target="_blank">Blue Hydra (GitHub)</a></li>
+        <li><a href="https://github.com/andrewferrier/btlesniffer" target="_blank">btlesniffer (GitHub)</a></li>
+        <li><a href="https://github.com/andrewferrier/btscanner" target="_blank">Btscanner</a></li>
+        <li><a href="https://github.com/redfang/redfang" target="_blank">Redfang (GitLab)</a></li>
+        <li><a href="https://github.com/bleah" target="_blank">Bleah (GitHub)</a></li>
+    </ul>
+
+    <h3>Exploit Tools</h3>
+    <ul>
+        <li><a href="https://github.com/Btlejack/Btlejack" target="_blank">Btlejack (GitHub)</a></li>
+        <li><a href="https://github.com/MaksymKrut/btcrack" target="_blank">Crackle (GitHub)</a></li>
+        <li><a href="https://github.com/BTE-replay/BLE-Replay" target="_blank">BLE-Replay (GitHub)</a></li>
+        <li><a href="https://github.com/BLESuiteCLI/BLESuite-CLI" target="_blank">BLESuite-CLI (GitHub)</a></li>
+        <li><a href="https://gitlab.com/BlueMaho/BlueMaho" target="_blank">BlueMaho (GitLab)</a></li>
+        <li><a href="https://sourceforge.net/projects/bluediving" target="_blank">BlueDiving (SourceForge)</a></li>
+        <li><a href="https://github.com/Blooover" target="_blank">Blooover</a></li>
+    </ul>
+
+    <h3>OBEX Attack Tools</h3>
+    <ul>
+        <li><a href="Download" target="_blank">Obexstress</a></li>
+        <li><a href="https://gitlab.com/bluesnarfer" target="_blank">Bluesnarfer (GitLab)</a></li>
+        <li><a href="https://github.com/nOBEX" target="_blank">nOBEX (GitHub)</a></li>
+    </ul>
+
+    <h3>Fuzzing</h3>
+    <ul>
+        <li><a href="https://github.com/ToothPicker" target="_blank">Toothpicker (GitHub)</a></li>
+        <li><a href="https://github.com/bss" target="_blank">Bss (GitHub)</a></li>
+        <li><a href="https://www.synopsys.com/software-integrity/fuzz-testing/defensics.html" target="_blank">Defensics (Commercial)</a></li>
+    </ul>
+
+    <h3>Firmware Analysis</h3>
+    <ul>
+        <li><a href="https://github.com/atc-project/InternalBlue" target="_blank">InternalBlue (GitHub)</a></li>
+        <li><a href="https://github.com/seemoo-lab/Frankenstein" target="_blank">Frankenstein (GitHub)</a></li>
+        <li><a href="https://github.com/seemoo-lab/Nexmon" target="_blank">Nexmon (GitHub)</a></li>
+    </ul>
+
+    <h3>Man-in-the-middle & Packet Injection</h3>
+    <ul>
+        <li><a href="https://github.com/evilsocket/BtleJuice" target="_blank">BtleJuice (GitHub)</a></li>
+        <li><a href="https://github.com/Gattacker" target="_blank">Gattacker (GitHub)</a></li>
+        <li><a href="https://github.com/Btle-For-SDRs" target="_blank">BTLE (for SDRs) (GitHub)</a></li>
+    </ul>
+
+    <h3>Device Spoofing</h3>
+    <ul>
+        <li><a href="https://gitlab.com/spoof-tooph" target="_blank">Spooftooph (GitLab)</a></li>
+        <li><a href="https://github.com/Bluefog" target="_blank">Bluefog (GitHub)</a></li>
+    </ul>
+
+    <h3>Ping & Signal Strength Tools</h3>
+    <ul>
+        <li><a href="https://github.com/bluesonar/blue_sonar" target="_blank">blue_sonar (GitHub)</a></li>
+        <li><a href="https://gitlab.com/BlueRanger" target="_blank">BlueRanger (GitLab)</a></li>
+    </ul>
+
+    <h3>Denial of Service</h3>
+    <ul>
+        <li><a href="https://github.com/BlueDeauth" target="_blank">Blue Deauth (GitHub)</a></li>
+    </ul>
+
+    <h3>Honeypot</h3>
+    <ul>
+        <li><a href="https://github.com/bluepot" target="_blank">Bluepot (GitHub)</a></li>
+    </ul>
+
+    <h3>Android Apps</h3>
+    <ul>
+        <li><a href="https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp" target="_blank">nRF Connect for Mobile</a></li>
+    </ul>
+
+    <h3>Hardware</h3>
+    <ul>
+        <li><a href="Link" target="_blank">Nordic Semiconductor nRF-51 Development Kit</a></li>
+        <li><a href="Link" target="_blank">Sena UD-100 (~$39)</a></li>
+        <li><a href="Link" target="_blank">Ubertooth One (~$120)</a></li>
+        <li><a href="Link" target="_blank">Ellisys Bluetooth Tools</a></li>
+        <li><a href="Link" target="_blank">Frontline Bluetooth Tools</a></li>
+    </ul>
+
+    <h3>Other</h3>
+    <ul>
+        <li><a href="Link" target="_blank">Wireshark: Protocol analyzer and packet capture</a></li>
+        <li><a href="Link" target="_blank">Frontline Wireless Protocol Suite (Windows only)</a></li>
+        <li><a href="https://github.com/bluepot" target="_blank">Uberducky (BLE-triggered rubber ducky)</a></li>
+        <li><a href="Link" target="_blank">CarWhisperer: Bluetooth sniffer for in-vehicle connections</a></li>
+        <li><a href="https://github.com/bleboy" target="_blank">BLEBoy: BLE testing platform (GitHub)</a></li>
+    </ul>
+</body>
+</html>

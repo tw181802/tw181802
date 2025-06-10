@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WinDbg Cheat Sheet (User Mode)</title>
+<style>
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    margin: 0; padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #569cd6;
+  }
+  details {
+    background: #252526;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 0 10px #0008 inset;
+  }
+  summary {
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    font-size: 1.1rem;
+    color: #9cdcfe;
+  }
+  summary:hover {
+    color: #c586c0;
+  }
+  pre {
+    background: #1e1e1e;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0 1rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #d4d4d4;
+  }
+  code {
+    font-family: "Source Code Pro", monospace;
+  }
+  .note {
+    color: #ce9178;
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 600px) {
+    body {
+      padding: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>WinDbg Cheat Sheet (User Mode Only)</h1>
+
+<details open>
+  <summary>Help Commands</summary>
+  <pre><code>
+?         Help on Debugee commands
+.help     Help on Debugger commands
+.hh cmd   Open WinDbg’s help for this command
+  </code></pre>
+</details>
+
+<details>
+  <summary>Execution Control</summary>
+  <pre><code>
+restart         Stop and restart execution
+t (F11)         Step into (trace)
+p [count] (F10) Step over
+pa address      Run to address
+pt              Execute until a return instruction is reached
+ph [count]      Execute until a branching instruction is reached
+g (F5)          Continue (go)
+gu (Shift-F11)  Execute until current function complete
+Ctrl-Break      Break
+  </code></pre>
+</details>
+
+<details>
+  <summary>Breakpoints</summary>
+  <pre><code>
+bl                  List breakpoints
+bp [addr] ["script"] Set breakpoint at addr and optional script
+bp                   Set breakpoint at current instruction
+bu symbol            Set unresolved breakpoint on symbol
+bm pattern           Set breakpoint on all symbols matching pattern
+bc # / *             Clear breakpoint # or all
+bd # / *             Disable breakpoint # or all
+be # / *             Enable breakpoint # or all
+ba [access] [size] addr  Break on memory access
+  access: r=read, w=write, e=execute
+  size: 1,2 or 4 bytes
+  </code></pre>
+</details>
+
+<details>
+  <summary>Listing Modules</summary>
+  <pre><code>
+lm [olfv]     List modules
+lm o          Loaded modules only
+lm l          Modules with symbol info
+lm f          All modules with full image path
+lm v          Verbose listing
+lm a address  Module containing address
+lm m pattern  Find module name (wildcard supported)
+lm M pattern  Find image path (wildcard supported)
+  </code></pre>
+</details>
+
+<details>
+  <summary>Symbols</summary>
+  <pre><code>
+.reload /f       Reload all symbols
+ld module       Load symbols for module
+ld *            Load symbols for all modules
+ln address      Find nearest symbol to address
+x module!symbol Display symbols matching pattern
+  </code></pre>
+</details>
+
+<details>
+  <summary>Registers</summary>
+  <pre><code>
+r               Display all registers and values
+r reg           Display specific register value
+r reg=value     Set register to value
+  </code></pre>
+</details>
+
+<details>
+  <summary>Unassembly</summary>
+  <pre><code>
+u[ub] address [L#] Unassemble from memory
+uu address       Continue disassembly past read error
+ub address       Disassemble backwards from address
+u address L#    Disassemble # instructions from address
+  </code></pre>
+</details>
+
+<details>
+  <summary>Display Memory</summary>
+  <pre><code>
+d{type} [/c#] addr [L#] Display memory contents
+Types:
+b = Bytes + ASCII chars
+w = WORD (2 bytes)
+W = WORD + ASCII chars
+d = DWORD (4 bytes)
+c = DWORD + ASCII chars
+q = QWORD (8 bytes)
+a = ASCII string
+u = Unicode string
+f = Float (4 bytes)
+D = Double (8 bytes)
+d* /c# addr     Set columns
+d* addr L#      Set length
+  </code></pre>
+</details>
+
+<details>
+  <summary>Searching Memory</summary>
+  <pre><code>
+s -[type] range pattern   Search memory range
+Types:
+b = Byte
+w = WORD
+d = DWORD
+q = QWORD
+a = ASCII string
+u = Unicode string
+
+Example:
+s -a 0 L?80000000 "string"
+s -d 0 L?80000000 41414141
+  </code></pre>
+</details>
+
+<details>
+  <summary>Display Type Information</summary>
+  <pre><code>
+dt [-r] name              Display variable or type info
+dt -r name                Recursively dump subtype fields
+dt name addr              Specify address of struct
+dt ntdll!_TEB @$teb       Use @ to specify register
+dt name field             Display specific field
+  </code></pre>
+</details>
+
+<details>
+  <summary>Display Memory & Symbols</summary>
+  <pre><code>
+dds range   Display DWORD values & symbols
+dqs range   Display QWORD values & symbols
+dps range   Display pointer-sized values & symbols
+  </code></pre>
+</details>
+
+<details>
+  <summary>Evaluate Expressions</summary>
+  <pre><code>
+? expr      Evaluate expression
+?? expr     Evaluate C++ expression
+.formats expr  Show multiple formats
+
+Examples:
+? 77269bc0 - 77231430
+? 77269bc0 >> 18
+? 41 (decimal)
+?? sizeof(ntdll!_TEB)
+  </code></pre>
+</details>
+
+<details>
+  <summary>Prefixes</summary>
+  <pre><code>
+0x Hexadecimal (default)
+0n Decimal
+0y Binary
+  </code></pre>
+</details>
+
+<details>
+  <summary>Miscellaneous</summary>
+  <pre><code>
+k[bpPv]   Display stack backtrace
+a [addr]  Assemble x86 instructions into memory at address
+  </code></pre>
+</details>
+
+<details>
+  <summary>Extensions</summary>
+  <pre><code>
+!address [addr]     Display memory map
+!exchain            Display current exception handler chain
+!vprot addr         Display virtual memory protection info
+!dh addr            Display image headers
+  </code></pre>
+</details>
+
+<script>
+  // Optional: close others when one opens (accordion style)
+  const detailsEls = document.querySelectorAll("details");
+  detailsEls.forEach((detail) => {
+    detail.addEventListener("toggle", () => {
+      if (detail.open) {
+        detailsEls.forEach((other) => {
+          if (other !== detail) other.open = false;
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

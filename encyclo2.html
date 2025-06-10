@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Process Encyclopedia</title>
+    <style>
+        :root {
+            --primary-color: #3a4f6a;
+            --secondary-color: #f0f3f6;
+            --accent-color: #4CAF50;
+            --text-color: #333;
+            --light-text: #666;
+            --border-color: #e1e4e8;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #f9fafc;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: white;
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .search-box {
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px 10px 8px 35px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 10px;
+            top: 8px;
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .nav-menu {
+            padding: 15px 0;
+        }
+
+        .nav-category {
+            margin-bottom: 5px;
+        }
+
+        .nav-category-title {
+            padding: 8px 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-category-title:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .nav-items {
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .nav-items.expanded {
+            max-height: 1000px;
+        }
+
+        .nav-item {
+            padding: 8px 20px 8px 30px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: var(--light-text);
+            display: block;
+        }
+
+        .nav-item a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-item.active a {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: 900px;
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+        }
+
+        .content-header h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--light-text);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumbs a {
+            color: var(--light-text);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumbs span {
+            margin: 0 5px;
+        }
+
+        /* Process Table Styles */
+        .process-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .process-table th {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: left;
+            padding: 12px 15px;
+            font-weight: 500;
+        }
+
+        .process-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .process-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .process-table tr:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .process-name {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: var(--primary-color);
+        }
+
+        .process-variants {
+            font-size: 12px;
+            color: var(--light-text);
+            margin-top: 3px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Details Panel */
+        .details-panel {
+            background-color: white;
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .details-panel h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .details-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .details-label {
+            font-weight: 500;
+            width: 150px;
+            color: var(--light-text);
+        }
+
+        .details-value {
+            flex: 1;
+        }
+
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>Windows Process Encyclopedia</h1>
+            <div class="search-box">
+                <input type="text" placeholder="Search processes..." id="searchInput">
+            </div>
+        </div>
+        <div class="nav-menu">
+            <div class="nav-category">
+                <div class="nav-category-title" onclick="toggleCategory('executables')">
+                    <span>Executables (EXE)</span>
+                    <span>+</span>
+                </div>
+                <ul class="nav-items" id="executables">
+                    <li class="nav-item"><a href="#_isdel">_isdel.exe</a></li>
+                    <li class="nav-item"><a href="#4gb_patch">4gb_patch.exe</a></li>
+                    <li class="nav-item"><a href="#64BitMailAgent">64BitMailAgent.exe</a></li>
+                    <li class="nav-item"><a href="#7z">7z.exe</a></li>
+                    <li class="nav-item"><a href="#7zFM">7zFM.exe</a></li>
+                    <li class="nav-item"><a href="#7zG">7zG.exe</a></li>
+                    <li class="nav-item"><a href="#AccCheckConsole">AccCheckConsole.exe</a></li>
+                    <li class="nav-item"><a href="#accesschk">accesschk.exe</a></li>
+                    <li class="nav-item"><a href="#AccessEnum">AccessEnum.exe</a></li>
+                    <li class="nav-item"><a href="#accevent">accevent.exe</a></li>
+		    <li class="nav-item"><a href="#ACCICONS">ACCICONS.EXE</a></li>
+<li class="nav-item"><a href="#AccountsControlHost">AccountsControlHost.exe</a></li>
+<li class="nav-item"><a href="#action_runner">action_runner.exe</a></li>
+<li class="nav-item"><a href="#acu">acu.exe</a></li>
+<li class="nav-item"><a href="#AddInProcess">AddInProcess.exe</a></li>
+<li class="nav-item"><a href="#AddInProcess32">AddInProcess32.exe</a></li>
+<li class="nav-item"><a href="#AddInUtil">AddInUtil.exe</a></li>
+<li class="nav-item"><a href="#AddSuggestedFolders">AddSuggestedFoldersToLibraryDialog.exe</a></li>
+<li class="nav-item"><a href="#ADExplorer">ADExplorer.exe</a></li>
+<li class="nav-item"><a href="#ADInsight">ADInsight.exe</a></li>
+<li class="nav-item"><a href="#ADInsight64">ADInsight64.exe</a></li>
+<li class="nav-item"><a href="#AdmPwd">AdmPwd.UI.exe</a></li>
+<li class="nav-item"><a href="#AdobeAIRInstaller">Adobe AIR Application Installer.exe</a></li>
+<li class="nav-item"><a href="#AdobeAIRUpdater">Adobe AIR Updater.exe</a></li>
+<li class="nav-item"><a href="#AdobeARM">AdobeARM.exe</a></li>
+<li class="nav-item"><a href="#AdobeARMHelper">AdobeARMHelper.exe</a></li>
+<li class="nav-item"><a href="#adpcmencode3">adpcmencode3.exe</a></li>
+<li class="nav-item"><a href="#adplus">adplus.exe</a></li>
+<li class="nav-item"><a href="#adplusmanager">adplusmanager.exe</a></li>
+<li class="nav-item"><a href="#adrestore">adrestore.exe</a></li>
+<li class="nav-item"><a href="#agcp">agcp.exe</a></li>
+<li class="nav-item"><a href="#agentactivation">agentactivationruntimestarter.exe</a></li>
+<li class="nav-item"><a href="#AgentService">AgentService.exe</a></li>
+<li class="nav-item"><a href="#agestore">agestore.exe</a></li>
+<li class="nav-item"><a href="#AggregatorHost">AggregatorHost.exe</a></li>
+<li class="nav-item"><a href="#AIMP">AIMP.exe</a></li>
+<li class="nav-item"><a href="#AIMPac">AIMPac.exe</a></li>
+<li class="nav-item"><a href="#AIMPate">AIMPate.exe</a></li>
+<li class="nav-item"><a href="#airappinstaller">airappinstaller.exe</a></li>
+<li class="nav-item"><a href="#airhost">airhost.exe</a></li>
+<li class="nav-item"><a href="#aitagent">aitagent.exe</a></li>
+<li class="nav-item"><a href="#aitstatic">aitstatic.exe</a></li>
+<li class="nav-item"><a href="#al">al.exe</a></li>
+<li class="nav-item"><a href="#alg">alg.exe</a></li>
+<li class="nav-item"><a href="#align-layers">align-layers.exe</a></li>
+<li class="nav-item"><a href="#amazon-ssm-agent">amazon-ssm-agent.exe</a></li>
+<li class="nav-item"><a href="#AmazonSSMAgentSetup">AmazonSSMAgentSetup.exe</a></li>
+<li class="nav-item"><a href="#animation-optimize">animation-optimize.exe</a></li>
+<li class="nav-item"><a href="#animation-play">animation-play.exe</a></li>
+<li class="nav-item"><a href="#aomhost">aomhost.exe</a></li>
+<li class="nav-item"><a href="#aomhost64">aomhost64.exe</a></li>
+<li class="nav-item"><a href="#appcert">appcert.exe</a></li>
+<li class="nav-item"><a href="#appcertui">appcertui.exe</a></li>
+<li class="nav-item"><a href="#appcmd">appcmd.exe</a></li>
+<li class="nav-item"><a href="#AppHostRegistration">AppHostRegistrationVerifier.exe</a></li>
+<li class="nav-item"><a href="#appidcertstorecheck">appidcertstorecheck.exe</a></li>
+<li class="nav-item"><a href="#appidpolicyconverter">appidpolicyconverter.exe</a></li>
+<li class="nav-item"><a href="#appidtel">appidtel.exe</a></li>
+<li class="nav-item"><a href="#AppLaunch">AppLaunch.exe</a></li>
+<li class="nav-item"><a href="#AppleMobileBackup">AppleMobileBackup.exe</a></li>
+<li class="nav-item"><a href="#AppleMobileDeviceHelper">AppleMobileDeviceHelper.exe</a></li>
+<li class="nav-item"><a href="#AppleMobileDeviceService">AppleMobileDeviceService.exe</a></li>
+<li class="nav-item"><a href="#AppleMobileSync">AppleMobileSync.exe</a></li>
+<li class="nav-item"><a href="#ApplePhotoStreams">ApplePhotoStreams-AppX.exe</a></li>
+<li class="nav-item"><a href="#AppleSyncMapi">AppleSyncMapiInterfaceHelper_x64.exe</a></li>
+<li class="nav-item"><a href="#appletviewer">appletviewer.exe</a></li>
+<li class="nav-item"><a href="#ApplicationFrameHost">ApplicationFrameHost.exe</a></li>
+<li class="nav-item"><a href="#ApplySettingsTemplate">ApplySettingsTemplateCatalog.exe</a></li>
+<li class="nav-item"><a href="#ApplyTrustOffline">ApplyTrustOffline.exe</a></li>
+<li class="nav-item"><a href="#AppResolverUX">AppResolverUX.exe</a></li>
+<li class="nav-item"><a href="#ApproveChildRequest">ApproveChildRequest.exe</a></li>
+<li class="nav-item"><a href="#AppSharingHook">AppSharingHookController64.exe</a></li>
+<li class="nav-item"><a href="#appvcleaner">appvcleaner.exe</a></li>
+<li class="nav-item"><a href="#AppVClient">AppVClient.exe</a></li>
+<li class="nav-item"><a href="#AppVDllSurrogate">AppVDllSurrogate.exe</a></li>
+<li class="nav-item"><a href="#AppVDllSurrogate32">AppVDllSurrogate32.exe</a></li>
+<li class="nav-item"><a href="#AppVDllSurrogate64">AppVDllSurrogate64.exe</a></li>
+<li class="nav-item"><a href="#appverif">appverif.exe</a></li>
+<li class="nav-item"><a href="#AppVLP">AppVLP.exe</a></li>
+<li class="nav-item"><a href="#AppVNice">AppVNice.exe</a></li>
+<li class="nav-item"><a href="#AppVShNotify">AppVShNotify.exe</a></li>
+<li class="nav-item"><a href="#AppVStreamingUX">AppVStreamingUX.exe</a></li>
+<li class="nav-item"><a href="#APSDaemon">APSDaemon.exe</a></li>
+<li class="nav-item"><a href="#APSDaemon-AppX">APSDaemon-AppX.exe</a></li>
+<li class="nav-item"><a href="#Arc">Arc.exe</a></li>
+<li class="nav-item"><a href="#ARP">ARP.EXE</a></li>
+<li class="nav-item"><a href="#ashelper">ashelper.exe</a></li>
+<li class="nav-item"><a href="#aspnet_compiler">aspnet_compiler.exe</a></li>
+<li class="nav-item"><a href="#aspnet_intern">aspnet_intern.exe</a></li>
+<li class="nav-item"><a href="#aspnet_merge">aspnet_merge.exe</a></li>
+<li class="nav-item"><a href="#aspnet_regbrowsers">aspnet_regbrowsers.exe</a></li>
+<li class="nav-item"><a href="#aspnet_regiis">aspnet_regiis.exe</a></li>
+<li class="nav-item"><a href="#aspnet_regsql">aspnet_regsql.exe</a></li>
+<li class="nav-item"><a href="#aspnet_state">aspnet_state.exe</a></li>
+<li class="nav-item"><a href="#aspnet_wp">aspnet_wp.exe</a></li>
+<li class="nav-item"><a href="#aspnetca">aspnetca.exe</a></li>
+<li class="nav-item"><a href="#AssignedAccessGuard">AssignedAccessGuard.exe</a></li>
+<li class="nav-item"><a href="#AssignedAccessLockApp">AssignedAccessLockApp.exe</a></li>
+<li class="nav-item"><a href="#assistant_installer">assistant_installer.exe</a></li>
+<li class="nav-item"><a href="#at">at.exe</a></li>
+<li class="nav-item"><a href="#atasanot">atasanot.exe</a></li>
+<li class="nav-item"><a href="#AtBroker">AtBroker.exe</a></li>
+<li class="nav-item"><a href="#atcliun">atcliun.exe</a></li>
+<li class="nav-item"><a href="#ATH">ATH.exe</a></li>
+<li class="nav-item"><a href="#atinst">atinst.exe</a></li>
+<li class="nav-item"><a href="#atmgr">atmgr.exe</a></li>
+<li class="nav-item"><a href="#attrib">attrib.exe</a></li>
+<li class="nav-item"><a href="#audacity">audacity.exe</a></li>
+<li class="nav-item"><a href="#audiodg">audiodg.exe</a></li>
+<li class="nav-item"><a href="#audit">audit.exe</a></li>
+<li class="nav-item"><a href="#auditpol">auditpol.exe</a></li>
+<li class="nav-item"><a href="#AuditShD">AuditShD.exe</a></li>
+<li class="nav-item"><a href="#AuthHost">AuthHost.exe</a></li>
+<li class="nav-item"><a href="#autochk">autochk.exe</a></li>
+<li class="nav-item"><a href="#autoconv">autoconv.exe</a></li>
+<li class="nav-item"><a href="#autofmt">autofmt.exe</a></li>
+<li class="nav-item"><a href="#Autologon">Autologon.exe</a></li>
+<li class="nav-item"><a href="#Autologon64">Autologon64.exe</a></li>
+<li class="nav-item"><a href="#Autoruns">Autoruns.exe</a></li>
+<li class="nav-item"><a href="#Autoruns64">Autoruns64.exe</a></li>
+<li class="nav-item"><a href="#autorunsc">autorunsc.exe</a></li>
+<li class="nav-item"><a href="#autorunsc64">autorunsc64.exe</a></li>
+<li class="nav-item"><a href="#AutoUpdate">AutoUpdate.exe</a></li>
+<li class="nav-item"><a href="#AutoWorkplace">AutoWorkplace.exe</a></li>
+<li class="nav-item"><a href="#awk">awk.exe</a></li>
+<li class="nav-item"><a href="#AWSCloudWatch">AWS.CloudWatch.exe</a></li>
+<li class="nav-item"><a href="#AWSDomainJoin">AWS.DomainJoin.exe</a></li>
+<li class="nav-item"><a href="#AWSAcpiSpcrReader">AWSAcpiSpcrReader.exe</a></li>
+<li class="nav-item"><a href="#awsdeploy">awsdeploy.exe</a></li>
+<li class="nav-item"><a href="#AxImp">AxImp.exe</a></li>
+<li class="nav-item"><a href="#AxInstUI">AxInstUI.exe</a></li>
+<li class="nav-item"><a href="#b2sum">b2sum.exe</a></li>
+<li class="nav-item"><a href="#baaupdate">baaupdate.exe</a></li>
+<li class="nav-item"><a href="#backgroundTaskHost">backgroundTaskHost.exe</a></li>
+<li class="nav-item"><a href="#BackgroundTransferHost">BackgroundTransferHost.exe</a></li>
+<li class="nav-item"><a href="#basename">basename.exe</a></li>
+<li class="nav-item"><a href="#basenc">basenc.exe</a></li>
+<li class="nav-item"><a href="#bash">bash.exe</a></li>
+<li class="nav-item"><a href="#bcastdvr">bcastdvr.exe</a></li>
+<li class="nav-item"><a href="#bcdboot">bcdboot.exe</a></li>
+<li class="nav-item"><a href="#bcdedit">bcdedit.exe</a></li>
+<li class="nav-item"><a href="#bcm">bcm.exe</a></li>
+<li class="nav-item"><a href="#bcp">bcp.exe</a></li>
+<li class="nav-item"><a href="#bdechangepin">bdechangepin.exe</a></li>
+<li class="nav-item"><a href="#BdeHdCfg">BdeHdCfg.exe</a></li>
+<li class="nav-item"><a href="#BdeUISrv">BdeUISrv.exe</a></li>
+<li class="nav-item"><a href="#bdeunlock">bdeunlock.exe</a></li>
+
+
+
+
+
+
+                    <!-- More items can be added here -->
+                </ul>
+            </div>
+            <div class="nav-category">
+                <div class="nav-category-title" onclick="toggleCategory('dlls')">
+                    <span>Dynamic Libraries (DLL)</span>
+                    <span>+</span>
+                </div>
+                <ul class="nav-items" id="dlls">
+                    <li class="nav-item"><a href="#kernel32">kernel32.dll</a></li>
+                    <li class="nav-item"><a href="#user32">user32.dll</a></li>
+                    <li class="nav-item"><a href="#advapi32">advapi32.dll</a></li>
+                    <!-- More DLL items -->
+                </ul>
+            </div>
+            <div class="nav-category">
+                <div class="nav-category-title" onclick="toggleCategory('com')">
+                    <span>COM Components</span>
+                    <span>+</span>
+                </div>
+                <ul class="nav-items" id="com">
+                    <li class="nav-item"><a href="#com1">COM Object 1</a></li>
+                    <li class="nav-item"><a href="#com2">COM Object 2</a></li>
+                    <!-- More COM items -->
+                </ul>
+            </div>
+            <div class="nav-category">
+                <div class="nav-category-title" onclick="toggleCategory('misc')">
+                    <span>Miscellaneous</span>
+                    <span>+</span>
+                </div>
+                <ul class="nav-items" id="misc">
+                    <li class="nav-item"><a href="#services">Windows Services</a></li>
+                    <li class="nav-item"><a href="#scheduled">Scheduled Tasks</a></li>
+                    <!-- More misc items -->
+                </ul>
+            </div>
+            <div class="nav-category">
+                <div class="nav-category-title" onclick="toggleCategory('directories')">
+                    <span>Important Directories</span>
+                    <span>+</span>
+                </div>
+                <ul class="nav-items" id="directories">
+                    <li class="nav-item"><a href="#system32">System32</a></li>
+                    <li class="nav-item"><a href="#syswow64">SysWOW64</a></li>
+                    <li class="nav-item"><a href="#programfiles">Program Files</a></li>
+                    <!-- More directory items -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Windows Processes Encyclopedia</h1>
+            <div class="breadcrumbs">
+                <a href="#">Home</a>
+                <span>/</span>
+                <a href="#">Executables</a>
+                <span>/</span>
+                <span>Process Details</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('overview')">Overview</div>
+            <div class="tab" onclick="switchTab('details')">Technical Details</div>
+            <div class="tab" onclick="switchTab('security')">Security</div>
+            <div class="tab" onclick="switchTab('troubleshooting')">Troubleshooting</div>
+        </div>
+
+        <div class="tab-content active" id="overview">
+            <h2>Windows Executable Files (EXE)</h2>
+            <p>This section documents various Windows executable files, their purposes, and potential security implications.</p>
+            
+            <table class="process-table">
+                <thead>
+                    <tr>
+                        <th>File Name / Variants</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="_isdel">
+                        <td>
+                            <div class="process-name">_isdel.exe</div>
+                            <div class="process-variants">(2 variants)</div>
+                        </td>
+                        <td>32-bit InstallShield Deleter utility used for uninstalling applications installed with InstallShield</td>
+                    </tr>
+                    <tr id="4gb_patch">
+                        <td>
+                            <div class="process-name">4gb_patch.exe</div>
+                        </td>
+                        <td>Utility to patch 32-bit applications to access more than 2GB of memory on 32-bit Windows systems</td>
+                    </tr>
+                    <tr id="64BitMailAgent">
+                        <td>
+                            <div class="process-name">64BitMailAgent.exe</div>
+                        </td>
+                        <td>64-bit MAPI Mail Agent for handling email operations in 64-bit environments</td>
+                    </tr>
+                    <tr id="7z">
+                        <td>
+                            <div class="process-name">7z.exe</div>
+                        </td>
+                        <td>7-Zip Console version - command line interface for the 7-Zip archiver</td>
+                    </tr>
+                    <tr id="7zFM">
+                        <td>
+                            <div class="process-name">7zFM.exe</div>
+                        </td>
+                        <td>7-Zip File Manager - graphical interface for the 7-Zip archiver</td>
+                    </tr>
+                    <tr id="7zG">
+                        <td>
+                            <div class="process-name">7zG.exe</div>
+                        </td>
+                        <td>7-Zip GUI version - graphical interface for the 7-Zip archiver</td>
+                    </tr>
+                    <tr id="AccCheckConsole">
+                        <td>
+                            <div class="process-name">AccCheckConsole.exe</div>
+                            <div class="process-variants">(4 variants)</div>
+                        </td>
+                        <td>Accessibility checker console application</td>
+                    </tr>
+                    <tr id="accesschk">
+                        <td>
+                            <div class="process-name">accesschk.exe</div>
+                        </td>
+                        <td>Reports effective permissions for securable objects from Sysinternals</td>
+                    </tr>
+                    <tr id="AccessEnum">
+                        <td>
+                            <div class="process-name">AccessEnum.exe</div>
+                        </td>
+                        <td>AccessEnum tool from Sysinternals for viewing file system and registry permissions</td>
+                    </tr>
+                    <tr id="accevent">
+                        <td>
+                            <div class="process-name">accevent.exe</div>
+                            <div class="process-variants">(4 variants)</div>
+                        </td>
+                        <td>Accessible Event Watcher (32-bit UNICODE Release)</td>
+                    </tr>
+                    <!-- More rows can be added here -->
+<tr id="ACCICONS">
+    <td>
+        <div class="process-name">ACCICONS.EXE</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>Microsoft Office component</td>
+</tr>
+<tr id="AccountsControlHost">
+    <td>
+        <div class="process-name">AccountsControlHost.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>Accounts Control Host</td>
+</tr>
+<tr id="action_runner">
+    <td>
+        <div class="process-name">action_runner.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>PowerToys ActionRunner</td>
+</tr>
+<tr id="acu">
+    <td>
+        <div class="process-name">acu.exe</div>
+    </td>
+    <td>ACU - Contains the Application Container Updater</td>
+</tr>
+<tr id="AddInProcess">
+    <td>
+        <div class="process-name">AddInProcess.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AddInProcess.exe - Flavor=Retail</td>
+</tr>
+<tr id="AddInProcess32">
+    <td>
+        <div class="process-name">AddInProcess32.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AddInProcess.exe - Flavor=Retail</td>
+</tr>
+<tr id="AddInUtil">
+    <td>
+        <div class="process-name">AddInUtil.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AddInUtil.exe - Flavor=Retail</td>
+</tr>
+<tr id="AddSuggestedFolders">
+    <td>
+        <div class="process-name">AddSuggestedFoldersToLibraryDialog.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AddSuggestedFoldersToLibraryDialog</td>
+</tr>
+<tr id="ADExplorer">
+    <td>
+        <div class="process-name">ADExplorer.exe</div>
+    </td>
+    <td>Active Directory Editor</td>
+</tr>
+<tr id="ADInsight">
+    <td>
+        <div class="process-name">ADInsight.exe</div>
+    </td>
+    <td>Active directory LDAP monitor</td>
+</tr>
+<tr id="ADInsight64">
+    <td>
+        <div class="process-name">ADInsight64.exe</div>
+    </td>
+    <td>Active directory LDAP monitor</td>
+</tr>
+<tr id="AdmPwd">
+    <td>
+        <div class="process-name">AdmPwd.UI.exe</div>
+    </td>
+    <td>UI for AdmPwd management</td>
+</tr>
+<tr id="AdobeAIRInstaller">
+    <td>
+        <div class="process-name">Adobe AIR Application Installer.exe</div>
+    </td>
+    <td>Adobe AIR Application Installer</td>
+</tr>
+<tr id="AdobeAIRUpdater">
+    <td>
+        <div class="process-name">Adobe AIR Updater.exe</div>
+    </td>
+    <td>Adobe AIR Installer</td>
+</tr>
+<tr id="AdobeARM">
+    <td>
+        <div class="process-name">AdobeARM.exe</div>
+    </td>
+    <td>Adobe Reader and Acrobat Manager</td>
+</tr>
+<tr id="AdobeARMHelper">
+    <td>
+        <div class="process-name">AdobeARMHelper.exe</div>
+    </td>
+    <td>Adobe Reader and Acrobat Manager Helper</td>
+</tr>
+<tr id="adpcmencode3">
+    <td>
+        <div class="process-name">adpcmencode3.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>ADPCM encoding and decoding utility</td>
+</tr>
+<tr id="adplus">
+    <td>
+        <div class="process-name">adplus.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>Debugging tool</td>
+</tr>
+<tr id="adplusmanager">
+    <td>
+        <div class="process-name">adplusmanager.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>Debugging tool manager</td>
+</tr>
+<tr id="adrestore">
+    <td>
+        <div class="process-name">adrestore.exe</div>
+    </td>
+    <td>Active Directory restore utility</td>
+</tr>
+<tr id="agcp">
+    <td>
+        <div class="process-name">agcp.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>agcp.exe</td>
+</tr>
+<tr id="agentactivation">
+    <td>
+        <div class="process-name">agentactivationruntimestarter.exe</div>
+        <div class="process-variants">(9 variants)</div>
+    </td>
+    <td>Agent activation runtime starter</td>
+</tr>
+<tr id="AgentService">
+    <td>
+        <div class="process-name">AgentService.exe</div>
+        <div class="process-variants">(7 variants)</div>
+    </td>
+    <td>AgentService EXE</td>
+</tr>
+<tr id="agestore">
+    <td>
+        <div class="process-name">agestore.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>Microsoft AgeStore</td>
+</tr>
+<tr id="AggregatorHost">
+    <td>
+        <div class="process-name">AggregatorHost.exe</div>
+    </td>
+    <td>Aggregator host process</td>
+</tr>
+<tr id="AIMP">
+    <td>
+        <div class="process-name">AIMP.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AIMP - Made in Russia</td>
+</tr>
+<tr id="AIMPac">
+    <td>
+        <div class="process-name">AIMPac.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AIMP Audio Converter - Made in Russia</td>
+</tr>
+<tr id="AIMPate">
+    <td>
+        <div class="process-name">AIMPate.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AIMP Advanced Tag Editor - Made in Russia</td>
+</tr>
+<tr id="airappinstaller">
+    <td>
+        <div class="process-name">airappinstaller.exe</div>
+    </td>
+    <td>Adobe AIR Application Installer</td>
+</tr>
+<tr id="airhost">
+    <td>
+        <div class="process-name">airhost.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>AirHost</td>
+</tr>
+<tr id="aitagent">
+    <td>
+        <div class="process-name">aitagent.exe</div>
+    </td>
+    <td>Application Impact Telemetry Agent</td>
+</tr>
+<tr id="aitstatic">
+    <td>
+        <div class="process-name">aitstatic.exe</div>
+        <div class="process-variants">(10 variants)</div>
+    </td>
+    <td>Application Impact Telemetry Static Analyzer</td>
+</tr>
+<tr id="al">
+    <td>
+        <div class="process-name">al.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>Assembly Linker command line tool</td>
+</tr>
+<tr id="alg">
+    <td>
+        <div class="process-name">alg.exe</div>
+        <div class="process-variants">(7 variants)</div>
+    </td>
+    <td>Application Layer Gateway Service</td>
+</tr>
+<tr id="align-layers">
+    <td>
+        <div class="process-name">align-layers.exe</div>
+    </td>
+    <td>GNU Image Manipulation Program Plug-In</td>
+</tr>
+<tr id="amazon-ssm-agent">
+    <td>
+        <div class="process-name">amazon-ssm-agent.exe</div>
+    </td>
+    <td>Amazon SSM Agent</td>
+</tr>
+<tr id="AmazonSSMAgentSetup">
+    <td>
+        <div class="process-name">AmazonSSMAgentSetup.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>Amazon SSM Agent</td>
+</tr>
+<tr id="animation-optimize">
+    <td>
+        <div class="process-name">animation-optimize.exe</div>
+    </td>
+    <td>GNU Image Manipulation Program Plug-In</td>
+</tr>
+<tr id="animation-play">
+    <td>
+        <div class="process-name">animation-play.exe</div>
+    </td>
+    <td>GNU Image Manipulation Program Plug-In</td>
+</tr>
+<tr id="aomhost">
+    <td>
+        <div class="process-name">aomhost.exe</div>
+    </td>
+    <td>Zoom - Zoom</td>
+</tr>
+<tr id="aomhost64">
+    <td>
+        <div class="process-name">aomhost64.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>Zoom - Zoom</td>
+</tr>
+<tr id="appcert">
+    <td>
+        <div class="process-name">appcert.exe</div>
+    </td>
+    <td>Command Line Interface</td>
+</tr>
+<tr id="appcertui">
+    <td>
+        <div class="process-name">appcertui.exe</div>
+    </td>
+    <td>Windows App Certification Kit</td>
+</tr>
+<tr id="appcmd">
+    <td>
+        <div class="process-name">appcmd.exe</div>
+        <div class="process-variants">(6 variants)</div>
+    </td>
+    <td>Application Server Command Line Admin Tool</td>
+</tr>
+<tr id="AppHostRegistration">
+    <td>
+        <div class="process-name">AppHostRegistrationVerifier.exe</div>
+        <div class="process-variants">(6 variants)</div>
+    </td>
+    <td>App Uri Handlers Registration Verifier</td>
+</tr>
+<tr id="appidcertstorecheck">
+    <td>
+        <div class="process-name">appidcertstorecheck.exe</div>
+        <div class="process-variants">(9 variants)</div>
+    </td>
+    <td>AppID Certificate Store Verification Task</td>
+</tr>
+<tr id="appidpolicyconverter">
+    <td>
+        <div class="process-name">appidpolicyconverter.exe</div>
+        <div class="process-variants">(9 variants)</div>
+    </td>
+    <td>AppID Policy Converter Task</td>
+</tr>
+<tr id="appidtel">
+    <td>
+        <div class="process-name">appidtel.exe</div>
+        <div class="process-variants">(15 variants)</div>
+    </td>
+    <td>Initializes Appid ManagedInstaller and Smartscreen Telemetry</td>
+</tr>
+<tr id="AppLaunch">
+    <td>
+        <div class="process-name">AppLaunch.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>Microsoft .NET ClickOnce Launch Utility - Flavor=Retail</td>
+</tr>
+<tr id="AppleMobileBackup">
+    <td>
+        <div class="process-name">AppleMobileBackup.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>MobileBackup</td>
+</tr>
+<tr id="AppleMobileDeviceHelper">
+    <td>
+        <div class="process-name">AppleMobileDeviceHelper.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>MobileDeviceHelper</td>
+</tr>
+<tr id="AppleMobileDeviceService">
+    <td>
+        <div class="process-name">AppleMobileDeviceService.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>MobileDeviceService</td>
+</tr>
+<tr id="AppleMobileSync">
+    <td>
+        <div class="process-name">AppleMobileSync.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>MobileSync</td>
+</tr>
+<tr id="ApplePhotoStreams">
+    <td>
+        <div class="process-name">ApplePhotoStreams-AppX.exe</div>
+    </td>
+    <td>Apple Photo Streams</td>
+</tr>
+<tr id="AppleSyncMapi">
+    <td>
+        <div class="process-name">AppleSyncMapiInterfaceHelper_x64.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>SyncMapiInterfaceHelper</td>
+</tr>
+<tr id="appletviewer">
+    <td>
+        <div class="process-name">appletviewer.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>OpenJDK Platform binary</td>
+</tr>
+<tr id="ApplicationFrameHost">
+    <td>
+        <div class="process-name">ApplicationFrameHost.exe</div>
+        <div class="process-variants">(6 variants)</div>
+    </td>
+    <td>Application Frame Host</td>
+</tr>
+<tr id="ApplySettingsTemplate">
+    <td>
+        <div class="process-name">ApplySettingsTemplateCatalog.exe</div>
+        <div class="process-variants">(7 variants)</div>
+    </td>
+    <td>ApplySettingsTemplateCatalog EXE</td>
+</tr>
+<tr id="ApplyTrustOffline">
+    <td>
+        <div class="process-name">ApplyTrustOffline.exe</div>
+        <div class="process-variants">(11 variants)</div>
+    </td>
+    <td>"ApplyTrustOffline.PROGRAM"</td>
+</tr>
+<tr id="AppResolverUX">
+    <td>
+        <div class="process-name">AppResolverUX.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AppResolverUX</td>
+</tr>
+<tr id="ApproveChildRequest">
+    <td>
+        <div class="process-name">ApproveChildRequest.exe</div>
+        <div class="process-variants">(5 variants)</div>
+    </td>
+    <td>Grant more screen time</td>
+</tr>
+<tr id="AppSharingHook">
+    <td>
+        <div class="process-name">AppSharingHookController64.exe</div>
+    </td>
+    <td>Skype for Business</td>
+</tr>
+<tr id="appvcleaner">
+    <td>
+        <div class="process-name">appvcleaner.exe</div>
+    </td>
+    <td>AppVCleaner</td>
+</tr>
+<tr id="AppVClient">
+    <td>
+        <div class="process-name">AppVClient.exe</div>
+        <div class="process-variants">(6 variants)</div>
+    </td>
+    <td>Microsoft Application Virtualization Client Service</td>
+</tr>
+<tr id="AppVDllSurrogate">
+    <td>
+        <div class="process-name">AppVDllSurrogate.exe</div>
+        <div class="process-variants">(7 variants)</div>
+    </td>
+    <td>Client DLL Surrogate Host</td>
+</tr>
+<tr id="AppVDllSurrogate32">
+    <td>
+        <div class="process-name">AppVDllSurrogate32.exe</div>
+    </td>
+    <td>AppVDllSurrogate32</td>
+</tr>
+<tr id="AppVDllSurrogate64">
+    <td>
+        <div class="process-name">AppVDllSurrogate64.exe</div>
+    </td>
+    <td>AppVDllSurrogate64</td>
+</tr>
+<tr id="appverif">
+    <td>
+        <div class="process-name">appverif.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>Application Verifier User Interface Utility</td>
+</tr>
+<tr id="AppVLP">
+    <td>
+        <div class="process-name">AppVLP.exe</div>
+    </td>
+    <td>appvlp</td>
+</tr>
+<tr id="AppVNice">
+    <td>
+        <div class="process-name">AppVNice.exe</div>
+        <div class="process-variants">(7 variants)</div>
+    </td>
+    <td>Microsoft Application Virtualization appvnice</td>
+</tr>
+<tr id="AppVShNotify">
+    <td>
+        <div class="process-name">AppVShNotify.exe</div>
+        <div class="process-variants">(8 variants)</div>
+    </td>
+    <td>Microsoft Application Virtualization Client Shell Notifier</td>
+</tr>
+<tr id="AppVStreamingUX">
+    <td>
+        <div class="process-name">AppVStreamingUX.exe</div>
+        <div class="process-variants">(7 variants)</div>
+    </td>
+    <td>Application Virtualization Streaming UX</td>
+</tr>
+<tr id="APSDaemon">
+    <td>
+        <div class="process-name">APSDaemon.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>Apple Push</td>
+</tr>
+<tr id="APSDaemon-AppX">
+    <td>
+        <div class="process-name">APSDaemon-AppX.exe</div>
+    </td>
+    <td>Apple Push</td>
+</tr>
+<tr id="Arc">
+    <td>
+        <div class="process-name">Arc.exe</div>
+    </td>
+    <td>Arc utility</td>
+</tr>
+<tr id="ARP">
+    <td>
+        <div class="process-name">ARP.EXE</div>
+        <div class="process-variants">(12 variants)</div>
+    </td>
+    <td>TCP/IP Arp Command</td>
+</tr>
+<tr id="ashelper">
+    <td>
+        <div class="process-name">ashelper.exe</div>
+    </td>
+    <td>Cisco WebEx Application Advance Sharing Module (01/16/2018 T32 Unicode)</td>
+</tr>
+<tr id="aspnet_compiler">
+    <td>
+        <div class="process-name">aspnet_compiler.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>aspnet_compiler.exe - Flavor=Retail</td>
+</tr>
+<tr id="aspnet_intern">
+    <td>
+        <div class="process-name">aspnet_intern.exe</div>
+    </td>
+    <td>aspnet_intern.exe</td>
+</tr>
+<tr id="aspnet_merge">
+    <td>
+        <div class="process-name">aspnet_merge.exe</div>
+    </td>
+    <td>aspnet_merge.exe</td>
+</tr>
+<tr id="aspnet_regbrowsers">
+    <td>
+        <div class="process-name">aspnet_regbrowsers.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>aspnet_regbrowsers.exe - Flavor=Retail</td>
+</tr>
+<tr id="aspnet_regiis">
+    <td>
+        <div class="process-name">aspnet_regiis.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>aspnet_regiis.exe - Flavor=Retail</td>
+</tr>
+<tr id="aspnet_regsql">
+    <td>
+        <div class="process-name">aspnet_regsql.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>aspnet_regsql.exe - Flavor=Retail</td>
+</tr>
+<tr id="aspnet_state">
+    <td>
+        <div class="process-name">aspnet_state.exe</div>
+        <div class="process-variants">(4 variants)</div>
+    </td>
+    <td>Microsoft ASP.NET State Server - Flavor=Retail</td>
+</tr>
+<tr id="aspnet_wp">
+    <td>
+        <div class="process-name">aspnet_wp.exe</div>
+        <div class="process-variants">(6 variants)</div>
+    </td>
+    <td>aspnet_wp.exe - Flavor=Retail</td>
+</tr>
+<tr id="aspnetca">
+    <td>
+        <div class="process-name">aspnetca.exe</div>
+        <div class="process-variants">(6 variants)</div>
+    </td>
+    <td>ASP.NET setup custom actions</td>
+</tr>
+<tr id="AssignedAccessGuard">
+    <td>
+        <div class="process-name">AssignedAccessGuard.exe</div>
+        <div class="process-variants">(2 variants)</div>
+    </td>
+    <td>AssignedAccessGuard</td>
+</tr>
+<tr id="AssignedAccessLockApp">
+    <td>
+        <div class="process-name">AssignedAccessLockApp.exe</div>
+        <div class="process-variants">(3 variants)</div>
+    </td>
+    <td>AssignedAccessLockApp.exe</td>
+</tr>
+<tr id="assistant_installer
+
+
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="details">
+            <div class="details-panel">
+                <h2>Technical Details</h2>
+                <div class="details-row">
+                    <div class="details-label">File Name:</div>
+                    <div class="details-value">_isdel.exe</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Description:</div>
+                    <div class="details-value">32-bit InstallShield Deleter utility used for uninstalling applications installed with InstallShield</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Publisher:</div>
+                    <div class="details-value">Flexera Software</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">File Version:</div>
+                    <div class="details-value">Varies by InstallShield version</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">File Size:</div>
+                    <div class="details-value">Typically 100-200 KB</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Location:</div>
+                    <div class="details-value">%TEMP%\InstallShield\... or application directories</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Command Line:</div>
+                    <div class="details-value">_isdel.exe /S /I{...} /M{...}</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Dependencies:</div>
+                    <div class="details-value">InstallShield engine components</div>
+                </div>
+                
+                <h3>Registry Keys</h3>
+                <div class="code-block">
+                    HKEY_LOCAL_MACHINE\SOFTWARE\InstallShield<br>
+                    HKEY_CLASSES_ROOT\Installer\Products\...
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="security">
+            <div class="details-panel">
+                <h2>Security Information</h2>
+                <div class="details-row">
+                    <div class="details-label">Legitimate Use:</div>
+                    <div class="details-value">Part of legitimate software uninstallation process</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Malware Potential:</div>
+                    <div class="details-value">Low - but malware may use similar names</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Digital Signature:</div>
+                    <div class="details-value">Should be signed by Flexera Software or application vendor</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Verification:</div>
+                    <div class="details-value">Check digital signature and location</div>
+                </div>
+                
+                <h3>Security Recommendations</h3>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Verify digital signature if process is running unexpectedly</li>
+                    <li>Check location - should be in temporary or application directories</li>
+                    <li>Monitor for unusual command line parameters</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content" id="troubleshooting">
+            <div class="details-panel">
+                <h2>Troubleshooting</h2>
+                <h3>Common Issues</h3>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Process hanging during uninstallation</li>
+                    <li>High CPU usage during operation</li>
+                    <li>Failed uninstallations leaving remnants</li>
+                </ul>
+                
+                <h3>Solutions</h3>
+                <div class="details-row">
+                    <div class="details-label">Cleanup:</div>
+                    <div class="details-value">Use the official uninstaller or InstallShield Cleanup Utility</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Termination:</div>
+                    <div class="details-value">Can be safely terminated if stuck (use Task Manager)</div>
+                </div>
+                <div class="details-row">
+                    <div class="details-label">Logs:</div>
+                    <div class="details-value">Check %TEMP% for InstallShield log files</div>
+                </div>
+                
+                <h3>Command Line Options</h3>
+                <div class="code-block">
+                    _isdel.exe /S - Silent mode<br>
+                    _isdel.exe /I{product-code} - Specific product to uninstall<br>
+                    _isdel.exe /M{msi-code} - MSI package to remove
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle category expansion
+        function toggleCategory(categoryId) {
+            const category = document.getElementById(categoryId);
+            const arrow = category.previousElementSibling.querySelector('span:last-child');
+            
+            if (category.classList.contains('expanded')) {
+                category.classList.remove('expanded');
+                arrow.textContent = '+';
+            } else {
+                category.classList.add('expanded');
+                arrow.textContent = '-';
+            }
+        }
+
+        // Switch between tabs
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Deactivate all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activate selected tab
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            document.querySelectorAll('.nav-item a').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.parentElement.style.display = 'block';
+                    
+                    // Expand parent category
+                    const category = item.closest('.nav-items');
+                    if (category && !category.classList.contains('expanded')) {
+                        const arrow = category.previousElementSibling.querySelector('span:last-child');
+                        category.classList.add('expanded');
+                        arrow.textContent = '-';
+                    }
+                } else {
+                    item.parentElement.style.display = 'none';
+                }
+            });
+        });
+
+        // Highlight table row when navigating to anchor
+        window.addEventListener('hashchange', highlightRow);
+        window.addEventListener('load', highlightRow);
+
+        function highlightRow() {
+            // Remove previous highlights
+            document.querySelectorAll('.process-table tr').forEach(row => {
+                row.style.backgroundColor = '';
+            });
+            
+            // Highlight current
+            if (window.location.hash) {
+                const row = document.querySelector(`.process-table tr${window.location.hash}`);
+                if (row) row.style.backgroundColor = 'var(--secondary-color)';
+            }
+        }
+
+        // Expand category if hash matches
+        window.addEventListener('load', function() {
+            if (window.location.hash) {
+                const item = document.querySelector(`.nav-item a[href="${window.location.hash}"]`);
+                if (item) {
+                    const category = item.closest('.nav-items');
+                    if (category && !category.classList.contains('expanded')) {
+                        const arrow = category.previousElementSibling.querySelector('span:last-child');
+                        category.classList.add('expanded');
+                        arrow.textContent = '-';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

