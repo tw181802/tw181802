@@ -44,6 +44,7 @@
     <li>No tracking of user activity</li>
     <li>No use of cookies or local storage</li>
     <li>No logging or analytics</li>
+    <li>The extension uses Chrome's extension storage (chrome.storage.local) only to save your chosen refresh interval locally on your device.</li>
   </ul>
 
   <h2>3. Data Sharing</h2>
@@ -56,7 +57,7 @@
     This extension uses only the minimum permissions required to function:
   </p>
   <ul>
-    <li><code>tabs</code>: To access and refresh the active tab</li>
+    <li><code>storage</code>: to save the refresh interval you choose in the popup</li>
     <li><code>scripting</code>: To run the refresh logic on the current tab</li>
   </ul>
   <p>
