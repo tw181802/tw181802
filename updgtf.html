@@ -106,40 +106,43 @@
       padding: 10px;
     }
 
- #searchInput {
-    width: 250px;  /* smaller width */
-    padding: 0.4rem 0.8rem;
-    font-size: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    display: block;
-    margin: 0 auto 2rem auto;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    outline: none;
-  }
-  #searchInput:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 6px rgba(0,123,255,0.6);
-  }
+#searchInput {
+  width: 90%;
+  margin: 1rem auto;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  display: block;
+  background-color: #2c2c2c;
+  color: #eee;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+#searchInput:focus {
+  border-color: #e63946;
+  box-shadow: 0 0 6px rgba(230, 57, 70, 0.6);
+  outline: none;
+}
+
 </style>
 </head>
 <body>
 <header>Break the F**k Out Binaries</header>
 <div id="container">
-  <nav id="sidebar">
-    <ul id="binary-list">
-      <!-- Filled by JS -->
-    </ul>
-  </nav>
+ <nav id="sidebar">
+  <input type="text" id="searchInput" placeholder="Search binary..." autocomplete="on" />
+  <ul id="binary-list">
+    <!-- Filled by JS -->
+  </ul>
+</nav>
+
   <main id="content">
     <h2 id="binary-title">Select a binary from the left</h2>
     <div id="binary-details"></div>
   </main>
 
 <!--new section-->
-  <input type="text" id="searchInput" placeholder="Search binary ..." autocomplete="on"/>
-<div id="results"></div>
+ 
 </div>
 
 
@@ -11422,25 +11425,28 @@ for (const key in binaries) {
 
 const input = document.getElementById("searchInput");
 
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    const query = input.value.trim().toLowerCase();
+input.addEventListener("input", () => {
+  const query = input.value.trim().toLowerCase();
+  const listItems = document.querySelectorAll("#binary-list li");
 
-    if (!query) return;
+  let found = false;
 
-    // Check if exact match exists
-    if (binaries.hasOwnProperty(query)) {
-      // Scroll to the binary div smoothly
-      document.getElementById(query).scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Optionally highlight it briefly:
-      const el = document.getElementById(query);
-      el.style.backgroundColor = "#ffffcc";
-      setTimeout(() => { el.style.backgroundColor = "white"; }, 2000);
-    } else {
-      alert("Binary not found.");
-    }
-}
+  listItems.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    const matches = text.includes(query);
+    item.style.display = matches ? "block" : "none";
+    if (matches) found = true;
+  });
+
+  if (!found && query) {
+    titleEl.textContent = "No binaries found";
+    detailsEl.textContent = "";
+  } else if (!query) {
+    titleEl.textContent = "Select a binary from the left";
+    detailsEl.textContent = "";
+  }
 });
+
 
 
 </script>
