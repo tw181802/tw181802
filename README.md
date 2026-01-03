@@ -1,4 +1,4 @@
-<h1>Hi, I'm Trent! <br/><a href="https://github.com/tw181802">Programmer</a>, <a href="https://www.linkedin.com/in/trenton-williams-74a381254/">Cybersecurity Professional</a>, <a href="https://www.youtube.com/#/">YouTuber</a></h1>
+<h1>Hi, I'm Trent! <br/><a href="https://github.com/tw181802">Programmer</a>, <a href="https://www.linkedin.com/in/trenton-williams-74a381254/">Cybersecurity Professional</a>, <a href="https://www.youtube.com/@Infin1teXploit">YouTuber</a></h1>
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=F70C0C&width=435&lines=I+am+Trent++-+I+break+stuff+;Be+the+change+that+you+wish+to+see+in+the+world.%22+-+Mahatma+GandhiI)](https://git.io/typing-svg)
 
