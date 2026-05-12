@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Privacy Policy — 2Much2Remember</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cyan: #00e5ff;
+    --purple: #b947ff;
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #16161f;
+    --border: rgba(255,255,255,0.07);
+    --text: rgba(255,255,255,0.85);
+    --muted: rgba(255,255,255,0.4);
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ambient glow blobs */
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .blob-1 { width: 500px; height: 500px; background: var(--cyan);  top: -100px; left: -100px; animation-delay: 0s; }
+  .blob-2 { width: 400px; height: 400px; background: var(--purple); bottom: -80px; right: -80px; animation-delay: -6s; }
+
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(30px, 20px) scale(1.1); }
+  }
+
+  /* Header */
+  header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    background: rgba(10,10,15,0.7);
+    position: sticky;
+    top: 0;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-badge {
+    background: var(--bg3);
+    border: 1px solid rgba(0,229,255,0.3);
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 14px;
+    box-shadow: 0 0 16px rgba(0,229,255,0.15), 0 0 32px rgba(185,71,255,0.1);
+    animation: pulse-glow 2.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow {
+    from { box-shadow: 0 0 8px rgba(0,229,255,0.15), 0 0 16px rgba(185,71,255,0.08); }
+    to   { box-shadow: 0 0 24px rgba(0,229,255,0.35), 0 0 48px rgba(185,71,255,0.2); }
+  }
+
+  .logo-badge .c { color: var(--cyan); }
+  .logo-badge .p { color: var(--purple); }
+
+  .logo-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .last-updated {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 80px 24px 60px;
+  }
+
+  .hero-label {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 0.2s;
+  }
+
+  .hero h1 {
+    font-family: var(--mono);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 400;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 0.4s;
+  }
+
+  .hero h1 span.c { color: var(--cyan); }
+  .hero h1 span.p { color: var(--purple); }
+
+  .hero p {
+    max-width: 520px;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: 14px;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 0.6s;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TOC */
+  .toc-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto 48px;
+    padding: 0 24px;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 0.8s;
+  }
+
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+
+  .toc-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .toc ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+  }
+
+  @media (max-width: 540px) { .toc ol { grid-template-columns: 1fr; } }
+
+  .toc ol li { counter-increment: toc-counter; }
+
+  .toc ol li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+
+  .toc ol li a::before {
+    content: counter(toc-counter, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--purple);
+    opacity: 0.7;
+    min-width: 22px;
+  }
+
+  .toc ol li a:hover { color: var(--cyan); }
+
+  /* Main layout */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 100px;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-inner {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .section-header:hover { background: rgba(255,255,255,0.02); }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--purple);
+    min-width: 24px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .section-icon {
+    font-size: 18px;
+    opacity: 0.6;
+  }
+
+  .chevron {
+    width: 16px;
+    height: 16px;
+    color: var(--muted);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .section-header.open .chevron { transform: rotate(180deg); }
+
+  .section-body {
+    display: none;
+    padding: 24px 28px;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-body.open { display: block; }
+
+  .section-body p { color: var(--muted); margin-bottom: 12px; font-size: 14px; }
+  .section-body p:last-child { margin-bottom: 0; }
+
+  .section-body ul, .section-body ol {
+    padding-left: 20px;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .section-body li { margin-bottom: 6px; }
+
+  .section-body strong { color: var(--text); font-weight: 500; }
+
+  /* Highlight boxes */
+  .callout {
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    margin: 16px 0;
+    border-left: 3px solid;
+  }
+
+  .callout-cyan {
+    background: rgba(0,229,255,0.05);
+    border-color: var(--cyan);
+    color: rgba(0,229,255,0.8);
+  }
+
+  .callout-purple {
+    background: rgba(185,71,255,0.05);
+    border-color: var(--purple);
+    color: rgba(185,71,255,0.8);
+  }
+
+  .callout-green {
+    background: rgba(0,255,150,0.05);
+    border-color: #00ff96;
+    color: rgba(0,255,150,0.8);
+  }
+
+  /* Tag pills */
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin: 2px;
+  }
+
+  .tag-cyan   { background: rgba(0,229,255,0.1);  color: var(--cyan);   border: 1px solid rgba(0,229,255,0.2); }
+  .tag-purple { background: rgba(185,71,255,0.1); color: var(--purple); border: 1px solid rgba(185,71,255,0.2); }
+
+  /* Contact card */
+  .contact-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 16px;
+  }
+
+  .contact-card a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  .contact-card a:hover { text-decoration: underline; }
+
+  /* Footer */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  footer .ft-logo { margin-bottom: 8px; }
+  footer .ft-logo .c { color: var(--cyan); }
+  footer .ft-logo .p { color: var(--purple); }
+
+  /* Scroll to top */
+  .scroll-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 100;
+    width: 40px;
+    height: 40px;
+    background: var(--bg2);
+    border: 1px solid rgba(0,229,255,0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 12px rgba(0,229,255,0.1);
+  }
+
+  .scroll-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .scroll-top:hover {
+    box-shadow: 0 0 24px rgba(0,229,255,0.3);
+  }
+
+  .scroll-top svg { width: 16px; height: 16px; stroke: var(--cyan); fill: none; stroke-width: 2; stroke-linecap: round; }
+
+  /* Divider */
+  .neon-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+    opacity: 0.3;
+    margin: 8px 0 32px;
+  }
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<header>
+  <a href="#" class="logo">
+    <div class="logo-badge">
+      <span class="c">2M</span><span class="p">2R</span>
+    </div>
+    <span class="logo-name">2Much2Remember</span>
+  </a>
+  <span class="last-updated">Last updated: May 2026</span>
+</header>
+
+<div class="hero">
+  <div class="hero-label">Legal Document</div>
+  <h1><span class="c">Privacy</span> <span class="p">Policy</span></h1>
+  <p>We believe privacy is a right, not a feature. Here's exactly what we do — and don't do — with your data.</p>
+</div>
+
+<div class="toc-wrap">
+  <div class="toc">
+    <div class="toc-title">// Table of Contents</div>
+    <ol>
+      <li><a href="#s1">Information We Collect</a></li>
+      <li><a href="#s2">How We Use Your Data</a></li>
+      <li><a href="#s3">Data Storage</a></li>
+      <li><a href="#s4">Third Parties</a></li>
+      <li><a href="#s5">Notifications</a></li>
+      <li><a href="#s6">Your Rights (GDPR)</a></li>
+      <li><a href="#s7">California (CCPA)</a></li>
+      <li><a href="#s8">Children's Privacy</a></li>
+      <li><a href="#s9">Data Retention</a></li>
+      <li><a href="#s10">Contact Us</a></li>
+    </ol>
+  </div>
+</div>
+
+<main>
+
+  <div class="neon-divider"></div>
+
+  <!-- Section 1 -->
+  <div class="section" id="s1">
+    <div class="section-inner">
+      <div class="section-header open" onclick="toggle(this)">
+        <span class="section-num">01</span>
+        <span class="section-icon">🔍</span>
+        <span class="section-title">Information We Collect</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body open">
+        <div class="callout callout-green">✓ 2Much2Remember stores all your data locally on your device. We do not operate servers or cloud databases.</div>
+        <p>The app collects and stores the following data <strong>only on your device</strong>:</p>
+        <ul>
+          <li><strong>Bills & financial data</strong> — bill names, amounts, due dates, categories, payment URLs you enter</li>
+          <li><strong>Calendar events</strong> — birthdays, appointments, reminders you create</li>
+          <li><strong>To-do items</strong> — task titles, notes, priority levels, due dates</li>
+          <li><strong>Scheduled messages</strong> — recipient names, phone numbers, message text, scheduled times</li>
+          <li><strong>Notification preferences</strong> — reminder settings you configure</li>
+        </ul>
+        <p>We do <strong>not</strong> collect:</p>
+        <ul>
+          <li>Your name, email address, or account credentials</li>
+          <li>Device identifiers or advertising IDs</li>
+          <li>Location data</li>
+          <li>Contacts (phone numbers are entered manually by you)</li>
+          <li>Analytics, crash reports, or usage telemetry</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section" id="s2">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">02</span>
+        <span class="section-icon">⚙️</span>
+        <span class="section-title">How We Use Your Data</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <p>All data you enter is used solely to provide the app's features:</p>
+        <ul>
+          <li>Displaying your bills, events, tasks, and messages within the app</li>
+          <li>Scheduling local push notifications on your device</li>
+          <li>Opening pre-filled Messages via <span class="tag tag-cyan">sms:</span> deep links when you request it</li>
+          <li>Opening payment URLs in Safari when you tap a bill's payment link</li>
+        </ul>
+        <div class="callout callout-purple">Your data is never used for advertising, profiling, analytics, or sold to any third party — ever.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section" id="s3">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">03</span>
+        <span class="section-icon">💾</span>
+        <span class="section-title">Data Storage &amp; Security</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <p>All app data is stored using <strong>Apple's UserDefaults</strong> and local device storage. Data never leaves your device through our app.</p>
+        <ul>
+          <li>Data is protected by your device's built-in encryption (iOS Secure Enclave)</li>
+          <li>If you enable iCloud Backup, Apple may back up your device data per their own privacy policy</li>
+          <li>Deleting the app from your device permanently removes all stored data</li>
+        </ul>
+        <p>For iCloud Backup practices, refer to <a href="https://www.apple.com/legal/privacy/" style="color:var(--cyan)">Apple's Privacy Policy</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section" id="s4">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">04</span>
+        <span class="section-icon">🔗</span>
+        <span class="section-title">Third Parties &amp; Sharing</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="callout callout-green">✓ We do not share, sell, rent, or trade your data with any third parties.</div>
+        <p>The app interacts with the following Apple system services only:</p>
+        <div style="margin: 12px 0;">
+          <span class="tag tag-cyan">UNUserNotificationCenter</span>
+          <span class="tag tag-cyan">UIApplication (sms: links)</span>
+          <span class="tag tag-cyan">Safari (payment URLs)</span>
+          <span class="tag tag-purple">iOS UserDefaults</span>
+        </div>
+        <p>These are native Apple APIs. No data is transmitted to external servers through these interactions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section" id="s5">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">05</span>
+        <span class="section-icon">🔔</span>
+        <span class="section-title">Push Notifications</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <p>2Much2Remember uses <strong>local notifications only</strong> — no push notification servers are involved.</p>
+        <ul>
+          <li>All notifications are scheduled directly on your device via iOS</li>
+          <li>No notification data is transmitted over the internet</li>
+          <li>You can disable notifications at any time in <strong>iOS Settings → 2Much2Remember → Notifications</strong></li>
+          <li>Disabling notifications does not affect app functionality</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section" id="s6">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">06</span>
+        <span class="section-icon">🇪🇺</span>
+        <span class="section-title">Your Rights Under GDPR</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <p>If you are located in the European Economic Area (EEA), you have the following rights under the General Data Protection Regulation (GDPR):</p>
+        <ul>
+          <li><strong>Right of Access</strong> — You can view all your data directly within the app at any time</li>
+          <li><strong>Right to Rectification</strong> — You can edit any data within the app at any time</li>
+          <li><strong>Right to Erasure</strong> — You can delete individual records or uninstall the app to erase all data</li>
+          <li><strong>Right to Portability</strong> — Your data lives on your device; you control it</li>
+          <li><strong>Right to Object</strong> — Since we process no personal data on servers, there is nothing to object to</li>
+          <li><strong>Right to Restrict Processing</strong> — Disabling notifications restricts notification processing</li>
+        </ul>
+        <div class="callout callout-cyan">Because all data is stored locally on your device and we have no servers, we act as neither a Data Controller nor Data Processor in the traditional GDPR sense. You are the sole controller of your own data.</div>
+        <p>Our lawful basis for any processing that occurs locally on your device is <strong>Legitimate Interest</strong> — enabling the core functionality you explicitly requested by using the app.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section" id="s7">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">07</span>
+        <span class="section-icon">🇺🇸</span>
+        <span class="section-title">California Privacy Rights (CCPA)</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <p>Under the California Consumer Privacy Act (CCPA), California residents have the right to:</p>
+        <ul>
+          <li>Know what personal information is collected — <strong>none is collected by us</strong></li>
+          <li>Know whether personal information is sold or disclosed — <strong>it is not</strong></li>
+          <li>Opt out of the sale of personal information — <strong>not applicable; we do not sell data</strong></li>
+          <li>Access their personal information — <strong>all data is visible within the app</strong></li>
+          <li>Equal service and price, even if they exercise their privacy rights</li>
+        </ul>
+        <div class="callout callout-purple">We do not sell personal information. We do not share personal information for cross-context behavioral advertising.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section" id="s8">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">08</span>
+        <span class="section-icon">👶</span>
+        <span class="section-title">Children's Privacy</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <p>2Much2Remember is not directed to children under the age of 13 (or 16 in the EEA).</p>
+        <p>We do not knowingly collect personal information from children. Because all data is stored locally and no accounts are required, the app cannot distinguish users by age. Parental guidance is advised for younger users.</p>
+        <p>If you believe a child has entered personal information into the app, you can remove it by editing or deleting entries directly within the app, or uninstalling it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 9 -->
+  <div class="section" id="s9">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">09</span>
+        <span class="section-icon">🗂️</span>
+        <span class="section-title">Data Retention</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <p>Data is retained for as long as the app is installed on your device. You are in full control:</p>
+        <ul>
+          <li>Delete individual items at any time within the app</li>
+          <li>Uninstalling the app permanently deletes all data</li>
+          <li>We have no ability to retain, recover, or access your data after deletion</li>
+        </ul>
+        <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 10 -->
+  <div class="section" id="s10">
+    <div class="section-inner">
+      <div class="section-header" onclick="toggle(this)">
+        <span class="section-num">10</span>
+        <span class="section-icon">📬</span>
+        <span class="section-title">Contact Us</span>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <p>If you have any questions, concerns, or requests regarding this Privacy Policy or your data, please contact us:</p>
+        <div class="contact-card">
+          <div style="margin-bottom:10px; color:var(--muted); font-size:13px;">App Developer</div>
+          <div style="font-size:15px; font-weight:500; margin-bottom:8px;">2Much2Remember</div>
+          <div style="margin-bottom:6px;">📧 <a href="mailto:privacy@2much2remember.app">privacy@2much2remember.app</a></div>
+          <div style="font-size:12px; color:var(--muted); margin-top:12px;">We aim to respond to all privacy inquiries within 30 days (72 hours for GDPR-related requests).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="ft-logo"><span class="c">2M</span><span class="p">2R</span> — 2Much2Remember</div>
+  <div>© 2026 2Much2Remember. All rights reserved.</div>
+  <div style="margin-top:6px; opacity:0.5;">This policy was last updated May 2026 and applies to iOS app version 1.0+</div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+  // Accordion toggle
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    header.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // Scroll reveal
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  sections.forEach(s => observer.observe(s));
+
+  // Scroll to top button
+  const scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Smooth scroll for TOC links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Open the section
+        const header = target.querySelector('.section-header');
+        const body = target.querySelector('.section-body');
+        if (header && body && !body.classList.contains('open')) {
+          header.classList.add('open');
+          body.classList.add('open');
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
+
